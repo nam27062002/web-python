@@ -117,13 +117,18 @@ body {
     cursor: pointer;
 }
 
-.log-out {
+.log-out{
     margin-left: auto;
     color: #218bed;
     font-size: 14px;
     cursor: pointer;
 }
-
+.follow-right{
+    margin-left: auto;
+    color: #218bed;
+    font-size: 14px;
+    cursor: pointer; 
+}
 .text-suggestion {
     font-size: 500;
     color: #b6b6b6;

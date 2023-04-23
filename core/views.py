@@ -15,8 +15,11 @@ import datetime
 def index(request):
     return render(request, 'index.html', get_info(request))
 
-def data(request):
+@login_required(login_url='signin')
+def post_list_post(request):
     return JsonResponse(get_list_post(request))
+
+
 
 @login_required(login_url='signin')
 @csrf_exempt
@@ -97,21 +100,22 @@ def logout(request):
     auth.logout(request)
     return redirect('signin')
 
+@csrf_exempt
 @login_required(login_url='signin')
 def follow(request):
     if request.method == 'POST':
         follower = request.user.username
         user = request.POST.get('user')
-        print(user + follower)
-        # if FollowersCount.objects.filter(follower=follower, user=user).first():
-        #     delete_follower = FollowersCount.objects.get(follower=follower, user=user)
-        #     delete_follower.delete()
-        #     return redirect('/')
-        # else:
-        #     new_follower = FollowersCount.objects.create(follower=follower, user=user)
-        #     new_follower.save()
-        #     return redirect('/')
-        return redirect('/')
+        if FollowersCount.objects.filter(follower=follower, user=user).first():
+            delete_follower = FollowersCount.objects.get(follower=follower, user=user)
+            delete_follower.delete()
+            print("unfollow")
+            return redirect('/')
+        else:
+            new_follower = FollowersCount.objects.create(follower=follower, user=user)
+            new_follower.save()
+            print("follow")
+            return redirect('/')
     else:
         return redirect('/')
 
@@ -120,19 +124,13 @@ def get_info(request):
     user_profile = Profile.objects.get(user=user_object)
 
     user_following_list = []
-    feed = []
+    
     user_following = FollowersCount.objects.filter(follower=request.user.username)
 
     for users in user_following:
         user_following_list.append(users.user)
 
     # lấy post của bản thân
-    feed.append(Post.objects.filter(user=user_object))
-    # lấy post của list follow
-    for usernames in user_following_list:
-        feed_lists = Post.objects.filter(user=usernames)
-        feed.append(feed_lists)
-    feed_list = list(chain(*feed))
 
     # user suggestion starts
     all_users = User.objects.all()
@@ -157,12 +155,12 @@ def get_info(request):
         username_profile_list.append(profile_lists)
 
     suggestions_username_profile_list = list(chain(*username_profile_list))
-    
     return {'user_profile': user_profile,'suggestions_username_profile_list': suggestions_username_profile_list[:4]}  
+
 
 def get_list_post(request):
     
-    user_object = User.objects.get(username=request.user.username) # user    
+    user_object = User.objects.get(username=request.user.username) # user 
     user_following_list = []
     feed = []
     user_following = FollowersCount.objects.filter(follower=request.user.username)
@@ -209,7 +207,7 @@ def get_list_post(request):
         list_count_like.append(post.no_of_likes)
         list_post_id.append(post.id)
     return {"list_image_avatar":list_image_avatar,"list_nickname":list_nickname,"list_created_at":list_created_at,"list_liked":list_liked,"list_count_like": list_count_like,"list_image_post":list_image_post,"list_caption":list_caption,"list_post_id":list_post_id}
-
+    
 def time_ago(date):
     now = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc)
     seven_hours = datetime.timedelta(hours=7)

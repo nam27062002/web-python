@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/index.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/home.css' %}">
     <script src="https://kit.fontawesome.com/912383539c.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 
@@ -129,7 +129,7 @@
                         <div class="my-nickname">{{suggestion.user}}</div>
                         <div class="my-fullname">{{suggestion.full_name}}</div>
                     </div>
-                    <div class="log-out" id="follow_{{suggestion.user}}">Follow</div>
+                    <div class="follow-right" id="follow_{{suggestion.user}}">Follow</div>
                 </div>   
             {% endfor %}
        
@@ -266,7 +266,8 @@
 
 <script>
     // click follow
-    $('.log-out').click(function() {
+    $('.follow-right').click(function() {
+        console.log("OKE")
         var id = $(this).attr('id');
         var id = id.replace("follow_", "");
         
@@ -275,18 +276,18 @@
             type: 'POST',
             data: {"user": id},
             success: function(response) {
-                console.log(response);
+                location.reload();
             },
             error: function(error) {
                 console.log(error);
             }
-        });
+        });       
     });
 </script>
 <script>
     function update_data() {
         $.ajax({
-            url: '/data',
+            url: '/post_list_post',
             type: 'GET',
             dataType: 'json',
             success: function(data) {
