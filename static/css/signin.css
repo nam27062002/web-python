@@ -1,0 +1,136 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #fafafa;
+}
+
+.container {
+    margin: 0 auto;
+    max-width: 800px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.logo-container {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.logo {
+    margin-bottom: 20px;
+    font-size: 4rem;
+    font-weight: bold;
+    color: #3897f0;
+}
+
+.logo-text {
+    font-size: 1.2rem;
+    text-align: center;
+    color: #8e8e8e;
+}
+
+.login-container {
+    width: 50%;
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #dbdbdb;
+    border-radius: 3px;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+}
+
+input[type="text"],
+input[type="password"] {
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #dbdbdb;
+    border-radius: 3px;
+    font-size: 1rem;
+}
+
+.button {
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #3897f0;
+    border: none;
+    border-radius: 3px;
+    font-size: 1rem;
+    color: #fff;
+    cursor: pointer;
+}
+
+.links {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+    color: #8e8e8e;
+}
+
+.links a {
+    color: #3897f0;
+    text-decoration: none;
+}
+
+.divider {
+    margin: 0 10px;
+    height: 12px;
+    width: 1px;
+    background-color: #8e8e8e;
+}
+
+.button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.5s ease;
+    /* hiệu ứng chuyển đổi màu sắc */
+}
+
+.button:hover {
+    background-color: #0056b3;
+    /* màu xanh dương nhạt */
+}
+
+a {
+    color: #3897f0;
+    text-decoration: none;
+    position: relative;
+}
+
+a::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: #3897f0;
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+}
+
+a:hover::before {
+    transform: scaleX(1);
+}
+
+.form {
+    position: relative;
+}

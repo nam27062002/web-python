@@ -1,0 +1,31 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Sign Up</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/SignUp.css' %}">
+  </head>
+  <body>
+    <div class="container">
+      <div class="login-container">
+        <form class="form" action="#" method="POST">
+          {% csrf_token %}
+          <img class="img-logo" src="{% static 'images/logo.png' %}" height="40px" width="auto" />
+          <p class="logo-text">Sign up to see photos and videos from your friends.</p>
+          <input type="text" name="email" placeholder="Email">
+          <input type="text" name="fullname" placeholder="Full name">
+          <input type="text" name="username" placeholder="Username">
+          <input type="password" name="password" placeholder="Password">
+          <button class="button">Sign Up</button>
+          {% for message in  messages%}
+          <div class="error">{{message}}</div>
+          {% endfor %}
+        </form>
+
+        <div class="links"> 
+          <p>Have an account?&nbsp;<a href="/signin">Log in</a></p>
+        </div>
+      </div>
+    </div>   
+  </body>
+</html>

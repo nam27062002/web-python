@@ -1,0 +1,231 @@
+from django.shortcuts import render, redirect
+from django.contrib.auth.models import User, auth
+from django.contrib import messages
+from django.http import HttpResponse,HttpResponseNotAllowed,JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import login_required
+from .models import Profile, Post, LikePost, FollowersCount
+from itertools import chain
+import random
+import datetime
+
+
+
+@login_required(login_url='signin')
+def index(request):
+    return render(request, 'index.html', get_info(request))
+
+def data(request):
+    return JsonResponse(get_list_post(request))
+
+@login_required(login_url='signin')
+@csrf_exempt
+def like_post(request):
+    if request.method == 'POST':
+        username = request.user.username
+        post_id = request.POST.get('post_id')
+        post = Post.objects.get(id=post_id)
+
+        like_filter = LikePost.objects.filter(post_id=post_id, username=username).first()
+        if like_filter == None:
+            new_like = LikePost.objects.create(post_id=post_id, username=username)
+            new_like.save()
+            post.no_of_likes = post.no_of_likes+1
+            post.save()
+            return redirect('/')
+        else:
+            like_filter.delete()
+            post.no_of_likes = post.no_of_likes-1
+            post.save()
+            return redirect('/')
+    else:
+        return redirect('/')
+
+@login_required(login_url='signin')
+@csrf_exempt
+def upload(request):
+    if request.method == 'POST':
+        user = request.user.username
+        caption = request.POST.get('caption')
+        file_image = request.FILES.get('fileImage')
+        print(caption,file_image)
+        new_post = Post.objects.create(user=user, image=file_image, caption=caption)
+        new_post.save()
+        return redirect('/') 
+    else:
+        return redirect('/')
+
+def signin(request):
+    if request.method == 'POST':
+        names = ['username','password']
+        data = {name: request.POST.get(name) for name in names}
+        user = auth.authenticate(username=data['username'], password=data['password'])
+        if user is not None:
+            auth.login(request, user)
+            return redirect('/')
+        else:
+            messages.info(request, 'The password is incorrect')
+            return redirect('signin')
+    else:
+        return render(request, 'signin.html')
+
+def signup(request):
+    if request.method == 'POST':
+        names = ['email', 'fullname', 'username', 'password']
+        data = {name: request.POST.get(name) for name in names}
+        if User.objects.filter(email=data['email']).exists():
+            messages.info(request,'Email address already exists')
+            return redirect('signup')
+        elif User.objects.filter(username=data['username']).exists():
+            messages.info(request,'Username already exists')
+            return redirect('signup')
+
+        else:
+            new_user = User.objects.create_user(username=data['username'],email=data['email'], password=data['password'])
+            new_user.save()
+            user_login = auth.authenticate(username=data['username'], password=data['password'])
+            auth.login(request, user_login)
+            user_model = User.objects.get(username=data['username'])
+            new_profile = Profile.objects.create(user=user_model, id_user=user_model.id,full_name=data['fullname'])
+            new_profile.save()
+            return redirect('signup')
+    else:
+        return render(request,'signup.html')
+
+@login_required(login_url='signin')
+def logout(request):
+    auth.logout(request)
+    return redirect('signin')
+
+@login_required(login_url='signin')
+def follow(request):
+    if request.method == 'POST':
+        follower = request.user.username
+        user = request.POST.get('user')
+        print(user + follower)
+        # if FollowersCount.objects.filter(follower=follower, user=user).first():
+        #     delete_follower = FollowersCount.objects.get(follower=follower, user=user)
+        #     delete_follower.delete()
+        #     return redirect('/')
+        # else:
+        #     new_follower = FollowersCount.objects.create(follower=follower, user=user)
+        #     new_follower.save()
+        #     return redirect('/')
+        return redirect('/')
+    else:
+        return redirect('/')
+
+def get_info(request):
+    user_object = User.objects.get(username=request.user.username)
+    user_profile = Profile.objects.get(user=user_object)
+
+    user_following_list = []
+    feed = []
+    user_following = FollowersCount.objects.filter(follower=request.user.username)
+
+    for users in user_following:
+        user_following_list.append(users.user)
+
+    # lấy post của bản thân
+    feed.append(Post.objects.filter(user=user_object))
+    # lấy post của list follow
+    for usernames in user_following_list:
+        feed_lists = Post.objects.filter(user=usernames)
+        feed.append(feed_lists)
+    feed_list = list(chain(*feed))
+
+    # user suggestion starts
+    all_users = User.objects.all()
+    user_following_all = []
+
+    for user in user_following:
+        user_list = User.objects.get(username=user.user)
+        user_following_all.append(user_list)
+    new_suggestions_list = [x for x in list(all_users) if (x not in list(user_following_all))]
+    current_user = User.objects.filter(username=request.user.username)
+    final_suggestions_list = [x for x in list(new_suggestions_list) if ( x not in list(current_user))]
+    random.shuffle(final_suggestions_list)
+
+    username_profile = []
+    username_profile_list = []
+
+    for users in final_suggestions_list:
+        username_profile.append(users.id)
+
+    for ids in username_profile:
+        profile_lists = Profile.objects.filter(id_user=ids)
+        username_profile_list.append(profile_lists)
+
+    suggestions_username_profile_list = list(chain(*username_profile_list))
+    
+    return {'user_profile': user_profile,'suggestions_username_profile_list': suggestions_username_profile_list[:4]}  
+
+def get_list_post(request):
+    
+    user_object = User.objects.get(username=request.user.username) # user    
+    user_following_list = []
+    feed = []
+    user_following = FollowersCount.objects.filter(follower=request.user.username)
+
+    for users in user_following:
+        user_following_list.append(users.user)
+
+    # lấy post của bản thân
+    feed.append(Post.objects.filter(user=user_object))
+    # lấy post của list follow
+    for usernames in user_following_list:
+        feed_lists = Post.objects.filter(user=usernames)
+        feed.append(feed_lists)
+    feed_list = list(chain(*feed)) # list post
+    feed_list.sort(key=lambda x: int(x.created_at.timestamp()), reverse=True) # sắp xếp theo thời gian
+    list_image_avatar = []
+    list_nickname = []
+    list_created_at = []
+    list_image_post = []
+    list_caption = []
+    list_liked = []
+    list_count_like = []
+    list_post_id = []
+    for post in feed_list:
+        _user_object = User.objects.get(username=post) # user
+        _user_profile = Profile.objects.get(user=_user_object) # my profile
+        
+        list_image_avatar.append(_user_profile.profileimg.url)
+        
+        list_nickname.append(_user_profile.user.username)
+        
+        date_str = str(post.created_at)
+        date = datetime.datetime.strptime(date_str, '%Y-%m-%d %H:%M:%S.%f%z')
+        time_ago_str = time_ago(date_str)
+        list_created_at.append(time_ago_str)
+        
+        like_filter = LikePost.objects.filter(post_id=post.id, username=request.user.username).first()
+        if like_filter == None:
+            list_liked.append(False)
+        else:
+            list_liked.append(True)
+        list_image_post.append(post.image.url)
+        list_caption.append(post.caption)
+        list_count_like.append(post.no_of_likes)
+        list_post_id.append(post.id)
+    return {"list_image_avatar":list_image_avatar,"list_nickname":list_nickname,"list_created_at":list_created_at,"list_liked":list_liked,"list_count_like": list_count_like,"list_image_post":list_image_post,"list_caption":list_caption,"list_post_id":list_post_id}
+
+def time_ago(date):
+    now = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc)
+    seven_hours = datetime.timedelta(hours=7)
+    now = now + seven_hours
+    date = datetime.datetime.strptime(date, '%Y-%m-%d %H:%M:%S.%f%z')
+    delta = now - date
+    if delta.days > 6:
+        weeks = delta.days // 7
+        return f"{weeks} week{'s' if weeks > 1 else ''} ago"
+    elif delta.days > 0:
+        return f"{delta.days} day{'s' if delta.days > 1 else ''} ago"
+    elif delta.seconds >= 3600:
+        hours = delta.seconds // 3600
+        return f"{hours} hour{'s' if hours > 1 else ''} ago"
+    elif delta.seconds >= 60:
+        minutes = delta.seconds // 60
+        return f"{minutes} minute{'s' if minutes > 1 else ''} ago"
+    else:
+        return f"{delta.seconds} second{'s' if delta.seconds > 1 else ''} ago"
