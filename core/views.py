@@ -19,7 +19,9 @@ def index(request):
 def post_list_post(request):
     return JsonResponse(get_list_post(request))
 
-
+@login_required(login_url='signin')
+def post_list_suggestions(request):
+    return JsonResponse(get_list_suggestions(request))
 
 @login_required(login_url='signin')
 @csrf_exempt
@@ -91,7 +93,7 @@ def signup(request):
             user_model = User.objects.get(username=data['username'])
             new_profile = Profile.objects.create(user=user_model, id_user=user_model.id,full_name=data['fullname'])
             new_profile.save()
-            return redirect('signup')
+            return redirect('/')
     else:
         return render(request,'signup.html')
 
@@ -207,7 +209,52 @@ def get_list_post(request):
         list_count_like.append(post.no_of_likes)
         list_post_id.append(post.id)
     return {"list_image_avatar":list_image_avatar,"list_nickname":list_nickname,"list_created_at":list_created_at,"list_liked":list_liked,"list_count_like": list_count_like,"list_image_post":list_image_post,"list_caption":list_caption,"list_post_id":list_post_id}
+  
+def get_list_suggestions(request):
+    user_object = User.objects.get(username=request.user.username)
+    user_profile = Profile.objects.get(user=user_object)
+
+    user_following_list = []
     
+    user_following = FollowersCount.objects.filter(follower=request.user.username)
+
+    for users in user_following:
+        user_following_list.append(users.user)
+
+    # lấy post của bản thân
+
+    # user suggestion starts
+    all_users = User.objects.all()
+    user_following_all = []
+
+    for user in user_following:
+        user_list = User.objects.get(username=user.user)
+        user_following_all.append(user_list)
+    new_suggestions_list = [x for x in list(all_users) if (x not in list(user_following_all))]
+    current_user = User.objects.filter(username=request.user.username)
+    final_suggestions_list = [x for x in list(new_suggestions_list) if ( x not in list(current_user))]
+    random.shuffle(final_suggestions_list)
+
+    username_profile = []
+    username_profile_list = []
+
+    for users in final_suggestions_list:
+        username_profile.append(users.id)
+
+    for ids in username_profile:
+        profile_lists = Profile.objects.filter(id_user=ids)
+        username_profile_list.append(profile_lists)
+
+    suggestions_username_profile_list = list(chain(*username_profile_list))
+    suggestions_username_profile_list = suggestions_username_profile_list[:4]
+    list_user = []
+    list_fullname = []
+    list_profileimg = []
+    for _ in suggestions_username_profile_list:
+        list_user.append(_.user.username)
+        list_fullname.append(_.full_name)
+        list_profileimg.append(_.profileimg.url)
+    return {'list_user':list_user,'list_fullname':list_fullname,'list_profileimg':list_profileimg}
 def time_ago(date):
     now = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc)
     seven_hours = datetime.timedelta(hours=7)

@@ -120,19 +120,21 @@
                 <div class="log-out" id="log-out">Log out</div>
             </div>
             <div class="text-suggestion">Suggestions for you</div>
-            {% for suggestion in suggestions_username_profile_list %}
-                <div class="frofiles" id="profile-0">
-                    <div class="avatar-right-other">
-                        <img src="{{suggestion.profileimg.url}}">
-                    </div>
-                    <div class="my-info">
-                        <div class="my-nickname">{{suggestion.user}}</div>
-                        <div class="my-fullname">{{suggestion.full_name}}</div>
-                    </div>
-                    <div class="follow-right" id="follow_{{suggestion.user}}">Follow</div>
-                </div>   
-            {% endfor %}
-       
+            <div class="user-suggestion">
+                {% comment %} {% for suggestion in suggestions_username_profile_list %}
+                    <div class="frofiles" id="profile-0">
+                        <div class="avatar-right-other">
+                            <img src="{{suggestion.profileimg.url}}">
+                        </div>
+                        <div class="my-info">
+                            <div class="my-nickname">{{suggestion.user}}</div>
+                            <div class="my-fullname">{{suggestion.full_name}}</div>
+                        </div>
+                        <div class="follow-right" id="follow_{{suggestion.user}}">Follow</div>
+                    </div>   
+                {% endfor %} {% endcomment %}
+            </div>
+            
         </div>
     </div>
     <div class="content-2">
@@ -265,26 +267,6 @@
 </script>
 
 <script>
-    // click follow
-    $('.follow-right').click(function() {
-        console.log("OKE")
-        var id = $(this).attr('id');
-        var id = id.replace("follow_", "");
-        
-        $.ajax({
-            url: '{% url "follow" %}',
-            type: 'POST',
-            data: {"user": id},
-            success: function(response) {
-                location.reload();
-            },
-            error: function(error) {
-                console.log(error);
-            }
-        });       
-    });
-</script>
-<script>
     function update_data() {
         $.ajax({
             url: '/post_list_post',
@@ -365,5 +347,57 @@
     $(document).ready(function() {
         update_data(); // Bắt đầu cập nhật dữ liệu
     });
+</script>
+
+{% comment %}  list_suggestions {% endcomment %}
+<script>
+    update_data_right();
+    function update_data_right(){
+        $.ajax({
+            url: '/post_list_suggestions',
+            type: 'GET',
+            dataType: 'json',
+            success: function(data) {
+                update_form_right(data);
+            },
+            //complete: function() {setTimeout(update_data, 1000);}
+        });
+        function update_form_right(data){
+            console.log(data)
+            html = '';
+            for (let i = 0; i < data['list_fullname'].length;i++){
+                html += "<div class=\"frofiles\" id=\"profile-0\">\n" +
+                    "    <div class=\"avatar-right-other\">\n" +
+                    "        <img src=\""+data['list_profileimg'][i]+"\">\n" +
+                    "    </div>\n" +
+                    "    <div class=\"my-info\">\n" +
+                    "        <div class=\"my-nickname\">"+data['list_user'][i]+"</div>\n" +
+                    "        <div class=\"my-fullname\">"+data['list_fullname'][i]+"</div>\n" +
+                    "    </div>\n" +
+                    "    <div class=\"follow-right\" id=\"follow_"+data['list_user'][i]+"\">Follow</div>\n" +
+                    "</div>";            
+            }
+            $(".user-suggestion").html(html);
+                // click follow
+            $('.follow-right').click(function() {
+                console.log("OKE")
+                var id = $(this).attr('id');
+                var id = id.replace("follow_", "");
+                
+                $.ajax({
+                    url: '{% url "follow" %}',
+                    type: 'POST',
+                    data: {"user": id},
+                    success: function(response) {
+                        update_data_right();
+                        update_data();
+                    },
+                    error: function(error) {
+                        console.log(error);
+                    }
+                });       
+            });
+        }
+    }
 </script>
 </html>
