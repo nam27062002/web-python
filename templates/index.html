@@ -308,23 +308,23 @@
                 '</div>' +
                 '<div class="text-like">'+data["list_count_like"][i]+' likes</div>' +
                 '<div class="caption">'+data["list_caption"][i]+'</div>' +
-                '<div class="list-comment">' +
-                    '<div class="comment">' +
-                        '<div class="avatar-comment">' +
-                            '<img src="'+data["list_image_post"][i]+'">' +
-                        '</div>' +
-                        '<div class="comment-content">' +
-                            '<div class="nickname-comment">'+data["list_nickname"][i]+'</div>' +
-                            '<div class="text-comment">Yayyyyy!! It\'s finally done ❤❤ #drawthisinyourstyle challenge with #albabbgg40k 😊😊. I do love you' +
-                                'artwork and hope you like it!! 😭❤ •' +
-                            '</div>' +
-                        '</div>' +
+                '<div class="list-comment">';
+                    for (let j = 0; j < data['comments'][i].length; j++){
+                        postCode += '<div class="comment">' +
+                                '<div class="avatar-comment">' +
+                                    '<img src="'+data["comments"][i][j][0]+'">' +
+                                '</div>' +
+                                '<div class="comment-content">' +
+                                    '<div class="nickname-comment">'+data["comments"][i][j][1]+'</div>' +
+                                    '<div class="text-comment">'+data["comments"][i][j][2]+'</div>' +
+                                '</div>' +
+                            '</div>';
+                    }
+                postCode +=
                     '</div>' +
-                '</div>' +
-                '<div class="view-all-comment">View all 1,252 comments</div>' +
-                '<input class="input-comment" placeholder="Add a comment">' +
-                '<i id="post-cmt" class="fa-solid fa-paper-plane"></i>' +
-            '</div>';   
+                    '<input class="input-comment" placeholder="Add a comment" id="text-cmt-'+data["list_post_id"][i]+'">' +
+                    '<i id="post-cmt-'+data["list_post_id"][i]+'" class="fa-solid fa-paper-plane"></i>' +
+                '</div>';   
         }
         $(".content-center").html(postCode);
         // click like
@@ -342,6 +342,44 @@
                     console.log(error);
                 }
             });
+        });
+        // click cmt
+        $(".fa-paper-plane").click(function(){
+            var id = $(this).attr('id');
+            var id = id.replace("post-cmt-", "");
+            let id_text = "#text-cmt-" + id;
+            var text = $(id_text).val();
+            $.ajax({
+                url: '{% url "comment" %}',
+                type: 'POST',
+                data: {"post_id": id,"text-comment":text},
+                success: function(response) {
+                    update_data();
+                },
+                error: function(error) {
+                    console.log(error);
+                }
+            });
+        }) 
+        // enter input
+        $('.input-comment').keydown(function(event) {
+            if (event.keyCode == 13) { // 13 là mã phím của Enter
+                var id = $(this).attr('id');
+                var id = id.replace("text-cmt-", "");
+                let id_text = "#text-cmt-" + id;
+                var text = $(id_text).val();
+                $.ajax({
+                    url: '{% url "comment" %}',
+                    type: 'POST',
+                    data: {"post_id": id,"text-comment":text},
+                    success: function(response) {
+                        update_data();
+                    },
+                    error: function(error) {
+                        console.log(error);
+                    }
+                });
+            }
         });
     }
     $(document).ready(function() {
@@ -363,7 +401,6 @@
             //complete: function() {setTimeout(update_data, 1000);}
         });
         function update_form_right(data){
-            console.log(data)
             html = '';
             for (let i = 0; i < data['list_fullname'].length;i++){
                 html += "<div class=\"frofiles\" id=\"profile-0\">\n" +

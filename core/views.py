@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.http import HttpResponse,HttpResponseNotAllowed,JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
-from .models import Profile, Post, LikePost, FollowersCount
+from .models import Profile, Post, LikePost, FollowersCount,Comment
 from itertools import chain
 import random
 import datetime
@@ -23,6 +23,19 @@ def post_list_post(request):
 def post_list_suggestions(request):
     return JsonResponse(get_list_suggestions(request))
 
+@login_required(login_url='signin')
+@csrf_exempt
+def comment(request):
+    if request.method == 'POST':
+        user = request.user
+        post_id = request.POST.get('post_id')
+        post = Post.objects.get(id=post_id)
+        text = request.POST.get('text-comment')
+        new_comment = Comment.objects.create(user=user,post=post,text=text)
+        new_comment.save()
+        return redirect('/')
+    else:
+        return redirect('/')
 @login_required(login_url='signin')
 @csrf_exempt
 def like_post(request):
@@ -186,7 +199,16 @@ def get_list_post(request):
     list_liked = []
     list_count_like = []
     list_post_id = []
+    comments = []
     for post in feed_list:
+        list_comment = Comment.objects.filter(post=post)
+        comment = []
+        for _ in list_comment:
+            avt = Profile.objects.get(user=_.user).profileimg.url
+            nickname = _.user.username
+            text = _.text
+            comment.append([avt,nickname,text])
+        comments.append(comment)
         _user_object = User.objects.get(username=post) # user
         _user_profile = Profile.objects.get(user=_user_object) # my profile
         
@@ -208,7 +230,7 @@ def get_list_post(request):
         list_caption.append(post.caption)
         list_count_like.append(post.no_of_likes)
         list_post_id.append(post.id)
-    return {"list_image_avatar":list_image_avatar,"list_nickname":list_nickname,"list_created_at":list_created_at,"list_liked":list_liked,"list_count_like": list_count_like,"list_image_post":list_image_post,"list_caption":list_caption,"list_post_id":list_post_id}
+    return {"list_image_avatar":list_image_avatar,"list_nickname":list_nickname,"list_created_at":list_created_at,"list_liked":list_liked,"list_count_like": list_count_like,"list_image_post":list_image_post,"list_caption":list_caption,"list_post_id":list_post_id,"comments":comments}
   
 def get_list_suggestions(request):
     user_object = User.objects.get(username=request.user.username)

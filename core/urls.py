@@ -10,5 +10,6 @@ urlpatterns = [
     path('like_post',views.like_post,name='like_post'),
     path('post_list_post',views.post_list_post,name='post_list_post'),
     path('follow',views.follow,name='follow'),
-    path('post_list_suggestions',views.post_list_suggestions,name='post_list_suggestions')
+    path('post_list_suggestions',views.post_list_suggestions,name='post_list_suggestions'),
+    path('comment',views.comment,name='comment')
 ]
