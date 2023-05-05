@@ -13,7 +13,8 @@ body {
 /* Phần giao diện trái */
 .content-left {
     height: 100vh;
-    width: 15%;
+    width: 20%;
+    min-width: 190px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -22,21 +23,29 @@ body {
 }
 
 .content-center {
+    margin-left: 20%;
     height: 100vh;
-    width: 65%;
-    margin-left: 15%;
+    width: 60%;
 }
 
 .content-right {
     height: 100vh;
-    width: 30%;
+    width: 20%;
+    position: fixed;
+    right: 0;
 }
 
 .logo {
-    padding: 40px;
+    display: block;
 }
 
 .img-logo {
+    width: 150px;
+    height: 20px;
+    background-image: url("../images/logo.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    margin: 20px;
     filter: brightness(150%);
 }
 
@@ -167,7 +176,7 @@ body {
 .post {
     margin: 20px 0px 20px 0px;
     height: auto;
-    width: 50%;
+    width: 70%;
     border-top: 1px solid #9f9f9f;
 }
 
@@ -453,3 +462,109 @@ input[type="file"] {
     border: 0;
     outline: none;
 }
+
+
+
+/* Thiết kế responsive cho kích thước màn hình nhỏ hơn hoặc bằng 768px */
+@media only screen and (max-width: 1208px) {
+    .content-left {
+        position: fixed;
+        min-width: 100px;
+        width: 100px;
+    }
+    .img-logo {
+        width: 50px;
+        height: 30px;
+        background-image: url("../images/logo2.png");
+        margin: 10px;
+    }
+    .btn{
+        justify-content: center;
+    }
+    .svg-menu{
+        margin-left: 0;
+    }
+    .text-menu{
+        display: none;
+    }
+    .content-left:hover{
+        position: fixed;
+        width: 240px;
+        background: black;
+    }
+    .content-left:hover .img-logo {
+        width: 150px;
+        height: 20px;
+        background-image: url("../images/logo.png");
+        margin: 20px;
+    }
+    .content-left:hover .btn{
+        justify-content: left;
+    }
+    .content-left:hover .svg-menu{
+        margin-left: 35px;
+    }
+    .content-left:hover .text-menu{
+        display: block;
+    }
+    .content-center {
+        margin-left: 0;
+        width: calc(80%);
+        margin-left: 100px;
+    }
+    .content-left:hover + .content-center{
+        margin-left: 100px;
+    }
+  }
+  @media only screen and (max-width:1008px) {
+    .content-right{
+        width: 100px;
+    }
+    .text-suggestion,.user-suggestion{
+        display: none;
+    }
+    .my-frofile{
+        flex-direction: column;
+        justify-content: center;
+        width: 100%;
+    }
+    .log-out{
+        margin-left: 0;
+    }
+    .my-info{
+        display: none;
+    }
+    .content-center{
+        width: calc(100%-100px);
+    }
+  }
+  /* Thiết kế responsive cho kích thước màn hình nhỏ hơn hoặc bằng 480px */
+  @media only screen and (max-width: 780px) {
+    .content-left {
+      width: 5%;
+      height: 50px;
+      border-right: 0px;
+    }
+    .content:hover .btn{
+        display: flex;
+    }
+    .content-right{
+        width: 50px;
+        height: 50px;
+        left: 20px;
+        bottom: 80px;
+    }
+    .content-center {
+      width: 100%;
+      margin-left: 50px;
+    }
+    
+    .post {
+      width: 80%;
+    }
+    .btn{
+        display: none;
+    }
+  }
+  
+
