@@ -1,3 +1,6 @@
+*{
+    box-sizing: border-box;
+}
 body {
     background-color: black;
     margin: 0;
@@ -86,8 +89,10 @@ body {
 /*Phần giao diện phải*/
 .my-frofile {
     height: 60px;
-    width: 70%;
+    width: 100%;
+    padding: 5px 20px;
     margin-top: 50px;
+    margin-right: 50px;
     display: flex;
     align-items: center;
 }
@@ -465,7 +470,6 @@ input[type="file"] {
 
 
 
-/* Thiết kế responsive cho kích thước màn hình nhỏ hơn hoặc bằng 768px */
 @media only screen and (max-width: 1208px) {
     .content-left {
         position: fixed;
@@ -488,7 +492,6 @@ input[type="file"] {
         display: none;
     }
     .content-left:hover{
-        position: fixed;
         width: 240px;
         background: black;
     }
@@ -527,6 +530,12 @@ input[type="file"] {
         flex-direction: column;
         justify-content: center;
         width: 100%;
+        height: 100px;
+        margin-top: 10px;
+    }
+    .avatar-right{
+        width: 50px;
+        height: 50px;
     }
     .log-out{
         margin-left: 0;
@@ -538,15 +547,22 @@ input[type="file"] {
         width: calc(100%-100px);
     }
   }
-  /* Thiết kế responsive cho kích thước màn hình nhỏ hơn hoặc bằng 480px */
   @media only screen and (max-width: 780px) {
     .content-left {
       width: 5%;
       height: 50px;
       border-right: 0px;
     }
-    .content:hover .btn{
+    .content-left:hover .btn{
         display: flex;
+    }
+    .content-left:hover{
+        height: 100%;
+        width: 240px;
+        background: black;
+    }
+    .content-left:hover + .content-center{
+        margin-left: 50px;
     }
     .content-right{
         width: 50px;
@@ -564,6 +580,9 @@ input[type="file"] {
     }
     .btn{
         display: none;
+    }
+    .avatar-right{
+        height: 50px;
     }
   }
   
