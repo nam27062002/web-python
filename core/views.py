@@ -461,10 +461,24 @@ def getNumLikesCmts(request,postId):
 @login_required(login_url='signin')
 def updateProfile(request):
     if request.method == 'POST':
-        print(request.POST)
-        print("Thôi cập nhật để nam làm")
-
-        return JsonResponse({})
-
+        newName = request.POST.get('newName')
+        newPassword = request.POST.get('newPassword')
+        oldPassword = request.POST.get('password')
+        print(newName,newPassword,oldPassword)  
+        user = User.objects.get(username=request.user.username)
+        if user.check_password(oldPassword):
+            if newName != "":
+                user_object = User.objects.get(username=request.user.username)
+                user_profile = Profile.objects.get(user=user_object)
+                user_profile.full_name = newName
+                print("update fullname")
+                user_profile.save()
+            if newPassword != "":
+                print("update password")
+                user.set_password(newPassword)
+                user.save()
+            return JsonResponse({"password":True})
+        else:
+            return JsonResponse({"password":False})
     else:
         return JsonResponse({})

@@ -270,7 +270,7 @@
 		<div class="more-profile">
 			<div class="setting-username setting-input">
 				<div class="setting-tag">Username:</div>
-				<input placeholder="username" type="text" name="" id="input-username">
+				<input placeholder="username" type="text" name="" id="input-username" disabled>
 			</div>
 			<div class="setting-name setting-input">
 				<div class="setting-tag">Name:</div>
@@ -699,9 +699,17 @@
 					"newUserName": $("#input-username").val()?.trim(),
 					"newName": $("#input-name").val()?.trim(),
 					"newPassword": $("#input-newPassword").val()?.trim(),
+					"password": $("#input-password").val()?.trim(),
 				},
 				dataType: 'json',
 				success: function (response) {
+					console.log(response);
+					if (!response['password']){
+						alert("The password is incorrect");
+					}
+					else{
+						alert("Update Successful");
+					}
 					update_data()
 				},
 						//complete: function() {setTimeout(update_data, 1000);}
