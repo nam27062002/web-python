@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User, auth
 from django.contrib import messages
+from django.db.models import Q
 from django.http import HttpResponse,HttpResponseNotAllowed,JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
@@ -14,6 +15,7 @@ import datetime
 @login_required(login_url='signin')
 def index(request):
     return render(request, 'index.html', get_info(request))
+
 
 @login_required(login_url='signin')
 def post_list_post(request):
@@ -29,13 +31,14 @@ def comment(request):
     if request.method == 'POST':
         user = request.user
         post_id = request.POST.get('post_id')
+        print(post_id)
         post = Post.objects.get(id=post_id)
         text = request.POST.get('text-comment')
         new_comment = Comment.objects.create(user=user,post=post,text=text)
         new_comment.save()
-        return redirect('/')
+        return JsonResponse({})
     else:
-        return redirect('/')
+        return JsonResponse({})
 @login_required(login_url='signin')
 @csrf_exempt
 def like_post(request):
@@ -50,14 +53,14 @@ def like_post(request):
             new_like.save()
             post.no_of_likes = post.no_of_likes+1
             post.save()
-            return redirect('/')
+            return JsonResponse({})
         else:
             like_filter.delete()
             post.no_of_likes = post.no_of_likes-1
             post.save()
-            return redirect('/')
+            return JsonResponse({})
     else:
-        return redirect('/')
+        return JsonResponse({})
 
 @login_required(login_url='signin')
 @csrf_exempt
@@ -86,6 +89,7 @@ def signin(request):
             return redirect('signin')
     else:
         return render(request, 'signin.html')
+    return
 
 def signup(request):
     if request.method == 'POST':
@@ -121,18 +125,28 @@ def follow(request):
     if request.method == 'POST':
         follower = request.user.username
         user = request.POST.get('user')
+        if user==follower:
+            return
         if FollowersCount.objects.filter(follower=follower, user=user).first():
             delete_follower = FollowersCount.objects.get(follower=follower, user=user)
             delete_follower.delete()
             print("unfollow")
-            return redirect('/')
+            return JsonResponse({})
         else:
             new_follower = FollowersCount.objects.create(follower=follower, user=user)
             new_follower.save()
             print("follow")
-            return redirect('/')
+            return JsonResponse({})
+
     else:
-        return redirect('/')
+        return JsonResponse({})
+
+@csrf_exempt
+def profile(request,username):
+
+    return render(request, 'profile.html',{"username":username,"user_profile":get_info(request)["user_profile"]})
+
+
 
 def get_info(request):
     user_object = User.objects.get(username=request.user.username)
@@ -172,9 +186,10 @@ def get_info(request):
     suggestions_username_profile_list = list(chain(*username_profile_list))
     return {'user_profile': user_profile,'suggestions_username_profile_list': suggestions_username_profile_list[:4]}  
 
+# def get_profile(request):
+
 
 def get_list_post(request):
-    
     user_object = User.objects.get(username=request.user.username) # user 
     user_following_list = []
     feed = []
@@ -233,9 +248,7 @@ def get_list_post(request):
     return {"list_image_avatar":list_image_avatar,"list_nickname":list_nickname,"list_created_at":list_created_at,"list_liked":list_liked,"list_count_like": list_count_like,"list_image_post":list_image_post,"list_caption":list_caption,"list_post_id":list_post_id,"comments":comments}
   
 def get_list_suggestions(request):
-    user_object = User.objects.get(username=request.user.username)
-    user_profile = Profile.objects.get(user=user_object)
-
+    
     user_following_list = []
     
     user_following = FollowersCount.objects.filter(follower=request.user.username)
@@ -243,8 +256,7 @@ def get_list_suggestions(request):
     for users in user_following:
         user_following_list.append(users.user)
 
-    # lấy post của bản thân
-
+    
     # user suggestion starts
     all_users = User.objects.all()
     user_following_all = []
@@ -296,3 +308,157 @@ def time_ago(date):
         return f"{minutes} minute{'s' if minutes > 1 else ''} ago"
     else:
         return f"{delta.seconds} second{'s' if delta.seconds > 1 else ''} ago"
+    
+@login_required(login_url='signin')
+def get_profile(request,username):
+    user_logined = User.objects.get(username=request.user.username)
+    user_view = User.objects.get(username=username)
+    profile_user_loggined=Profile.objects.get(user=user_logined)
+    profile_user_view=Profile.objects.get(user=user_view)
+    user_posts = Post.objects.filter(user=user_view.username).order_by('-created_at')
+
+    user_logined_dict = {
+        "username":profile_user_loggined.user.username,
+        "imageurl":profile_user_loggined.profileimg.url,
+        "name":profile_user_loggined.full_name,
+    }
+    user_view_dict={
+        "username":profile_user_view.user.username,
+        "name":profile_user_view.full_name,
+        "imageurl":profile_user_view.profileimg.url,
+        "bio":profile_user_view.bio
+    }
+    user_posts_dict=[{
+        "id":i.id,
+        "image":i.image.url,
+        "no_of_likes":i.no_of_likes,
+    } for i in user_posts]
+    follower = len(FollowersCount.objects.filter(user=user_view.username))
+    following= len(FollowersCount.objects.filter(follower=user_view.username))
+
+    
+    return JsonResponse(
+        {"user_logined":user_logined_dict,
+         "user_view":user_view_dict,
+         "follower":follower,
+         "following":following,
+         "status_follow":getStatusFollow(user_logined,user_view),
+         "posts":user_posts_dict})
+
+
+
+@login_required(login_url='signin')
+def getFollowers(request,username):
+    user_logined = User.objects.get(username=request.user.username)
+    user_view = User.objects.get(username=username)
+
+    followers=FollowersCount.objects.filter(user=user_view.username)
+
+    followers_dict = []
+    for i in followers:
+        user = User.objects.get(username=i.follower)
+        profile_user=Profile.objects.get(user=user)
+
+        followers_dict.append({
+        "username":profile_user.user.username,
+        "imageurl":profile_user.profileimg.url,
+        "name":profile_user.full_name,
+        "status":getStatusFollow(user_logined,user)
+        })
+
+    return JsonResponse(
+        {"followers":followers_dict})
+@login_required(login_url='signin')
+def getFollowings(request,username):
+    user_logined = User.objects.get(username=request.user.username)
+    user_view = User.objects.get(username=username)
+
+    followings=FollowersCount.objects.filter(follower=user_view.username)
+
+    followings_dict = []
+    for i in followings:
+        user = User.objects.get(username=i.user)
+        profile_user=Profile.objects.get(user=user)
+
+        followings_dict.append({
+        "username":profile_user.user.username,
+        "imageurl":profile_user.profileimg.url,
+        "name":profile_user.full_name,
+        "status":getStatusFollow(user_logined,user)
+        })
+    return JsonResponse(
+        {"followings":followings_dict})
+
+def getStatusFollow(user_logined,user_view):
+    if len(FollowersCount.objects.filter(Q(user=user_logined.username)&Q(follower=user_view.username)))>0:
+        status=-1
+    else:
+        status=0
+    if len(FollowersCount.objects.filter(Q(user=user_view.username)&Q(follower=user_logined.username)))>0:
+        status=1
+    if user_logined.username==user_view.username:
+        status=True
+    return status
+
+@login_required(login_url='signin')
+def getPost(request,postId):
+    username=request.user.username
+    status_like=len(LikePost.objects.filter(Q(post_id=postId)&Q(username=username)))>0
+        
+    post = Post.objects.get(id=postId)
+    post_dict={"id":post.id,
+        "user":post.user,
+        "image":post.image.url,
+        "caption":post.caption,
+        "created_at":post.created_at,
+        "no_of_likes":post.no_of_likes,
+        "status_like":status_like
+    }
+
+    return JsonResponse(
+        {"post":post_dict})
+
+@login_required(login_url='signin')
+def getCommentsPost(request,postId):
+        
+    comments = Comment.objects.filter(post_id=postId)
+    comments_dict=[]
+    for comment in comments:
+        profile = Profile.objects.get(id_user=comment.user_id)
+        comments_dict.append({
+            "id":comment.id,
+            "text":comment.text,
+            "created_at":comment.created_at,
+            "imgUserUrl":profile.profileimg.url,
+            "user":profile.user.username
+        })
+
+    return JsonResponse(
+        {"commentsOfPost":comments_dict})
+@login_required(login_url='signin')
+def getNumLikesCmts(request,postId):
+        
+    likes = LikePost.objects.filter(post_id=postId)
+    comments = Comment.objects.filter(post_id=postId)
+    username=request.user.username
+    status_like=len(LikePost.objects.filter(Q(post_id=postId)&Q(username=username)))>0
+    
+
+    return JsonResponse({
+        "numOfLikes":len(likes),
+        "numOfCmts":len(comments),
+        "status_like":status_like,
+         })
+
+
+@csrf_exempt
+@login_required(login_url='signin')
+def updateProfile(request):
+    if request.method == 'POST':
+        print(request.POST)
+        print("Thôi cập nhật để nam làm")
+
+        return JsonResponse({})
+
+    else:
+        return JsonResponse({})
