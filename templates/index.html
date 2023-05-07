@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/home.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/Home.css' %}">
     <script src="https://kit.fontawesome.com/912383539c.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 
@@ -138,6 +138,7 @@
         </div>
     </div>
     <div class="content-2">
+        <i class="fa-solid fa-x"></i>
         <div class="form-create-post">
             <div class="text-create-post">Create new post</div>
             <div class="choice-file">
@@ -150,6 +151,14 @@
         </div>    
     </div>
 </body>
+
+{% comment %} close content-2 {% endcomment %}
+<script>
+    $(".fa-x").click(function(){
+        click_return_image();
+        $(".content-2").css("display","none");
+    });
+</script>
 {% comment %} event click {% endcomment %}
 <script>
     $(document).ready(function () {
@@ -174,7 +183,8 @@
         fileImage = selectedFile;
         imageUrl = URL.createObjectURL(selectedFile);
 
-        var htmlString = '<div class="form-image-post">' +
+        var htmlString = '<i class="fa-solid fa-x"></i>' +
+            '<div class="form-image-post">' +
             '<div class="text-create-post" style="display: flex;justify-content: space-between;">' +
             '<div class="image-post-back" onclick="click_return_image()"><i class="fa-solid fa-arrow-left"></i></div>' +
             '<div class="image-post-title">Crop</div>' +
@@ -185,9 +195,14 @@
             '</div>' +
             '</div>';
         $('.content-2').html(htmlString);
+        $(".fa-x").click(function(){
+            click_return_image();
+            $(".content-2").css("display","none");
+        });
     });
     function click_next_image(){
-        var formHtml = '<div class="form-caption">' +
+        var formHtml = '<i class="fa-solid fa-x"></i>' +
+            '<div class="form-caption">' +
             '<div class="text-create-post" style="display: flex;justify-content: space-between;">' +
                 '<div class="image-post-back"></div>' +
                 '<div class="image-post-title">Create new post</div>' +
@@ -209,6 +224,10 @@
             '</div>' +
         '</div>';
         $('.content-2').html(formHtml);
+        $(".fa-x").click(function(){
+            click_return_image();
+            $(".content-2").css("display","none");
+        });
     }
     function post_image(){
         const caption = $('.caption-new-post').val();
@@ -233,33 +252,45 @@
        
     }
     function click_return_image() {
-        var htmlString = '<div class="form-create-post">' +
-            '<div class="text-create-post">Create new post</div>' +
-            '<div class="choice-file">' +
-            '<i class="fa-solid fa-image"></i>' +
-            '</div>' +
-            '<input type="file" id="file" name="file">' +
-            '<label for="file" class="custom-file-upload">' +
-            'Select from computer' +
-            '</label>' +
+        var htmlString = '<i class="fa-solid fa-x"></i>' + 
+            '<div class="form-create-post">' +
+                '<div class="text-create-post">Create new post</div>' +
+                '<div class="choice-file">' +
+                    '<i class="fa-solid fa-image"></i>' +
+                '</div>' +
+                '<input type="file" id="file" name="file">' +
+                '<label for="file" class="custom-file-upload">' +
+                    'Select from computer ' +
+                '</label>' +
             '</div>';
         $('.content-2').html(htmlString);
+        $(".fa-x").click(function(){
+            click_return_image();
+            $(".content-2").css("display","none");
+        });
         // choice file
         const fileInput = document.getElementById('file');
         fileInput.addEventListener('change', (event) => {
             const selectedFile = event.target.files[0];
+            fileImage = selectedFile;
             imageUrl = URL.createObjectURL(selectedFile);
-            var htmlString = '<div class="form-image-post">' +
+
+            var htmlString = '<i class="fa-solid fa-x"></i>' +
+                '<div class="form-image-post">' +
                 '<div class="text-create-post" style="display: flex;justify-content: space-between;">' +
                 '<div class="image-post-back" onclick="click_return_image()"><i class="fa-solid fa-arrow-left"></i></div>' +
                 '<div class="image-post-title">Crop</div>' +
-                '<div class="image-post-next" onclick="click_next_image()>Next</div>' +
+                '<div class="image-post-next" onclick="click_next_image()">Next</div>' +
                 '</div>' +
                 '<div class="image-create-post">' +
                 '<img src="' + imageUrl + '">' +
                 '</div>' +
                 '</div>';
             $('.content-2').html(htmlString);
+            $(".fa-x").click(function(){
+                click_return_image();
+                $(".content-2").css("display","none");
+            });
         });
 
     }

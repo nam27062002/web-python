@@ -10,7 +10,6 @@ import random
 import datetime
 
 
-
 @login_required(login_url='signin')
 def index(request):
     return render(request, 'index.html', get_info(request))
