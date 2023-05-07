@@ -217,7 +217,7 @@
 }
 .input-comment{
     margin-top: 10px;
-    width: 90%;
+    width: 97%;
     color: white;
     border: none;
     outline: none;
@@ -386,6 +386,14 @@ input[type="file"] {
     border: 0;
     outline: none;
 }
-
+.fa-x{
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 20px;
+    z-index: 100;
+    color: rgb(0, 0, 0);
+    cursor: pointer;
+}
 
 

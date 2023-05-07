@@ -102,6 +102,7 @@
     </div>
     <div class="content-2">
         <div class="form-create-post">
+            <i class="fa-solid fa-x"></i>
             <div class="text-create-post">Create new post</div>
             <div class="choice-file">
                 <i class="fa-solid fa-image"></i>
@@ -111,6 +112,7 @@
                 Select from computer
             </label>
         </div>
+        
     </div>
 </body>
 {% comment %} event click {% endcomment %}
@@ -123,6 +125,9 @@
         // create POST
         $("#btn-create").click(function () {
             $(".content-2").css("display", "flex");
+        });
+        $(".fa-x").click(function(){
+            $(".content-2").css("display", "none");
         });
     }); 
 </script>
@@ -138,6 +143,7 @@
         imageUrl = URL.createObjectURL(selectedFile);
 
         var htmlString = '<div class="form-image-post">' +
+            '<i class="fa-solid fa-x"></i>' +
             '<div class="text-create-post" style="display: flex;justify-content: space-between;">' +
             '<div class="image-post-back" onclick="click_return_image()"><i class="fa-solid fa-arrow-left"></i></div>' +
             '<div class="image-post-title">Crop</div>' +
@@ -148,9 +154,14 @@
             '</div>' +
             '</div>';
         $('.content-2').html(htmlString);
+        $(".fa-x").click(function(){
+            click_return_image();
+            $(".content-2").css("display", "none");
+        });
     });
     function click_next_image() {
         var formHtml = '<div class="form-caption">' +
+            '<i class="fa-solid fa-x"></i>' +
             '<div class="text-create-post" style="display: flex;justify-content: space-between;">' +
             '<div class="image-post-back"></div>' +
             '<div class="image-post-title">Create new post</div>' +
@@ -172,6 +183,10 @@
             '</div>' +
             '</div>';
         $('.content-2').html(formHtml);
+        $(".fa-x").click(function(){
+            click_return_image();
+            $(".content-2").css("display", "none");
+        });
     }
     function post_image() {
         const caption = $('.caption-new-post').val();
@@ -197,6 +212,7 @@
     }
     function click_return_image() {
         var htmlString = '<div class="form-create-post">' +
+            '<i class="fa-solid fa-x"></i>' +
             '<div class="text-create-post">Create new post</div>' +
             '<div class="choice-file">' +
             '<i class="fa-solid fa-image"></i>' +
@@ -207,22 +223,32 @@
             '</label>' +
             '</div>';
         $('.content-2').html(htmlString);
+        $(".fa-x").click(function(){
+            click_return_image();
+            $(".content-2").css("display", "none");
+        });
         // choice file
         const fileInput = document.getElementById('file');
         fileInput.addEventListener('change', (event) => {
             const selectedFile = event.target.files[0];
+            fileImage = selectedFile;
             imageUrl = URL.createObjectURL(selectedFile);
             var htmlString = '<div class="form-image-post">' +
+                '<i class="fa-solid fa-x"></i>' +
                 '<div class="text-create-post" style="display: flex;justify-content: space-between;">' +
                 '<div class="image-post-back" onclick="click_return_image()"><i class="fa-solid fa-arrow-left"></i></div>' +
                 '<div class="image-post-title">Crop</div>' +
-                '<div class="image-post-next" onclick="click_next_image()>Next</div>' +
+                '<div class="image-post-next" onclick="click_next_image()">Next</div>' +
                 '</div>' +
                 '<div class="image-create-post">' +
                 '<img src="' + imageUrl + '">' +
                 '</div>' +
                 '</div>';
             $('.content-2').html(htmlString);
+            $(".fa-x").click(function(){
+                click_return_image();
+                $(".content-2").css("display", "none");
+            });
         });
 
     }
