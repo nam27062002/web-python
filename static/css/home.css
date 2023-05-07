@@ -1,84 +1,18 @@
-body {
-    background-color: black;
-    margin: 0;
-    color: white;
-    font-family: "Open Sans", sans-serif;
-}
 
-.content {
-    display: flex;
-    position: relative;
-}
-
-/* Phần giao diện trái */
-.content-left {
-    height: 100vh;
-    width: 15%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    border-right: 1px solid #9f9f9f;
-    position: fixed;
-}
-
-.content-center {
-    height: 100vh;
-    width: 65%;
-    margin-left: 15%;
-}
+/*Phần giao diện phải*/
 
 .content-right {
     height: 100vh;
-    width: 30%;
+    width: 20%;
+    position: fixed;
+    right: 0;
 }
-
-.logo {
-    padding: 40px;
-}
-
-.img-logo {
-    filter: brightness(150%);
-}
-
-.btn {
-    height: 60px;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: left;
-    cursor: pointer;
-}
-
-.svg-menu {
-    margin-left: 35px;
-    font-size: 20px;
-    color: #dddcdc;
-}
-
-.text-menu {
-    margin-left: 20px;
-    font-size: 15px;
-    color: #dddcdc;
-}
-
-.avatar-left {
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    overflow: hidden;
-}
-
-.avatar-left img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-/*Phần giao diện phải*/
 .my-frofile {
     height: 60px;
-    width: 70%;
+    width: 100%;
+    padding: 5px 20px;
     margin-top: 50px;
+    margin-right: 50px;
     display: flex;
     align-items: center;
 }
@@ -96,7 +30,11 @@ body {
     object-fit: cover;
     cursor: pointer;
 }
-
+.info-user{
+    display: flex;
+    text-decoration: none;
+    align-items: center;
+}
 .my-info {
     margin-left: 20px;
 }
@@ -158,16 +96,11 @@ body {
 }
 
 /* Phần ở giữa */
-.content-center {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
 
 .post {
     margin: 20px 0px 20px 0px;
     height: auto;
-    width: 50%;
+    width: 70%;
     border-top: 1px solid #9f9f9f;
 }
 
@@ -307,18 +240,7 @@ body {
     justify-content: center;
     align-items: center;
 }
-.fa-x{
-    position: absolute;
-    top:0;
-    right: 0;
-    z-index: 10;
-    color: rgb(255, 255, 255);
-    z-index: 10;
-    margin-top: 10px;
-    margin-right: 10px;
-    font-size: 20px;
-    cursor: pointer;
-}
+
 .form-create-post {
     background-color: #2e2e2e;
     width: 300px;
@@ -464,3 +386,6 @@ input[type="file"] {
     border: 0;
     outline: none;
 }
+
+
+
