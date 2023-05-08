@@ -290,6 +290,7 @@
 
 		</div>
 	</div>
+	<input type="file" id="real-file-input" style="display:none">
 	<script>
 		var user_logined, user_view, post, current_post, posts;
 		var commentsCode="";
@@ -314,7 +315,7 @@
 			profileCode += `
 			<div class="container">
 				<div class="profile-info">
-						<div class="profile-picture">
+						<div class="profile-picture" style="cursor: pointer">
 							<img src="${user_view.imageurl}" width="150" alt="Profile Picture">
 						</div>
 						<div class="profile-decription">
@@ -381,6 +382,29 @@
 			$("#input-username").attr('placeholder', user_logined.username);
 			$("#input-name").attr('placeholder', user_logined.name);
 			$(".content-center").html(profileCode);
+			$(".profile-picture").click(function(){
+				const realInput = document.getElementById("real-file-input");
+				realInput.click();
+				realInput.addEventListener("change",(event) => {
+					const selectedFile = event.target.files[0];
+					var formData = new FormData();
+					formData.append('fileImage', selectedFile);
+					$.ajax({
+						url: '/updateAvatar',
+						type: 'POST',
+						data: formData,
+						contentType: false,
+						processData: false,
+						success: function (response) {
+							update_data()
+						},
+						error: function (error) {
+							console.log(error);
+						}
+					});
+				});
+			})	
+
 			$(".title").html(user_view.username)
 		}
 		$(document).ready(function () {

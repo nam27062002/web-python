@@ -19,5 +19,7 @@ urlpatterns = [
     path('getCommentsPost/<str:postId>',views.getCommentsPost,name='getCommentsPost'),
     path('getNumLikesCmts/<str:postId>',views.getNumLikesCmts,name='getCommentsPost'),
     path('updateProfile',views.updateProfile,name='updateProfile'),
-    path('<str:username>',views.profile,name='profile')
+    path('updateAvatar',views.updateAvatar,name='updateAvatar'),
+    path('<str:username>',views.profile,name='profile'),
+
 ]

@@ -12,6 +12,7 @@ import datetime
 
 
 
+
 @login_required(login_url='signin')
 def index(request):
     return render(request, 'index.html', get_info(request))
@@ -482,3 +483,18 @@ def updateProfile(request):
             return JsonResponse({"password":False})
     else:
         return JsonResponse({})
+
+@csrf_exempt
+@login_required(login_url='signin')
+def updateAvatar(request):
+    if request.method == 'POST':
+        file_image = request.FILES.get('fileImage')
+        print(file_image)
+        user_object = User.objects.get(username=request.user.username)
+        user_profile = Profile.objects.get(user=user_object)
+        user_profile.profileimg = file_image
+        user_profile.save()
+        return JsonResponse({"1":1})
+    else:
+        return JsonResponse({"2":1})
+
