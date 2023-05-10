@@ -47,3 +47,12 @@ class Comment(models.Model):
 
     def __str__(self):
         return f"{self.user.username}'s comment on {self.post.user}'s post"
+
+class Chat(models.Model):
+    sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name='sender')
+    receiver = models.ForeignKey(User, on_delete=models.CASCADE, related_name='receiver')
+    message = models.TextField()
+    created_at = models.DateTimeField(default=datetime.now)
+
+    def __str__(self):
+        return f"Chat between {self.sender.username} and {self.receiver.username}"

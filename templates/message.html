@@ -1,0 +1,122 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/message.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/layout.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/responsive.css' %}">
+    <script src="https://kit.fontawesome.com/912383539c.js" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <title>message</title>
+</head>
+
+<body>
+    <div class="content">
+        {% include 'sidebar.html' %}
+    </div>
+    <div class="form-message">
+        <div class="users">
+            <div class="title-users">
+                <div class="nickname-users">{{user_profile.user.username}}</div>
+            </div>
+            <div class="list-users">
+       
+            </div>
+        </div>
+        <div class="message">
+            
+        </div>
+    </div>
+</body>
+
+
+<script>
+    var index = 0;
+    var data;
+    function updateUI(data){
+        html = '';
+        for(let i = 0;i < data['list_avt'].length;i++){
+            html += '<div class="avatar-list-users" id="id_'+i+'">';
+            html += '<img class="avt-list-users" src="'+data['list_avt'][i]+'" width="40px" height="40px">';
+            html += '<div style="font-size: 13px; color: #b9b9b9;">'+data['list_nickname'][i]+'</div>'
+            html += '</div>'
+        }   
+        $(".list-users").html(html);    
+        focus_user('id_0')
+        $(".avatar-list-users").click(function(){
+            $(".avatar-list-users").css("background-color","black")
+            var id = $(this).attr('id');
+            focus_user(id)
+            
+        })
+    }
+    function focus_user(idd){
+        let index = idd.replace("id_", "");
+        let id = "#" + idd;
+        $(id).css("background-color","#717171")
+        html = ''
+        html += '<div class="title-message">'
+        html += '<div class="avatar-message">'
+        html += '<img class="avt-message" src="'+data['list_avt'][index]+'" width="30px" height="30px">'
+        html += '<div style="font-size: 16px;">'+data['list_nickname'][index]+'</div>'
+        html += '</div></div>'     
+        html += '<div class="content-message">'
+       for (let i = 0; i < data['list_chats'][index].length;i++){
+            if (data['list_chats'][index][i][1]){
+                html += '<div class="my-message">'+data['list_chats'][index][i][0]+'</div>'
+            }
+            else{
+                html += '<div class="their-message">'+data['list_chats'][index][i][0]+'</div>'
+            }
+       }
+       html += '</div><div class="form-input-message"><div class="div-message"><input class="input-message"></div></div>'
+        $('.message').html(html);
+
+        const contentMessage = document.querySelector('.content-message');
+        contentMessage.scrollTop = contentMessage.scrollHeight;
+        $('.input-message').keypress(function (event) {
+            if (event.keyCode === 13) {
+                let message = $('.input-message').val()
+                $.ajax({
+                    url: '{% url "send_message" %}',
+                    type: 'POST',
+                    data: { "nickname": data['list_nickname'][index] ,"message":message},
+                    success: function (response) {
+                        sendMessage(message);
+                    },
+                    error: function (error) {
+                        console.log(error);
+                    }
+                });
+                
+                $(".input-message").val("");
+            }
+        });
+    }
+    function sendMessage(message){
+        const messageContainer = document.querySelector('.content-message');
+        var newMessage = document.createElement('div');
+        newMessage.className = 'my-message';
+        newMessage.textContent = message;
+        messageContainer.insertBefore(newMessage, messageContainer.firstChild);
+    }
+    
+    $.ajax({
+        url: '{% url "get_list_message" %}',
+        type: 'POST',
+        data: { "username2": "{{username2}}"},
+        success: function (response) {
+            data = response;
+            updateUI(response);
+        },
+        error: function (error) {
+            console.log(error);
+        }
+    });
+
+</script>
+</html>

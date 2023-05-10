@@ -382,6 +382,9 @@
 			$("#input-username").attr('placeholder', user_logined.username);
 			$("#input-name").attr('placeholder', user_logined.name);
 			$(".content-center").html(profileCode);
+			$("#chat").click(function(){
+				window.location.href = 'message/{{username}}';
+			})
 			$(".profile-picture").click(function(){
 				const realInput = document.getElementById("real-file-input");
 				realInput.click();

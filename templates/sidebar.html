@@ -14,7 +14,7 @@
         </div>
         <div class="text-menu">Search</div>
     </div>
-    <div class="btn">
+    <div class="btn" id="btn-message">
         <div class="svg-menu">
             <i class="fa-regular fa-message"></i>
         </div>
@@ -41,3 +41,8 @@
         <div class="text-menu">Profile</div>
     </a>
 </div>
+<script>
+    $("#btn-message").click(function () {
+        window.location.href = 'message/Default';
+    });
+</script>
