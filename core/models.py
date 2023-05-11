@@ -11,6 +11,7 @@ class Profile(models.Model):
     profileimg = models.ImageField(upload_to='profile_images', default='blank-profile-picture.png')
     location = models.CharField(max_length=100, blank=True)
     forget_password_token = models.CharField(max_length=100,blank=True)
+    lastlogin = models.DateTimeField(auto_now=True)
     def __str__(self):
         return self.user.username
 

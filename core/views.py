@@ -10,7 +10,16 @@ from itertools import chain
 import random
 import datetime
 from .helpers import sendMail
+from django.utils import timezone
 
+@csrf_exempt
+@login_required(login_url='signin')
+def saveLastLogin(request):
+    user_object = User.objects.get(username=request.user.username)
+    user_profile = Profile.objects.get(user=user_object)
+    user_profile.lastlogin = timezone.now()
+    user_profile.save()
+    return JsonResponse({})
 
 @csrf_exempt
 @login_required(login_url='signin')
@@ -46,10 +55,14 @@ def get_list_message(request):
             list_nickname = []
             list_avt = []
             list_chats = []
+            list_active = []
             for i in unique_profiles:
                 list_id.append(i.id_user)
                 list_nickname.append(i.user.username)
                 list_avt.append(i.profileimg.url)
+                date_str = str(i.lastlogin)
+                time_ago_str = time_ago1(date_str)
+                list_active.append(time_ago_str)
                 list_chat = []
                 chat_history = Chat.objects.filter(Q(sender=user, receiver=i.user) | Q(sender=i.user, receiver=user)).order_by('created_at')
                 for i in chat_history:
@@ -74,7 +87,8 @@ def get_list_message(request):
             return JsonResponse({'list_id':list_id,
                                 'list_nickname': list_nickname,
                                 'list_avt': list_avt,
-                                'list_chats':list_chats})
+                                'list_chats':list_chats,
+                                'list_active':list_active})
         else:
             user = request.user
             chats = Chat.objects.filter(Q(sender=user) | Q(receiver=user))
@@ -84,11 +98,15 @@ def get_list_message(request):
             list_nickname = []
             list_avt = []
             list_chats = []
+            list_active = []
             for i in unique_profiles:
                 list_id.append(i.id_user)
                 list_nickname.append(i.user.username)
                 list_avt.append(i.profileimg.url)
                 list_chat = []
+                date_str = str(i.lastlogin)
+                time_ago_str = time_ago1(date_str)
+                list_active.append(time_ago_str)
                 chat_history = Chat.objects.filter(Q(sender=user, receiver=i.user) | Q(sender=i.user, receiver=user)).order_by('created_at')
                 for i in chat_history:
                     if i.sender == user:
@@ -100,7 +118,8 @@ def get_list_message(request):
             return JsonResponse({'list_id':list_id,
                                 'list_nickname': list_nickname,
                                 'list_avt': list_avt,
-                                'list_chats':list_chats})
+                                'list_chats':list_chats,
+                                'list_active':list_active})
     else:
         return JsonResponse({})
 
@@ -386,6 +405,7 @@ def get_list_suggestions(request):
         list_fullname.append(_.full_name)
         list_profileimg.append(_.profileimg.url)
     return {'list_user':list_user,'list_fullname':list_fullname,'list_profileimg':list_profileimg}
+
 def time_ago(date):
     now = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc)
     seven_hours = datetime.timedelta(hours=7)
@@ -405,7 +425,24 @@ def time_ago(date):
         return f"{minutes} minute{'s' if minutes > 1 else ''} ago"
     else:
         return f"{delta.seconds} second{'s' if delta.seconds > 1 else ''} ago"
-    
+
+def time_ago1(date):
+    now = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc)
+    date = datetime.datetime.strptime(date, '%Y-%m-%d %H:%M:%S.%f%z')
+    delta = now - date
+    if delta.days > 6:
+        weeks = delta.days // 7
+        return f"Active {weeks}w{'s' if weeks > 1 else ''} ago"
+    elif delta.days > 0:
+        return f"Active {delta.days}d{'s' if delta.days > 1 else ''} ago"
+    elif delta.seconds >= 3600:
+        hours = delta.seconds // 3600
+        return f"Active {hours}h{'s' if hours > 1 else ''} ago"
+    elif delta.seconds >= 60:
+        minutes = delta.seconds // 60
+        return f"Active {minutes}m{'s' if minutes > 1 else ''} ago"
+    else:
+        return f"Active now"
 @login_required(login_url='signin')
 def get_profile(request,username):
     user_logined = User.objects.get(username=request.user.username)
