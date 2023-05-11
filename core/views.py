@@ -403,8 +403,18 @@ def get_list_suggestions(request):
         list_user.append(_.user.username)
         list_fullname.append(_.full_name)
         list_profileimg.append(_.profileimg.url)
-    return {'list_user':list_user,'list_fullname':list_fullname,'list_profileimg':list_profileimg}
-
+    return {'list_user':list_user,'list_fullname':list_fullname,'list_profileimg':list_profileimg,"allUsers":getSuggestionShare(request.user.username)}
+def getSuggestionShare(username):
+    profiles = Profile.objects.all()
+    users=[]
+    for profile in profiles:
+        if profile.user.username!=username:
+            users.append({
+            "username":profile.user.username,
+            "imageurl":profile.profileimg.url,
+            "name":profile.full_name,
+            })
+    return users
 def time_ago(date):
     now = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc)
     seven_hours = datetime.timedelta(hours=7)
