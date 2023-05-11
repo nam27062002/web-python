@@ -5,104 +5,16 @@ from django.db.models import Q
 from django.http import HttpResponse,HttpResponseNotAllowed,JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
-from .models import Profile, Post, LikePost, FollowersCount,Comment,Chat
+from .models import Profile, Post, LikePost, FollowersCount,Comment
 from itertools import chain
 import random
 import datetime
-from .helpers import sendMail
+from .helpers import send_forget_password_mail,sendMail
+
+from django.contrib.auth import views as auth_views
+from django.urls import reverse_lazy
 
 
-@csrf_exempt
-@login_required(login_url='signin')
-def message(request,username):
-    return render(request, 'message.html' ,{"username":request.user.username,"user_profile":get_info(request)["user_profile"],"username2":username} )
-
-@csrf_exempt
-@login_required(login_url='signin')
-def send_message(request):
-    if request.method == 'POST':
-        nickname = request.POST.get('nickname')
-        message = request.POST.get('message')
-        print(nickname,message)
-        user1 = request.user
-        user2 = User.objects.get(username=nickname)
-        new_chat = Chat.objects.create(sender=user1,receiver=user2,message=message)
-        new_chat.save()
-        return JsonResponse({})
-    else:
-        return JsonResponse({})
-
-@csrf_exempt
-@login_required(login_url='signin')
-def get_list_message(request):
-    if request.method == 'POST':
-        username2 = request.POST.get('username2')
-        if username2 != "Default":
-            user = request.user
-            chats = Chat.objects.filter(Q(sender=user) | Q(receiver=user))
-            profiles = Profile.objects.filter(Q(user__in=[chat.sender_id if chat.receiver == user else chat.receiver_id for chat in chats]))
-            unique_profiles = profiles.distinct().order_by('-id')
-            list_id = []
-            list_nickname = []
-            list_avt = []
-            list_chats = []
-            for i in unique_profiles:
-                list_id.append(i.id_user)
-                list_nickname.append(i.user.username)
-                list_avt.append(i.profileimg.url)
-                list_chat = []
-                chat_history = Chat.objects.filter(Q(sender=user, receiver=i.user) | Q(sender=i.user, receiver=user)).order_by('created_at')
-                for i in chat_history:
-                    if i.sender == user:
-                        list_chat.append([i.message,True])
-                    else:
-                        list_chat.append([i.message,False])
-                list_chat.reverse()
-                list_chats.append(list_chat)
-            if username2 not in list_nickname:
-                user = User.objects.get(username=username2)
-                list_id.insert(0,Profile.objects.get(user=user).id_user)
-                list_nickname.insert(0,username2)
-                list_avt.insert(0,Profile.objects.get(user=user).profileimg.url)
-                list_chats.insert(0,[])
-            else:
-                index = list_nickname.index(username2)
-                list_id = [list_id[index]] + list_id[:index] + list_id[index+1:]
-                list_nickname = [list_nickname[index]] + list_nickname[:index] + list_nickname[index+1:]
-                list_avt = [list_avt[index]] + list_avt[:index] + list_avt[index+1:]
-                list_chat = [list_chat[index]] + list_chat[:index] + list_chat[index+1:]
-            return JsonResponse({'list_id':list_id,
-                                'list_nickname': list_nickname,
-                                'list_avt': list_avt,
-                                'list_chats':list_chats})
-        else:
-            user = request.user
-            chats = Chat.objects.filter(Q(sender=user) | Q(receiver=user))
-            profiles = Profile.objects.filter(Q(user__in=[chat.sender_id if chat.receiver == user else chat.receiver_id for chat in chats]))
-            unique_profiles = profiles.distinct().order_by('-id')
-            list_id = []
-            list_nickname = []
-            list_avt = []
-            list_chats = []
-            for i in unique_profiles:
-                list_id.append(i.id_user)
-                list_nickname.append(i.user.username)
-                list_avt.append(i.profileimg.url)
-                list_chat = []
-                chat_history = Chat.objects.filter(Q(sender=user, receiver=i.user) | Q(sender=i.user, receiver=user)).order_by('created_at')
-                for i in chat_history:
-                    if i.sender == user:
-                        list_chat.append([i.message,True])
-                    else:
-                        list_chat.append([i.message,False])
-                list_chat.reverse()
-                list_chats.append(list_chat)
-            return JsonResponse({'list_id':list_id,
-                                'list_nickname': list_nickname,
-                                'list_avt': list_avt,
-                                'list_chats':list_chats})
-    else:
-        return JsonResponse({})
 
 @login_required(login_url='signin')
 def index(request):
@@ -575,20 +487,6 @@ def updateProfile(request):
     else:
         return JsonResponse({})
 
-@csrf_exempt
-@login_required(login_url='signin')
-def updateAvatar(request):
-    if request.method == 'POST':
-        file_image = request.FILES.get('fileImage')
-        print(file_image)
-        user_object = User.objects.get(username=request.user.username)
-        user_profile = Profile.objects.get(user=user_object)
-        user_profile.profileimg = file_image
-        user_profile.save()
-        return JsonResponse({"1":1})
-    else:
-        return JsonResponse({"2":1})
-    
 import uuid
 @csrf_exempt
 def ForgetPassword(request):
@@ -642,4 +540,3 @@ def ChangePassword(request,token):
     except Exception as e:
         print(e)
     return render(request , 'change-password.html' , context)
-
