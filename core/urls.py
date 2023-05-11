@@ -26,5 +26,6 @@ urlpatterns = [
     path('updateProfile',views.updateProfile,name='updateProfile'),
     path('updateAvatar',views.updateAvatar,name='updateAvatar'),
     path('<str:username>',views.profile,name='profile'),
-
+    path('forget-password/' ,views.ForgetPassword, name="forget_password"),
+    path('change-password/<token>/' , views.ChangePassword , name="change_password")
 ]
