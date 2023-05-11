@@ -262,8 +262,8 @@
 					<input class="input-comment" placeholder="Add a comment">
 					<i class="fa-solid fa-paper-plane"></i>
 				</div>
+			</div>
 		</div>
-	</div>
 	</div>
 	</div>
 	<div class="setting-profile-cover">
@@ -290,10 +290,37 @@
 
 		</div>
 	</div>
+	<div class="share-cover">
+		<div class="share-wrap">
+			<div class="share-header">
+				<div class="text">Share</div>
+				<i id="share-cancel" class="fa-sharp fa-solid fa-xmark"></i>
+			</div>
+			<div class="share-search">
+				<h5>To</h5>
+				<input type="text" name="" id="input-search-share" placeholder="Find">
+			</div>
+			<div class="sugestion-wrap">
+				<div class="user-item">
+					<img src="https://via.placeholder.com/150" alt="Post">
+					<a class="user-info">
+						<div>Username</div>
+						<div>Name</div>
+					</a>
+					<input class="share-checkbox" type="checkbox" name="" id="">
+				</div>
+			</div>
+			<div class="share-leger">
+				<button class="btn-send-share">Send</button>
+			</div>
+		</div>
+	</div>
 	<input type="file" id="real-file-input" style="display:none">
 	<script>
 		var user_logined, user_view, post, current_post, posts;
-		var commentsCode="";
+		var userForShare = [];
+		var selectedUsers = new Set();
+		var commentsCode = "";
 		function update_data() {
 			$.ajax({
 				url: '/get_profile/{{username}}',
@@ -406,7 +433,7 @@
 						}
 					});
 				});
-			})	
+			})
 
 			$(".title").html(user_view.username)
 		}
@@ -566,9 +593,9 @@
 							<div class="react">
 								${post.status_like?
 								'<i onclick="handleLikePost()" class="fa-solid fa-heart" style="color: #e60000;"></i>':
-								'<i onclick="handleLikePost()" class="fa-regular fa-heart"></i>'}
+							'<i onclick="handleLikePost()" class="fa-regular fa-heart"></i>'}
 								<i class="fa-regular fa-comment"></i>
-								<i class="fa-regular fa-share-from-square"></i>
+								<i class="fa-regular fa-share-from-square" onClick="showShareForm('${id}')"></i>
 								<i class="fa-sharp fa-regular fa-bookmark" id="save"></i>
 							</div>
 							<div class="post-like">${post.no_of_likes} likes</div>
@@ -601,23 +628,23 @@
 									console.log(error);
 								}
 							});
+						}
+					});
+					$(".fa-paper-plane").click(function () {
+						var text = $(".input-comment").val();
+						$.ajax({
+							url: '{% url "comment" %}',
+							type: 'POST',
+							data: { "post_id": post.id, "text-comment": text },
+							success: function (response) {
+								$('.input-comment').val("");
+								updateCommentofPost(post.id)
+							},
+							error: function (error) {
+								console.log(error);
 							}
 						});
-						$(".fa-paper-plane").click(function () {
-							var text = $(".input-comment").val();
-							$.ajax({
-								url: '{% url "comment" %}',
-								type: 'POST',
-								data: { "post_id": post.id, "text-comment": text },
-								success: function (response) {
-									$('.input-comment').val("");
-									updateCommentofPost(post.id)
-								},
-								error: function (error) {
-									console.log(error);
-								}
-							});
-						})
+					})
 				},
 				//complete: function() {setTimeout(update_data, 1000);}
 			});
@@ -653,16 +680,16 @@
 							$(".react").html(
 							`${data.status_like?
 								'<i onclick="handleLikePost()" class="fa-solid fa-heart" style="color: #e60000;"></i>':
-								'<i onclick="handleLikePost()" class="fa-regular fa-heart"></i>'}
+									'<i onclick="handleLikePost()" class="fa-regular fa-heart"></i>'}
 								<i class="fa-regular fa-comment"></i>
-								<i class="fa-regular fa-share-from-square"></i>
-								<i class="fa-sharp fa-regular fa-bookmark" id="save"></i>`	
+								<i class="fa-regular fa-share-from-square" onclick="showShareForm('${post.id}')"></i>
+								<i class="fa-sharp fa-regular fa-bookmark" id="save"></i>`
 							)
 							$(".post-like").html(`${data.numOfLikes} likes`)
 						}
 					})
 				},
-						//complete: function() {setTimeout(update_data, 1000);}
+				//complete: function() {setTimeout(update_data, 1000);}
 			});
 		}
 
@@ -676,8 +703,8 @@
 					commentsCode=`
 					${
 						data.commentsOfPost.map((comment)=>{
-							created_date = new Date(comment.created_at)
-							return `<div class="cmt-item">
+						created_date = new Date(comment.created_at)
+						return `<div class="cmt-item">
 								<img src="${comment.imgUserUrl}" alt="avt">
 								<div class="cmt-text">
 									<div class="cmt-content">
@@ -691,8 +718,8 @@
 									</div>
 								</div>
 							</div>`
-						})
-					}`
+					})
+						}`
 					$(".post-cmt-wrap").html(commentsCode)
 				}
 			})
@@ -717,12 +744,12 @@
 		$(".setting-ok").click(()=>{
 			$(".setting-profile-cover").css("display","none")
 			if($("#input-password").val().trim()==="")
-			return
-			
+				return
+
 			$.ajax({
 				url: '/updateProfile',
 				type: 'POST',
-				data: { 
+				data: {
 					"newUserName": $("#input-username").val()?.trim(),
 					"newName": $("#input-name").val()?.trim(),
 					"newPassword": $("#input-newPassword").val()?.trim(),
@@ -739,8 +766,82 @@
 					}
 					update_data()
 				},
-						//complete: function() {setTimeout(update_data, 1000);}
+				//complete: function() {setTimeout(update_data, 1000);}
 			});
+		})
+		$.ajax({
+			url: `/getUsersForShare`,
+			type: 'GET',
+			dataType: 'json',
+			success: function (data) {
+				console.log(data)
+				userForShare = data.allUsers
+			}
+		})
+		/////share
+		const showShareForm = (postId) => {
+			$(".share-cover").css('display', 'flex')
+			$(`#input-search-share`).trigger('input')
+			$('.share-checkbox').click((event) => {
+				event.target.checked = !event.target.checked
+			});
+			$('.share-checkbox').change((event) => {
+				const id = event.target.id
+				if (event.target.checked) {
+					$(`#wrap-${id}`).addClass('selected')
+					selectedUsers.add(id)
+				}
+				else {
+					$(`#wrap-${id}`).removeClass('selected')
+					selectedUsers.delete(id)
+				}
+			});
+		}
+		$("#share-cancel").click(() => {
+			$(".share-cover").css('display', 'none')
+		})
+		const clickSendItem = (id) => {
+			$(`#${id}`).prop("checked", !$(`#${id}`).prop("checked"))
+			$(`#${id}`).change()
+		}
+
+		$(`#input-search-share`).on('input', (event) => {
+			$(".sugestion-wrap").html(
+				`
+            ${userForShare
+					.filter(user => {
+						return (`${user.name}${user.username}`.toUpperCase().includes(event.target.value.toUpperCase()))
+					})
+					.map(user => (
+						`<div class="user-item" id="wrap-${user.username}" onClick="clickSendItem('${user.username}')">
+					<img src="${user.imageurl}" alt="avt">
+					<a class="user-info">
+						<div>${user.username}</div>
+						<div>${user.name}</div>
+					</a>
+                    <input class="share-checkbox" type="checkbox" name="" id="${user.username}">
+				</div>`
+					))}
+            `
+			)
+		})
+		$(".btn-send-share").click(() => {
+			
+			selectedUsers.forEach(username => {
+				$.ajax({
+					url: '{% url "send_message" %}',
+					type: 'POST',
+					data: { "nickname": username, "message": JSON.stringify({ share: { post: post.id } }) },
+					success: function (response) {
+					},
+					error: function (error) {
+						console.log(error);
+					}
+				});
+			});
+			$(".share-cover").css('display', 'none')
+			$(`#input-search-share`).val("")
+			selectedUsers.clear()
 		})
 	</script>
 

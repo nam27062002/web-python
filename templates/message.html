@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="{% static 'css/mess.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/layout.css' %}">
-	<link rel="stylesheet" type="text/css" href="{% static 'css/responsive.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/responsive.css' %}">
     <script src="https://kit.fontawesome.com/912383539c.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <title>message</title>
@@ -24,11 +24,11 @@
                 <div class="nickname-users">{{user_profile.user.username}}</div>
             </div>
             <div class="list-users">
-       
+
             </div>
         </div>
         <div class="message">
-            
+
         </div>
     </div>
 </body>
@@ -48,21 +48,21 @@
             }
             else{
                 html += '<span class="status-offline"></span>';
-            }     
+            }
             html += '</div>';
             html += '<div>';
             html += '<div style="font-size: 13px; color: #ffffff;">'+data['list_nickname'][i]+'</div>';
             html += '<div class="active">'+data['list_active'][i]+'</div>';
             html += '</div>'
             html += '</div>'
-        }   
-        $(".list-users").html(html);    
+        }
+        $(".list-users").html(html);
         focus_user('id_0')
         $(".avatar-list-users").click(function(){
             $(".avatar-list-users").css("background-color","black")
             var id = $(this).attr('id');
             focus_user(id)
-            
+
         })
     }
     function focus_user(idd){
@@ -79,23 +79,59 @@
         }
         else{
             html += '<span class="status-offline"></span>';
-        }    
+        }
         html += '</div>'
         html += '<div>'
         html += '<div style="font-size: 16px;">'+data['list_nickname'][index]+'</div>'
         html += '<div class="active">'+data['list_active'][index]+'</div>'
-        html += '</div></div></div>'     
-        
+        html += '</div></div></div>'
+
         html += '<div class="content-message">'
-       for (let i = 0; i < data['list_chats'][index].length;i++){
-            if (data['list_chats'][index][i][1]){
-                html += '<div class="my-message">'+data['list_chats'][index][i][0]+'</div>'
+        for (let i = 0; i < data['list_chats'][index].length; i++) {
+            try {
+                const postId = JSON.parse(data['list_chats'][index][i][0]).share.post
+                if (data['list_chats'][index][i][1]) {
+                    html += `<div class="my-message ${postId}">
+                        </div>`
+                }
+                else {
+                    html += `<div class="their-message ${postId}"></div>`
+                }
+                $.ajax({
+				url: `/getPost/${postId}`,
+				type: 'GET',
+				dataType: 'json',
+				success: function (data) {
+                    const post=data.post
+                    $(`.${postId}`).html(
+                    `<div class="post-wrap">
+                        <a href="/${post.user}" class="post-header">
+                            <div class="post-avt-user">
+                                <img src="${post.userAvt}" alt="avt">
+                            </div>
+                            <div>${post.user}</div>
+                        </a>
+                        <div class="post-img">
+                            <img src="${post.image}" alt="">
+                        </div>
+                        <div class="post-caption">
+                            <span class="caption-username">${post.user}</span>
+                            ${post.caption} 
+                        </div>
+                    </div>`
+                    )
+                }
+            })
+            } catch (error) {
+                if (data['list_chats'][index][i][1]) {
+                    html += '<div class="my-message">' + data['list_chats'][index][i][0] + '</div>'
+                }
+                else {
+                    html += '<div class="their-message">' + data['list_chats'][index][i][0] + '</div>'
+                }
             }
-            else{
-                html += '<div class="their-message">'+data['list_chats'][index][i][0]+'</div>'
-            }
-       }
-       html += '</div><div class="form-input-message"><div class="div-message"><input class="input-message"></div></div>'
+        }
+        html += '</div><div class="form-input-message"><div class="div-message"><input class="input-message"></div></div>'
         $('.message').html(html);
 
         const contentMessage = document.querySelector('.content-message');
@@ -114,7 +150,7 @@
                         console.log(error);
                     }
                 });
-                
+
                 $(".input-message").val("");
             }
         });
@@ -126,7 +162,7 @@
         newMessage.textContent = message;
         messageContainer.insertBefore(newMessage, messageContainer.firstChild);
     }
-    
+
     $.ajax({
         url: '{% url "get_list_message" %}',
         type: 'POST',

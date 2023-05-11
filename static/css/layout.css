@@ -17,6 +17,7 @@ body {
 .content {
     display: flex;
     position: relative;
+    overflow-y: scroll;
 }
 
 /* Phần giao diện trái */
