@@ -404,6 +404,13 @@ def get_list_suggestions(request):
         list_fullname.append(_.full_name)
         list_profileimg.append(_.profileimg.url)
     return {'list_user':list_user,'list_fullname':list_fullname,'list_profileimg':list_profileimg,"allUsers":getSuggestionShare(request.user.username)}
+@login_required(login_url='signin')
+def getUsersForShare(request):
+        
+    
+    return JsonResponse({
+        "allUsers":getSuggestionShare(request.user.username)
+         })
 def getSuggestionShare(username):
     profiles = Profile.objects.all()
     users=[]
@@ -548,10 +555,11 @@ def getStatusFollow(user_logined,user_view):
 def getPost(request,postId):
     username=request.user.username
     status_like=len(LikePost.objects.filter(Q(post_id=postId)&Q(username=username)))>0
-        
     post = Post.objects.get(id=postId)
+    profile = Profile.objects.get(user=User.objects.get(username=post.user))    
     post_dict={"id":post.id,
         "user":post.user,
+        "userAvt":profile.profileimg.url,
         "image":post.image.url,
         "caption":post.caption,
         "created_at":post.created_at,

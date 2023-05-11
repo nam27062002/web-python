@@ -112,33 +112,33 @@
                 Select from computer
             </label>
         </div>
-        
+
     </div>
     <div class="share-cover">
-		<div class="share-wrap">
-			<div class="share-header">
-				<div class="text">Share</div>
-				<i id="share-cancel" class="fa-sharp fa-solid fa-xmark"></i>
-			</div>
+        <div class="share-wrap">
+            <div class="share-header">
+                <div class="text">Share</div>
+                <i id="share-cancel" class="fa-sharp fa-solid fa-xmark"></i>
+            </div>
             <div class="share-search">
                 <h5>To</h5>
                 <input type="text" name="" id="input-search-share" placeholder="Find">
             </div>
-			<div class="sugestion-wrap">
-				<div class="user-item">
-					<img src="https://via.placeholder.com/150" alt="Post">
-					<a class="user-info">
-						<div>Username</div>
-						<div>Name</div>
-					</a>
+            <div class="sugestion-wrap">
+                <div class="user-item">
+                    <img src="https://via.placeholder.com/150" alt="Post">
+                    <a class="user-info">
+                        <div>Username</div>
+                        <div>Name</div>
+                    </a>
                     <input class="share-checkbox" type="checkbox" name="" id="">
-				</div>
-			</div>
+                </div>
+            </div>
             <div class="share-leger">
-				<button class="btn-send-share">Send</button>
-			</div>
-		</div>
-	</div>
+                <button class="btn-send-share">Send</button>
+            </div>
+        </div>
+    </div>
 </body>
 {% comment %} event click {% endcomment %}
 <script>
@@ -457,64 +457,46 @@
 
 </script>
 <script>
-    const showShareForm=(postId)=>{
-        const selectedUsers=[]
-        $(".share-cover").css('display','flex')
-        console.log(postId)
+    var selectedUsers = new Set();
+    var postId=""
+    const showShareForm = (postid) => {
+        $(".share-cover").css('display', 'flex')
+        postId=postid
         $(`#input-search-share`).trigger('input')
-        $('.share-checkbox').click((event)=>{
-            event.target.checked=!event.target.checked
+        $('.share-checkbox').click((event) => {
+            event.target.checked = !event.target.checked
         });
-        $('.share-checkbox').change((event)=>{
+        $('.share-checkbox').change((event) => {
             const id = event.target.id
-            if(event.target.checked){
+            if (event.target.checked) {
                 $(`#wrap-${id}`).addClass('selected')
-                selectedUsers.push(id)
+                selectedUsers.add(id)
             }
-            else{
+            else {
                 $(`#wrap-${id}`).removeClass('selected')
-                const index = selectedUsers.indexOf(id)
-                if (index > -1) {
-                    selectedUsers.splice(index, 1)
-                }
+                selectedUsers.delete(id)
             }
         });
-        $(".btn-send-share").click(()=>{
-            console.log(selectedUsers)
-            selectedUsers.forEach(username => {
-                $.ajax({
-                    url: '{% url "send_message" %}',
-                    type: 'POST',
-                    data: { "nickname": username ,"message":JSON.stringify({share:{post:postId}})},
-                    success: function (response) {
-                    },
-                    error: function (error) {
-                        console.log(error);
-                    }
-                });
-            });
-            $(".share-cover").css('display','none')
-            $(`#input-search-share`).val("")
-        })
-        
+
+
     }
-    $("#share-cancel").click(()=>{
-        $(".share-cover").css('display','none')
+    $("#share-cancel").click(() => {
+        $(".share-cover").css('display', 'none')
     })
-    const clickSendItem=(id)=>{
+    const clickSendItem = (id) => {
         $(`#${id}`).prop("checked", !$(`#${id}`).prop("checked"))
         $(`#${id}`).change()
     }
 
-    $(`#input-search-share`).on('input',(event)=>{
+    $(`#input-search-share`).on('input', (event) => {
         $(".sugestion-wrap").html(
             `
             ${userForShare
-                .filter(user=>{
+                .filter(user => {
                     return (`${user.name}${user.username}`.toUpperCase().includes(event.target.value.toUpperCase()))
                 })
-                .map(user=>(
-                `<div class="user-item" id="wrap-${user.username}" onClick="clickSendItem('${user.username}')">
+                .map(user => (
+                    `<div class="user-item" id="wrap-${user.username}" onClick="clickSendItem('${user.username}')">
 					<img src="${user.imageurl}" alt="avt">
 					<a class="user-info">
 						<div>${user.username}</div>
@@ -522,11 +504,28 @@
 					</a>
                     <input class="share-checkbox" type="checkbox" name="" id="${user.username}">
 				</div>`
-            ))}
+                ))}
             `
         )
     })
-    
+    $(".btn-send-share").click(() => {
+        console.log(selectedUsers)
+        selectedUsers.forEach(username => {
+            $.ajax({
+                url: '{% url "send_message" %}',
+                type: 'POST',
+                data: { "nickname": username, "message": JSON.stringify({ share: { post: postId } }) },
+                success: function (response) {
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        });
+        $(".share-cover").css('display', 'none')
+        $(`#input-search-share`).val("")
+        selectedUsers.clear()
+    })
 </script>
 
 </html>
