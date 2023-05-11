@@ -45,4 +45,15 @@
     $("#btn-message").click(function () {
         window.location.href = 'message/Default';
     });
+    save_last_login();
+    function save_last_login(){
+        $.ajax({
+            url: '/saveLastLogin',
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
+            },
+            complete: function() {setTimeout(save_last_login, 1000);}
+        });
+    }
 </script>
