@@ -1,502 +1,595 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/layout.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/home.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/responsive.css' %}">
-    <script src="https://kit.fontawesome.com/912383539c.js" crossorigin="anonymous"></script>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'css/layout.css' %}"
+    />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/home.css' %}" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'css/responsive.css' %}"
+    />
+    <script
+      src="https://kit.fontawesome.com/912383539c.js"
+      crossorigin="anonymous"
+    ></script>
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 
     <title>Home</title>
-</head>
+  </head>
 
-<body>
+  <body>
     <div class="content">
-        {% include 'sidebar.html' %}
-        <div class="content-center">
-            {% comment %} {% for post in posts%}
-            <div id="post-0" class="post">
-                <a class="info" href="/{{post}}">
-                    <div class="avatar-user">
-                        <img src="{{post.1.profileimg.url}}">
-                    </div>
-                    <div class="nickname-user">
-                        {{post.0}}
-                    </div>
-                    <div class="day-post">
-                        • {{post.2}} •
-                    </div>
-                </a>
-                <div class="image-post">
-                    <img src="{{post.0.image.url}}">
-                </div>
-                <div class="react">
-                    {% if not post.3 %}
-                    <i class="fa-regular fa-heart" id="like_{{post.0.id}}"></i>
-                    {% else %}
-                    <i class="fa-solid fa-heart" style="color: #e60000;" id="like_{{post.0.id}}"></i>
-                    {% endif %}
-                    <i class="fa-regular fa-comment"></i>
-                    <i class="fa-regular fa-share-from-square"></i>
-                    <i class="fa-sharp fa-regular fa-bookmark" id="save"></i>
-                </div>
-                <div class="text-like">{{post.0.no_of_likes}} likes</div>
-                <div class="caption">
-                    {{post.0.caption}}
-                </div>
-                <div class="list-comment">
-                    <div class="comment">
-                        <div class="avatar-comment">
-                            <img src="{{post.0.image.url}}">
-                        </div>
-                        <div class="comment-content">
-                            <div class="nickname-comment">nam.m2m</div>
-                            <div class="text-comment">Yayyyyy!! It's finally done ❤❤ #drawthisinyourstyle challenge with
-                                #albabbgg40k 😊😊. I do love you
-                                artwork and hope you like it!! 😭❤ •
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="view-all-comment">View all 1,252 comments</div>
-                <input class="input-comment" placeholder="Add a comment">
-                <i id="post-cmt" class="fa-solid fa-paper-plane"></i>
+      {% include 'sidebar.html' %}
+      <div class="content-center">
+        {% comment %} {% for post in posts%}
+        <div id="post-0" class="post">
+          <a class="info" href="/{{post}}">
+            <div class="avatar-user">
+              <img src="{{post.1.profileimg.url}}" />
             </div>
-            {% endfor %} {% endcomment %}
+            <div class="nickname-user">{{post.0}}</div>
+            <div class="day-post">• {{post.2}} •</div>
+          </a>
+          <div class="image-post">
+            <img src="{{post.0.image.url}}" />
+          </div>
+          <div class="react">
+            {% if not post.3 %}
+            <i class="fa-regular fa-heart" id="like_{{post.0.id}}"></i>
+            {% else %}
+            <i
+              class="fa-solid fa-heart"
+              style="color: #e60000"
+              id="like_{{post.0.id}}"
+            ></i>
+            {% endif %}
+            <i class="fa-regular fa-comment"></i>
+            <i class="fa-regular fa-share-from-square"></i>
+            <i class="fa-sharp fa-regular fa-bookmark" id="save"></i>
+          </div>
+          <div class="text-like">{{post.0.no_of_likes}} likes</div>
+          <div class="caption">{{post.0.caption}}</div>
+          <div class="list-comment">
+            <div class="comment">
+              <div class="avatar-comment">
+                <img src="{{post.0.image.url}}" />
+              </div>
+              <div class="comment-content">
+                <div class="nickname-comment">nam.m2m</div>
+                <div class="text-comment">
+                  Yayyyyy!! It's finally done ❤❤ #drawthisinyourstyle challenge
+                  with #albabbgg40k 😊😊. I do love you artwork and hope you
+                  like it!! 😭❤ •
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="view-all-comment">View all 1,252 comments</div>
+          <input class="input-comment" placeholder="Add a comment" />
+          <i id="post-cmt" class="fa-solid fa-paper-plane"></i>
         </div>
-        <div class="content-right">
-            <div class="my-frofile">
-                <a class="info-user" href="/{{user_profile.user}}">
-                    <div class="avatar-right">
-                        <img src="{{user_profile.profileimg.url}}">
-                    </div>
-                    <div class="my-info">
-                        <div class="my-nickname">{{user_profile.user}}</div>
-                        <div class="my-fullname">{{user_profile.full_name}}</div>
-                    </div>
-                </a>
-                <div class="log-out" id="log-out">Log out</div>
+        {% endfor %} {% endcomment %}
+      </div>
+      <div class="content-right">
+        <div class="my-frofile">
+          <a class="info-user" href="/{{user_profile.user}}">
+            <div class="avatar-right">
+              <img src="{{user_profile.profileimg.url}}" />
             </div>
-            <div class="text-suggestion">Suggestions for you</div>
-            <div class="user-suggestion">
-                {% comment %} {% for suggestion in suggestions_username_profile_list %}
-                <div class="frofiles" id="profile-0">
-                    <div class="avatar-right-other">
-                        <img src="{{suggestion.profileimg.url}}">
-                    </div>
-                    <div class="my-info">
-                        <div class="my-nickname">{{suggestion.user}}</div>
-                        <div class="my-fullname">{{suggestion.full_name}}</div>
-                    </div>
-                    <div class="follow-right" id="follow_{{suggestion.user}}">Follow</div>
-                </div>
-                {% endfor %} {% endcomment %}
+            <div class="my-info">
+              <div class="my-nickname">{{user_profile.user}}</div>
+              <div class="my-fullname">{{user_profile.full_name}}</div>
             </div>
-
+          </a>
+          <div class="log-out" id="log-out">Log out</div>
         </div>
+        <div class="text-suggestion">Suggestions for you</div>
+        <div class="user-suggestion">
+          {% comment %} {% for suggestion in suggestions_username_profile_list
+          %}
+          <div class="frofiles" id="profile-0">
+            <div class="avatar-right-other">
+              <img src="{{suggestion.profileimg.url}}" />
+            </div>
+            <div class="my-info">
+              <div class="my-nickname">{{suggestion.user}}</div>
+              <div class="my-fullname">{{suggestion.full_name}}</div>
+            </div>
+            <div class="follow-right" id="follow_{{suggestion.user}}">
+              Follow
+            </div>
+          </div>
+          {% endfor %} {% endcomment %}
+        </div>
+      </div>
     </div>
     <div class="content-2">
-        <div class="form-create-post">
-            <i class="fa-solid fa-x"></i>
-            <div class="text-create-post">Create new post</div>
-            <div class="choice-file">
-                <i class="fa-solid fa-image"></i>
-            </div>
-            <input type="file" id="file" name="file">
-            <label for="file" class="custom-file-upload">
-                Select from computer
-            </label>
+      <div class="form-create-post">
+        <i class="fa-solid fa-x"></i>
+        <div class="text-create-post">Create new post</div>
+        <div class="choice-file">
+          <i class="fa-solid fa-image"></i>
         </div>
-
+        <input type="file" id="file" name="file" />
+        <label for="file" class="custom-file-upload">
+          Select from computer
+        </label>
+      </div>
     </div>
     <div class="share-cover">
-        <div class="share-wrap">
-            <div class="share-header">
-                <div class="text">Share</div>
-                <i id="share-cancel" class="fa-sharp fa-solid fa-xmark"></i>
-            </div>
-            <div class="share-search">
-                <h5>To</h5>
-                <input type="text" name="" id="input-search-share" placeholder="Find">
-            </div>
-            <div class="sugestion-wrap">
-                <div class="user-item">
-                    <img src="https://via.placeholder.com/150" alt="Post">
-                    <a class="user-info">
-                        <div>Username</div>
-                        <div>Name</div>
-                    </a>
-                    <input class="share-checkbox" type="checkbox" name="" id="">
-                </div>
-            </div>
-            <div class="share-leger">
-                <button class="btn-send-share">Send</button>
-            </div>
+      <div class="share-wrap">
+        <div class="share-header">
+          <div class="text">Share</div>
+          <i id="share-cancel" class="fa-sharp fa-solid fa-xmark"></i>
         </div>
+        <div class="share-search">
+          <h5>To</h5>
+          <input
+            type="text"
+            name=""
+            id="input-search-share"
+            placeholder="Find"
+          />
+        </div>
+        <div class="sugestion-wrap">
+          <div class="user-item">
+            <img src="https://via.placeholder.com/150" alt="Post" />
+            <a class="user-info">
+              <div>Username</div>
+              <div>Name</div>
+            </a>
+            <input class="share-checkbox" type="checkbox" name="" id="" />
+          </div>
+        </div>
+        <div class="share-leger">
+          <button class="btn-send-share">Send</button>
+        </div>
+      </div>
     </div>
-</body>
-{% comment %} event click {% endcomment %}
-<script>
+  </body>
+  {% comment %} event click {% endcomment %}
+  <script>
     $(document).ready(function () {
-        // log out
-        $("#log-out").click(function () {
-            window.location.href = 'logout';
-        });
-        // create POST
-        $("#btn-create").click(function () {
-            $(".content-2").css("display", "flex");
-        });
+      // log out
+      $("#log-out").click(function () {
+        window.location.href = "logout";
+      });
+      // create POST
+      $("#btn-create").click(function () {
+        $(".content-2").css("display", "flex");
+      });
 
-        $(".fa-x").click(function(){
-            $(".content-2").css("display", "none");
-        });
-
-    }); 
-</script>
-{% comment %} create post {% endcomment %}
-<script>
+      $(".fa-x").click(function () {
+        $(".content-2").css("display", "none");
+      });
+    });
+  </script>
+  {% comment %} create post {% endcomment %}
+  <script>
     var imageUrl = null;
     var fileImage = null;
-    var userForShare=[];
+    var userForShare = [];
     // choice file
-    const fileInput = document.getElementById('file');
-    fileInput.addEventListener('change', (event) => {
+    const fileInput = document.getElementById("file");
+    fileInput.addEventListener("change", (event) => {
+      const selectedFile = event.target.files[0];
+      fileImage = selectedFile;
+      imageUrl = URL.createObjectURL(selectedFile);
+
+      var htmlString =
+        '<div class="form-image-post">' +
+        '<i class="fa-solid fa-x"></i>' +
+        '<div class="text-create-post" style="display: flex;justify-content: space-between;">' +
+        '<div class="image-post-back" onclick="click_return_image()"><i class="fa-solid fa-arrow-left"></i></div>' +
+        '<div class="image-post-title">Crop</div>' +
+        '<div class="image-post-next" onclick="click_next_image()">Next</div>' +
+        "</div>" +
+        '<div class="image-create-post">' +
+        '<img src="' +
+        imageUrl +
+        '">' +
+        "</div>" +
+        "</div>";
+      $(".content-2").html(htmlString);
+      $(".fa-x").click(function () {
+        click_return_image();
+        $(".content-2").css("display", "none");
+      });
+    });
+    function click_next_image() {
+      var formHtml =
+        '<div class="form-caption">' +
+        '<i class="fa-solid fa-x"></i>' +
+        '<div class="text-create-post" style="display: flex;justify-content: space-between;">' +
+        '<div class="image-post-back"></div>' +
+        '<div class="image-post-title">Create new post</div>' +
+        '<div class="image-post-next" onclick="post_image()">Share</div>' +
+        "</div>" +
+        '<div class="content-create-post">' +
+        '<div class="form-post-left"><img src="' +
+        imageUrl +
+        '" /></div>' +
+        '<div class="form-post-right">' +
+        '<div class="avatar-create-new-post">' +
+        '<div class="avatar-user-new-post">' +
+        '<img src="{{user_profile.profileimg.url}}">' +
+        "</div>" +
+        '<div class="nickname-create-new-post">{{user_profile.user}}</div>' +
+        "</div>" +
+        '<div class="form-caption-new-post">' +
+        '<textarea class="caption-new-post" rows="10" placeholder="Write a caption..."></textarea>' +
+        "</div>" +
+        "</div>" +
+        "</div>" +
+        "</div>";
+      $(".content-2").html(formHtml);
+      $(".fa-x").click(function () {
+        click_return_image();
+        $(".content-2").css("display", "none");
+      });
+    }
+    function post_image() {
+      const caption = $(".caption-new-post").val();
+      var formData = new FormData();
+      formData.append("caption", caption);
+      formData.append("fileImage", fileImage);
+
+      $.ajax({
+        url: '{% url "upload" %}',
+        type: "POST",
+        data: formData,
+        contentType: false,
+        processData: false,
+        success: function (response) {
+          $(".content-2").css("display", "none");
+          update_data();
+        },
+        error: function (error) {
+          console.log(error);
+        },
+      });
+    }
+    function click_return_image() {
+      var htmlString =
+        '<div class="form-create-post">' +
+        '<i class="fa-solid fa-x"></i>' +
+        '<div class="text-create-post">Create new post</div>' +
+        '<div class="choice-file">' +
+        '<i class="fa-solid fa-image"></i>' +
+        "</div>" +
+        '<input type="file" id="file" name="file">' +
+        '<label for="file" class="custom-file-upload">' +
+        "Select from computer" +
+        "</label>" +
+        "</div>";
+      $(".content-2").html(htmlString);
+      $(".fa-x").click(function () {
+        click_return_image();
+        $(".content-2").css("display", "none");
+      });
+      // choice file
+      const fileInput = document.getElementById("file");
+      fileInput.addEventListener("change", (event) => {
         const selectedFile = event.target.files[0];
         fileImage = selectedFile;
         imageUrl = URL.createObjectURL(selectedFile);
-
-        var htmlString = '<div class="form-image-post">' +
-            '<i class="fa-solid fa-x"></i>' +
-            '<div class="text-create-post" style="display: flex;justify-content: space-between;">' +
-            '<div class="image-post-back" onclick="click_return_image()"><i class="fa-solid fa-arrow-left"></i></div>' +
-            '<div class="image-post-title">Crop</div>' +
-            '<div class="image-post-next" onclick="click_next_image()">Next</div>' +
-            '</div>' +
-            '<div class="image-create-post">' +
-            '<img src="' + imageUrl + '">' +
-            '</div>' +
-            '</div>';
-        $('.content-2').html(htmlString);
-        $(".fa-x").click(function(){
-            click_return_image();
-            $(".content-2").css("display", "none");
+        var htmlString =
+          '<div class="form-image-post">' +
+          '<i class="fa-solid fa-x"></i>' +
+          '<div class="text-create-post" style="display: flex;justify-content: space-between;">' +
+          '<div class="image-post-back" onclick="click_return_image()"><i class="fa-solid fa-arrow-left"></i></div>' +
+          '<div class="image-post-title">Crop</div>' +
+          '<div class="image-post-next" onclick="click_next_image()">Next</div>' +
+          "</div>" +
+          '<div class="image-create-post">' +
+          '<img src="' +
+          imageUrl +
+          '">' +
+          "</div>" +
+          "</div>";
+        $(".content-2").html(htmlString);
+        $(".fa-x").click(function () {
+          click_return_image();
+          $(".content-2").css("display", "none");
         });
-    });
-    function click_next_image() {
-        var formHtml = '<div class="form-caption">' +
-            '<i class="fa-solid fa-x"></i>' +
-            '<div class="text-create-post" style="display: flex;justify-content: space-between;">' +
-            '<div class="image-post-back"></div>' +
-            '<div class="image-post-title">Create new post</div>' +
-            '<div class="image-post-next" onclick="post_image()">Share</div>' +
-            '</div>' +
-            '<div class="content-create-post">' +
-            '<div class="form-post-left"><img src="' + imageUrl + '" /></div>' +
-            '<div class="form-post-right">' +
-            '<div class="avatar-create-new-post">' +
-            '<div class="avatar-user-new-post">' +
-            '<img src="{{user_profile.profileimg.url}}">' +
-            '</div>' +
-            '<div class="nickname-create-new-post">{{user_profile.user}}</div>' +
-            '</div>' +
-            '<div class="form-caption-new-post">' +
-            '<textarea class="caption-new-post" rows="10" placeholder="Write a caption..."></textarea>' +
-            '</div>' +
-            '</div>' +
-            '</div>' +
-            '</div>';
-        $('.content-2').html(formHtml);
-        $(".fa-x").click(function(){
-            click_return_image();
-            $(".content-2").css("display", "none");
-        });
+      });
     }
-    function post_image() {
-        const caption = $('.caption-new-post').val();
-        var formData = new FormData();
-        formData.append('caption', caption);
-        formData.append('fileImage', fileImage);
+  </script>
 
-        $.ajax({
-            url: '{% url "upload" %}',
-            type: 'POST',
-            data: formData,
-            contentType: false,
-            processData: false,
-            success: function (response) {
-                $(".content-2").css("display", "none");
-                update_data();
-            },
-            error: function (error) {
-                console.log(error);
-            }
-        });
-
-    }
-    function click_return_image() {
-        var htmlString = '<div class="form-create-post">' +
-            '<i class="fa-solid fa-x"></i>' +
-            '<div class="text-create-post">Create new post</div>' +
-            '<div class="choice-file">' +
-            '<i class="fa-solid fa-image"></i>' +
-            '</div>' +
-            '<input type="file" id="file" name="file">' +
-            '<label for="file" class="custom-file-upload">' +
-            'Select from computer' +
-            '</label>' +
-            '</div>';
-        $('.content-2').html(htmlString);
-        $(".fa-x").click(function(){
-            click_return_image();
-            $(".content-2").css("display", "none");
-        });
-        // choice file
-        const fileInput = document.getElementById('file');
-        fileInput.addEventListener('change', (event) => {
-            const selectedFile = event.target.files[0];
-            fileImage = selectedFile;
-            imageUrl = URL.createObjectURL(selectedFile);
-            var htmlString = '<div class="form-image-post">' +
-                '<i class="fa-solid fa-x"></i>' +
-                '<div class="text-create-post" style="display: flex;justify-content: space-between;">' +
-                '<div class="image-post-back" onclick="click_return_image()"><i class="fa-solid fa-arrow-left"></i></div>' +
-                '<div class="image-post-title">Crop</div>' +
-                '<div class="image-post-next" onclick="click_next_image()">Next</div>' +
-                '</div>' +
-                '<div class="image-create-post">' +
-                '<img src="' + imageUrl + '">' +
-                '</div>' +
-                '</div>';
-            $('.content-2').html(htmlString);
-            $(".fa-x").click(function(){
-                click_return_image();
-                $(".content-2").css("display", "none");
-            });
-        });
-
-    }
-
-</script>
-
-<script>
+  <script>
     function update_data() {
-        $.ajax({
-            url: '/post_list_post',
-            type: 'GET',
-            dataType: 'json',
-            success: function (data) {
-                update_form_center(data);
-            },
-            //complete: function() {setTimeout(update_data, 1000);}
-        });
+      $.ajax({
+        url: "/post_list_post",
+        type: "GET",
+        dataType: "json",
+        success: function (data) {
+          update_form_center(data);
+        },
+        //complete: function() {setTimeout(update_data, 1000);}
+      });
     }
     function update_form_center(data) {
-        var postCode = "";
-        for (let i = 0; i < data['list_image_avatar'].length; i++) {
-            postCode += '<div class="post">' +
-                '<a class="info" href="/'+data["list_nickname"][i]+'">'  +
-                '<div class="avatar-user">' +
-                '<img src="' + data["list_image_avatar"][i] + '">' +
-                '</div>' +
-                '<div class="nickname-user">' +
-                '' + data["list_nickname"][i] + '' +
-                '</div>' +
-                '<div class="day-post">' +
-                '• ' + data["list_created_at"][i] + ' •' +
-                '</div>' +
-                '</a>' +
-                '<div class="image-post">' +
-                '<img src="' + data["list_image_post"][i] + '">' +
-                '</div>' +
-                '<div class="react">';
-            if (data["list_liked"][i])
-                postCode += '<i class="fa-solid fa-heart" style="color: #e60000;" id="like_' + data["list_post_id"][i] + '"></i>';
-            else
-                postCode += '<i class="fa-regular fa-heart" id="like_' + data["list_post_id"][i] + '"></i>';
+      var postCode = "";
+      for (let i = 0; i < data["list_image_avatar"].length; i++) {
+        postCode +=
+          '<div class="post">' +
+          '<a class="info" href="/' +
+          data["list_nickname"][i] +
+          '">' +
+          '<div class="avatar-user">' +
+          '<img src="' +
+          data["list_image_avatar"][i] +
+          '">' +
+          "</div>" +
+          '<div class="nickname-user">' +
+          "" +
+          data["list_nickname"][i] +
+          "" +
+          "</div>" +
+          '<div class="day-post">' +
+          "• " +
+          data["list_created_at"][i] +
+          " •" +
+          "</div>" +
+          "</a>" +
+          '<div class="image-post">' +
+          '<img src="' +
+          data["list_image_post"][i] +
+          '">' +
+          "</div>" +
+          '<div class="react">';
+        if (data["list_liked"][i])
+          postCode +=
+            '<i class="fa-solid fa-heart" style="color: #e60000;" id="like_' +
+            data["list_post_id"][i] +
+            '"></i>';
+        else
+          postCode +=
+            '<i class="fa-regular fa-heart" id="like_' +
+            data["list_post_id"][i] +
+            '"></i>';
 
-            postCode += '<i class="fa-regular fa-comment"></i>' +
-                `<i class="fa-regular fa-share-from-square" onClick="showShareForm('${data.list_post_id[i]}')"></i>` +
-                '<i class="fa-sharp fa-regular fa-bookmark" id="save"></i>' +
-                '</div>' +
-                '<div class="text-like">' + data["list_count_like"][i] + ' likes</div>' +
-                '<div class="caption">' + data["list_caption"][i] + '</div>' +
-                '<div class="list-comment">';
-            for (let j = 0; j < data['comments'][i].length; j++) {
-                postCode += '<div class="comment">' +
-                    `<a href="${data.comments[i][j][1]}" class="avatar-comment">` +
-                    '<img src="' + data["comments"][i][j][0] + '">' +
-                    '</a>' +
-                    '<div class="comment-content">' +
-                    `<a href="${data.comments[i][j][1]}" class="nickname-comment">` + data["comments"][i][j][1] + '</a>' +
-                    '<div class="text-comment">' + data["comments"][i][j][2] + '</div>' +
-                    '</div>' +
-                    '</div>';
-            }
-            postCode +=
-                '</div>' +
-                '<input class="input-comment" placeholder="Add a comment" id="text-cmt-' + data["list_post_id"][i] + '">' +
-                '<i id="post-cmt-' + data["list_post_id"][i] + '" class="fa-solid fa-paper-plane"></i>' +
-                '</div>';
+        postCode +=
+          '<i class="fa-regular fa-comment"></i>' +
+          `<i class="fa-regular fa-share-from-square" onClick="showShareForm('${data.list_post_id[i]}')"></i>`;
+
+        if (data["list_saved"][i])
+          postCode +=
+            '<i class="fa-sharp fa-solid fa-bookmark" style="margin-left:auto; margin-right: 0px; color:#e6e600" id="save_' +
+            data["list_post_id"][i] +
+            '"></i>';
+        else
+          postCode +=
+            '<i class="fa-sharp fa-regular fa-bookmark" style="margin-left:auto; margin-right: 0px;"" id="save_' +
+            data["list_post_id"][i] +
+            '"></i>';
+
+        postCode +=
+          "</div>" +
+          '<div class="text-like">' +
+          data["list_count_like"][i] +
+          " likes</div>" +
+          '<div class="caption">' +
+          data["list_caption"][i] +
+          "</div>" +
+          '<div class="list-comment">';
+        for (let j = 0; j < data["comments"][i].length; j++) {
+          postCode +=
+            '<div class="comment">' +
+            `<a href="${data.comments[i][j][1]}" class="avatar-comment">` +
+            '<img src="' +
+            data["comments"][i][j][0] +
+            '">' +
+            "</a>" +
+            '<div class="comment-content">' +
+            `<a href="${data.comments[i][j][1]}" class="nickname-comment">` +
+            data["comments"][i][j][1] +
+            "</a>" +
+            '<div class="text-comment">' +
+            data["comments"][i][j][2] +
+            "</div>" +
+            "</div>" +
+            "</div>";
         }
-        $(".content-center").html(postCode);
-        // click like
-        $('i.fa-heart').click(function () {
-            var id = $(this).attr('id');
-            var id = id.replace("like_", "");
-            $.ajax({
-                url: '{% url "like_post" %}',
-                type: 'POST',
-                data: { "post_id": id },
-                success: function (response) {
-                    update_data();
-                },
-                error: function (error) {
-                    console.log(error);
-                }
-            });
+        postCode +=
+          "</div>" +
+          '<input class="input-comment" placeholder="Add a comment" id="text-cmt-' +
+          data["list_post_id"][i] +
+          '">' +
+          '<i id="post-cmt-' +
+          data["list_post_id"][i] +
+          '" class="fa-solid fa-paper-plane"></i>' +
+          "</div>";
+      }
+      $(".content-center").html(postCode);
+      // click like
+      $("i.fa-heart").click(function () {
+        var id = $(this).attr("id");
+        var id = id.replace("like_", "");
+        $.ajax({
+          url: '{% url "like_post" %}',
+          type: "POST",
+          data: { post_id: id },
+          success: function (response) {
+            update_data();
+          },
+          error: function (error) {
+            console.log(error);
+          },
         });
-        // click cmt
-        $(".fa-paper-plane").click(function () {
-            var id = $(this).attr('id');
-            var id = id.replace("post-cmt-", "");
-            let id_text = "#text-cmt-" + id;
-            var text = $(id_text).val();
-            $.ajax({
-                url: '{% url "comment" %}',
-                type: 'POST',
-                data: { "post_id": id, "text-comment": text },
-                success: function (response) {
-                    update_data();
-                },
-                error: function (error) {
-                    console.log(error);
-                }
-            });
-        })
-        // enter input
-        $('.input-comment').keydown(function (event) {
-            if (event.keyCode == 13) { // 13 là mã phím của Enter
-                var id = $(this).attr('id');
-                var id = id.replace("text-cmt-", "");
-                let id_text = "#text-cmt-" + id;
-                var text = $(id_text).val();
-                $.ajax({
-                    url: '{% url "comment" %}',
-                    type: 'POST',
-                    data: { "post_id": id, "text-comment": text },
-                    success: function (response) {
-                        update_data();
-                    },
-                    error: function (error) {
-                        console.log(error);
-                    }
-                });
-            }
+      });
+
+      //click save
+      $("i.fa-bookmark").click(function () {
+        var id = $(this).attr("id");
+        var id = id.replace("save_", "");
+        $.ajax({
+          url: '{% url "save_post" %}',
+          type: "POST",
+          data: { post_id: id },
+          success: function (response) {
+            update_data();
+          },
+          error: function (error) {
+            console.log(error);
+          },
         });
+      });
+
+      // click cmt
+      $(".fa-paper-plane").click(function () {
+        var id = $(this).attr("id");
+        var id = id.replace("post-cmt-", "");
+        let id_text = "#text-cmt-" + id;
+        var text = $(id_text).val();
+        $.ajax({
+          url: '{% url "comment" %}',
+          type: "POST",
+          data: { post_id: id, "text-comment": text },
+          success: function (response) {
+            update_data();
+          },
+          error: function (error) {
+            console.log(error);
+          },
+        });
+      });
+      // enter input
+      $(".input-comment").keydown(function (event) {
+        if (event.keyCode == 13) {
+          // 13 là mã phím của Enter
+          var id = $(this).attr("id");
+          var id = id.replace("text-cmt-", "");
+          let id_text = "#text-cmt-" + id;
+          var text = $(id_text).val();
+          $.ajax({
+            url: '{% url "comment" %}',
+            type: "POST",
+            data: { post_id: id, "text-comment": text },
+            success: function (response) {
+              update_data();
+            },
+            error: function (error) {
+              console.log(error);
+            },
+          });
+        }
+      });
     }
     $(document).ready(function () {
-        update_data(); // Bắt đầu cập nhật dữ liệu
+      update_data(); // Bắt đầu cập nhật dữ liệu
     });
-</script>
+  </script>
 
-{% comment %} list_suggestions {% endcomment %}
-<script>
+  {% comment %} list_suggestions {% endcomment %}
+  <script>
     update_data_right();
     function update_data_right() {
-        $.ajax({
-            url: '/post_list_suggestions',
-            type: 'GET',
-            dataType: 'json',
-            success: function (data) {
-                update_form_right(data);
-                userForShare=data.allUsers
-            },
-            //complete: function() {setTimeout(update_data, 1000);}
-        });
-        function update_form_right(data) {
-            html = '';
-            for (let i = 0; i < data['list_fullname'].length; i++) {
-                html += "<div class=\"frofiles\" id=\"profile-0\">\n" +
-                    "    <div class=\"avatar-right-other\">\n" +
-                    "        <img src=\"" + data['list_profileimg'][i] + "\">\n" +
-                    "    </div>\n" +
-                    "    <div class=\"my-info\">\n" +
-                    "        <div class=\"my-nickname\">" + data['list_user'][i] + "</div>\n" +
-                    "        <div class=\"my-fullname\">" + data['list_fullname'][i] + "</div>\n" +
-                    "    </div>\n" +
-                    "    <div class=\"follow-right\" id=\"follow_" + data['list_user'][i] + "\">Follow</div>\n" +
-                    "</div>";
-            }
-            $(".user-suggestion").html(html);
-            // click follow
-            $('.follow-right').click(function () {
-                console.log("OKE")
-                var id = $(this).attr('id');
-                var id = id.replace("follow_", "");
-
-                $.ajax({
-                    url: '{% url "follow" %}',
-                    type: 'POST',
-                    data: { "user": id },
-                    success: function (response) {
-                        update_data_right();
-                        update_data();
-                    },
-                    error: function (error) {
-                        console.log(error);
-                    }
-                });
-            });
+      $.ajax({
+        url: "/post_list_suggestions",
+        type: "GET",
+        dataType: "json",
+        success: function (data) {
+          update_form_right(data);
+          userForShare = data.allUsers;
+        },
+        //complete: function() {setTimeout(update_data, 1000);}
+      });
+      function update_form_right(data) {
+        html = "";
+        for (let i = 0; i < data["list_fullname"].length; i++) {
+          html +=
+            '<div class="frofiles" id="profile-0">\n' +
+            '    <div class="avatar-right-other">\n' +
+            '        <img src="' +
+            data["list_profileimg"][i] +
+            '">\n' +
+            "    </div>\n" +
+            '    <div class="my-info">\n' +
+            '        <div class="my-nickname">' +
+            data["list_user"][i] +
+            "</div>\n" +
+            '        <div class="my-fullname">' +
+            data["list_fullname"][i] +
+            "</div>\n" +
+            "    </div>\n" +
+            '    <div class="follow-right" id="follow_' +
+            data["list_user"][i] +
+            '">Follow</div>\n' +
+            "</div>";
         }
-    }
+        $(".user-suggestion").html(html);
+        // click follow
+        $(".follow-right").click(function () {
+          console.log("OKE");
+          var id = $(this).attr("id");
+          var id = id.replace("follow_", "");
 
-</script>
-<script>
+          $.ajax({
+            url: '{% url "follow" %}',
+            type: "POST",
+            data: { user: id },
+            success: function (response) {
+              update_data_right();
+              update_data();
+            },
+            error: function (error) {
+              console.log(error);
+            },
+          });
+        });
+      }
+    }
+  </script>
+  <script>
     var selectedUsers = new Set();
-    var postId=""
+    var postId = "";
     const showShareForm = (postid) => {
-        $(".share-cover").css('display', 'flex')
-        postId=postid
-        $(`#input-search-share`).trigger('input')
-        $('.share-checkbox').click((event) => {
-            event.target.checked = !event.target.checked
-        });
-        $('.share-checkbox').change((event) => {
-            const id = event.target.id
-            if (event.target.checked) {
-                $(`#wrap-${id}`).addClass('selected')
-                selectedUsers.add(id)
-            }
-            else {
-                $(`#wrap-${id}`).removeClass('selected')
-                selectedUsers.delete(id)
-            }
-        });
-
-
-    }
+      $(".share-cover").css("display", "flex");
+      postId = postid;
+      $(`#input-search-share`).trigger("input");
+      $(".share-checkbox").click((event) => {
+        event.target.checked = !event.target.checked;
+      });
+      $(".share-checkbox").change((event) => {
+        const id = event.target.id;
+        if (event.target.checked) {
+          $(`#wrap-${id}`).addClass("selected");
+          selectedUsers.add(id);
+        } else {
+          $(`#wrap-${id}`).removeClass("selected");
+          selectedUsers.delete(id);
+        }
+      });
+    };
     $("#share-cancel").click(() => {
-        $(".share-cover").css('display', 'none')
-    })
+      $(".share-cover").css("display", "none");
+    });
     const clickSendItem = (id) => {
-        $(`#${id}`).prop("checked", !$(`#${id}`).prop("checked"))
-        $(`#${id}`).change()
-    }
+      $(`#${id}`).prop("checked", !$(`#${id}`).prop("checked"));
+      $(`#${id}`).change();
+    };
 
-    $(`#input-search-share`).on('input', (event) => {
-        $(".sugestion-wrap").html(
-            `
+    $(`#input-search-share`).on("input", (event) => {
+      $(".sugestion-wrap").html(
+        `
             ${userForShare
-                .filter(user => {
-                    return (`${user.name}${user.username}`.toUpperCase().includes(event.target.value.toUpperCase()))
-                })
-                .map(user => (
-                    `<div class="user-item" id="wrap-${user.username}" onClick="clickSendItem('${user.username}')">
+              .filter((user) => {
+                return `${user.name}${user.username}`
+                  .toUpperCase()
+                  .includes(event.target.value.toUpperCase());
+              })
+              .map(
+                (user) =>
+                  `<div class="user-item" id="wrap-${user.username}" onClick="clickSendItem('${user.username}')">
 					<img src="${user.imageurl}" alt="avt">
 					<a class="user-info">
 						<div>${user.username}</div>
@@ -504,28 +597,29 @@
 					</a>
                     <input class="share-checkbox" type="checkbox" name="" id="${user.username}">
 				</div>`
-                ))}
+              )}
             `
-        )
-    })
+      );
+    });
     $(".btn-send-share").click(() => {
-        console.log(selectedUsers)
-        selectedUsers.forEach(username => {
-            $.ajax({
-                url: '{% url "send_message" %}',
-                type: 'POST',
-                data: { "nickname": username, "message": JSON.stringify({ share: { post: postId } }) },
-                success: function (response) {
-                },
-                error: function (error) {
-                    console.log(error);
-                }
-            });
+      console.log(selectedUsers);
+      selectedUsers.forEach((username) => {
+        $.ajax({
+          url: '{% url "send_message" %}',
+          type: "POST",
+          data: {
+            nickname: username,
+            message: JSON.stringify({ share: { post: postId } }),
+          },
+          success: function (response) {},
+          error: function (error) {
+            console.log(error);
+          },
         });
-        $(".share-cover").css('display', 'none')
-        $(`#input-search-share`).val("")
-        selectedUsers.clear()
-    })
-</script>
-
+      });
+      $(".share-cover").css("display", "none");
+      $(`#input-search-share`).val("");
+      selectedUsers.clear();
+    });
+  </script>
 </html>

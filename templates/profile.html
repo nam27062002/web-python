@@ -1,345 +1,379 @@
 {% load static %}
 <!DOCTYPE html>
 <html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'css/layout.css' %}"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'css/profile.css' %}"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'css/responsive.css' %}"
+    />
+    <script
+      src="https://kit.fontawesome.com/912383539c.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 
-<head>
-	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="stylesheet" type="text/css" href="{% static 'css/layout.css' %}">
-	<link rel="stylesheet" type="text/css" href="{% static 'css/profile.css' %}">
-	<link rel="stylesheet" type="text/css" href="{% static 'css/responsive.css' %}">
-	<script src="https://kit.fontawesome.com/912383539c.js" crossorigin="anonymous"></script>
-	<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <title class="title">Profile</title>
+  </head>
 
-	<title class="title">Profile</title>
-
-</head>
-
-<body>
-	<div class="content">
-		{% include 'sidebar.html' %}
-		<div class="content-center">
-			{% comment %}
-			<div class="container">
-				<div class="profile-info">
-					<div class="profile-picture">
-						<img src="https://via.placeholder.com/150" alt="Profile Picture">
-					</div>
-					<div class="profile-decription">
-						<div class="stats">
-							<h1 class="username">johndoe</h1>
-							<!-- <div class="svg-menu" id="icon-create">
+  <body>
+    <div class="content">
+      {% include 'sidebar.html' %}
+      <div class="content-center">
+        {% comment %}
+        <div class="container">
+          <div class="profile-info">
+            <div class="profile-picture">
+              <img
+                src="https://via.placeholder.com/150"
+                alt="Profile Picture"
+              />
+            </div>
+            <div class="profile-decription">
+              <div class="stats">
+                <h1 class="username">johndoe</h1>
+                <!-- <div class="svg-menu" id="icon-create">
 								<i class="fa fa-cog"></i>
 							</div> -->
-							<div class="profile-following">
-								<div id="follow">Following</div>
-								<div id="chat">Chat</div>
-								<div class="svg-menu" id="icon-more">
-									<i class="fas fa-ellipsis-h"></i>
-								</div>
-							</div>
-						</div>
-						<div class="stats">
-							<div class="posts">
-								<p class="num-posts">100</p>
-								<p class="text">Posts</p>
-							</div>
-							<div class="followers">
-								<p class="num-followers">10k</p>
-								<p class="text">Followers</p>
-							</div>
-							<div class="following">
-								<p class="num-following">500</p>
-								<p class="text">Following</p>
-							</div>
-						</div>
-						<h1 class="name">tên người dùng</h1>
-					</div>
+                <div class="profile-following">
+                  <div id="follow">Following</div>
+                  <div id="chat">Chat</div>
+                  <div class="svg-menu" id="icon-more">
+                    <i class="fas fa-ellipsis-h"></i>
+                  </div>
+                </div>
+              </div>
+              <div class="stats">
+                <div class="posts">
+                  <p class="num-posts">100</p>
+                  <p class="text">Posts</p>
+                </div>
+                <div class="followers">
+                  <p class="num-followers">10k</p>
+                  <p class="text">Followers</p>
+                </div>
+                <div class="following">
+                  <p class="num-following">500</p>
+                  <p class="text">Following</p>
+                </div>
+              </div>
+              <h1 class="name">tên người dùng</h1>
+            </div>
 
-				</div>
-				<p class="description">Cho thêm đoạn description ở đây</p>
-				<div class="post-gallery">
-					<div class="wrap-post">
-						<img src="https://via.placeholder.com/150" alt="Post">
-						<div class="post-cover">
-							<div class="like-cmt">
-								<div>
-									<i class="fa-solid fa-heart"></i>
-									4534
-								</div>
-								<div>
-									<i class="fa-solid fa-comment"></i>
-									4534
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="wrap-post">
-						<img src="https://via.placeholder.com/150" alt="Post">
-						<div class="post-cover">
-							<div class="like-cmt">
-								<div>
-									<i class="fa-solid fa-heart"></i>
-									4534
-								</div>
-								<div>
-									<i class="fa-solid fa-comment"></i>
-									4534
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="wrap-post">
-						<img src="https://via.placeholder.com/150" alt="Post">
-						<div class="post-cover">
-							<div class="like-cmt">
-								<div>
-									<i class="fa-solid fa-heart"></i>
-									4534
-								</div>
-								<div>
-									<i class="fa-solid fa-comment"></i>
-									4534
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="wrap-post">
-						<img src="https://via.placeholder.com/150" alt="Post">
-						<div class="post-cover">
-							<div class="like-cmt">
-								<div>
-									<i class="fa-solid fa-heart"></i>
-									4534
-								</div>
-								<div>
-									<i class="fa-solid fa-comment"></i>
-									4534
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="wrap-post">
-						<img src="https://via.placeholder.com/150" alt="Post">
-						<div class="post-cover">
-							<div class="like-cmt">
-								<div>
-									<i class="fa-solid fa-heart"></i>
-									4534
-								</div>
-								<div>
-									<i class="fa-solid fa-comment"></i>
-									4534
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			{% endcomment %}
-		</div>
-	</div>
-	<div class="more-profile-cover">
-		<div class="more-profile">
-			<div class="more-profile-block">Block</div>
-			<div class="more-profile-cancel">Cancel</div>
-
-		</div>
-	</div>
-	<div class="follower-profile-cover">
-		<div class="follower-profile">
-			<div class="follower-profile-header">
-				<div class="text">Followers</div>
-				<i id="follower-cancel" class="fa-sharp fa-solid fa-xmark"></i>
-			</div>
-			<div class="follower-wrap">
-				<div class="follower-item">
-					<img src="https://via.placeholder.com/150" alt="Post">
-					<a class="follower-info">
-						<div>Username</div>
-						<div>Name</div>
-					</a>
-					<div class="profile-following-yet" id="following">
-						Follow</div>
-				</div>
-				<div class="follower-item">
-					<img src="https://via.placeholder.com/150" alt="Post">
-					<a class="follower-info">
-						<div>Username</div>
-						<div>Name</div>
-					</a>
-					<div class="profile-following-yet" id="following">
-						Follow</div>
-				</div>
-				<div class="follower-item">
-					<img src="https://via.placeholder.com/150" alt="Post">
-					<a class="follower-info">
-						<div>Username</div>
-						<div>Name</div>
-					</a>
-					<div class="profile-following-yet" id="following">
-						Follow</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="following-profile-cover">
-		<div class="following-profile">
-			<div class="following-profile-header">
-				<div class="text">Followings</div>
-				<i id="following-cancel" class="fa-sharp fa-solid fa-xmark"></i>
-			</div>
-			<div class="following-wrap">
-				<div class="following-item">
-					<img src="https://via.placeholder.com/150" alt="Post">
-					<a class="following-info">
-						<div>Username</div>
-						<div>Name</div>
-					</a>
-					<div class="profile-following-yet" id="following">
-						Follow</div>
-				</div>
-				<div class="following-item">
-					<img src="https://via.placeholder.com/150" alt="Post">
-					<a class="following-info">
-						<div>Username</div>
-						<div>Name</div>
-					</a>
-					<div class="profile-following-yet" id="following">
-						Follow</div>
-				</div>
-				<div class="following-item">
-					<img src="https://via.placeholder.com/150" alt="Post">
-					<a class="following-info">
-						<div>Username</div>
-						<div>Name</div>
-					</a>
-					<div class="profile-following-yet" id="following">
-						Follow</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="post-detail-cover">
-		<i id="post-detail-cancel" class="fa-sharp fa-solid fa-xmark"></i>
-		<i class="prevPost fa-regular fa-arrow-left"></i>
-		<i class="nextPost fa-regular fa-arrow-right"></i>
-		<div class="post-detail">
-			<div class="post-img">
-				<img src="https://via.placeholder.com/150" alt="Post">
-			</div>
-			<div class="post-active">
-				<div class="post-active-header">
-					<img src="https://via.placeholder.com/150" alt="Post">
-					<h5 class="cmt-username">Username</h5>
-					<div class="post-caption">Cap tion ở đây</div>
-				</div>
-				<div class="post-cmt-wrap">
-					<div class="cmt-item">
-						<img src="https://via.placeholder.com/150" alt="avt">
-						<div class="cmt-text">
-							<div class="cmt-content">
-								<h5 class="cmt-username">Username</h5>
-								<div>Hi Rốt ơi, Vui muốn có cơ hội hợp tác với bạn, nhờ bạn kiểm tra inbox giúp Vui nhé.
-									Chúc Rốt ngày mới tuyệt vời ạ☺️🌸🌸</div>
-							</div>
-							<div class="cmt-time">3 tuần</div>
-						</div>
-					</div>
-				</div>
-				<div class="post-react">
-					<div class="react">
-						<i class="fa-solid fa-heart" style="color: #e60000;"></i>
-						<i class="fa-regular fa-comment"></i>
-						<i class="fa-regular fa-share-from-square"></i>
-						<i class="fa-sharp fa-regular fa-bookmark" id="save"></i>
-					</div>
-					<div class="post-like">100 likes</div>
-					<div class="post-create">2/9/2020</div>
-				</div>
-				<div class="create-cmt">
-					<input class="input-comment" placeholder="Add a comment">
-					<i class="fa-solid fa-paper-plane"></i>
-				</div>
-			</div>
-		</div>
-	</div>
-	</div>
-	<div class="setting-profile-cover">
-		<div class="more-profile">
-			<div class="setting-username setting-input">
-				<div class="setting-tag">Username:</div>
-				<input placeholder="username" type="text" name="" id="input-username" disabled>
-			</div>
-			<div class="setting-name setting-input">
-				<div class="setting-tag">Name:</div>
-				<input placeholder="name" type="text" name="" id="input-name">
-			</div>
-			<div class="setting-newpassword setting-input">
-				<div class="setting-tag">New Password:</div>
-				<input placeholder="New password" type="password" name="" id="input-newPassword">
-			</div>
-			<div class="setting-password setting-input">
-				<div class="setting-tag">Password:</div>
-				<input placeholder="Old password" type="password" name="" id="input-password">
-			</div>
-			<div class="setting-ok">Ok</div>
-			<div class="setting-logout">Logout</div>
-			<div class="setting-cancel">Cancel</div>
-
-		</div>
-	</div>
-	<div class="share-cover">
-		<div class="share-wrap">
-			<div class="share-header">
-				<div class="text">Share</div>
-				<i id="share-cancel" class="fa-sharp fa-solid fa-xmark"></i>
-			</div>
-			<div class="share-search">
-				<h5>To</h5>
-				<input type="text" name="" id="input-search-share" placeholder="Find">
-			</div>
-			<div class="sugestion-wrap">
-				<div class="user-item">
-					<img src="https://via.placeholder.com/150" alt="Post">
-					<a class="user-info">
-						<div>Username</div>
-						<div>Name</div>
-					</a>
-					<input class="share-checkbox" type="checkbox" name="" id="">
-				</div>
-			</div>
-			<div class="share-leger">
-				<button class="btn-send-share">Send</button>
-			</div>
-		</div>
-	</div>
-	<input type="file" id="real-file-input" style="display:none">
-	<script>
-		var user_logined, user_view, post, current_post, posts;
-		var userForShare = [];
-		var selectedUsers = new Set();
-		var commentsCode = "";
-		function update_data() {
-			$.ajax({
-				url: '/get_profile/{{username}}',
-				type: 'GET',
-				dataType: 'json',
-				success: function (data) {
-					update_form_center(data);
-				},
-				//complete: function() {setTimeout(update_data, 1000);}
-			});
-		}
-		function update_form_center(data) {
-			console.log(data)
-			user_view = data.user_view
-			user_logined = data.user_logined
-			posts = data.posts
-			const { follower, following, status_follow } = data
-			var profileCode = "";
-			profileCode += `
+            <div id="my-post-but">My Post</div>
+            <div id="saved-post-but">Saved Post</div>
+          </div>
+          <p class="description">Cho thêm đoạn description ở đây</p>
+          <div class="post-gallery">
+            <div class="wrap-post">
+              <img src="https://via.placeholder.com/150" alt="Post" />
+              <div class="post-cover">
+                <div class="like-cmt">
+                  <div>
+                    <i class="fa-solid fa-heart"></i>
+                    4534
+                  </div>
+                  <div>
+                    <i class="fa-solid fa-comment"></i>
+                    4534
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="wrap-post">
+              <img src="https://via.placeholder.com/150" alt="Post" />
+              <div class="post-cover">
+                <div class="like-cmt">
+                  <div>
+                    <i class="fa-solid fa-heart"></i>
+                    4534
+                  </div>
+                  <div>
+                    <i class="fa-solid fa-comment"></i>
+                    4534
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="wrap-post">
+              <img src="https://via.placeholder.com/150" alt="Post" />
+              <div class="post-cover">
+                <div class="like-cmt">
+                  <div>
+                    <i class="fa-solid fa-heart"></i>
+                    4534
+                  </div>
+                  <div>
+                    <i class="fa-solid fa-comment"></i>
+                    4534
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="wrap-post">
+              <img src="https://via.placeholder.com/150" alt="Post" />
+              <div class="post-cover">
+                <div class="like-cmt">
+                  <div>
+                    <i class="fa-solid fa-heart"></i>
+                    4534
+                  </div>
+                  <div>
+                    <i class="fa-solid fa-comment"></i>
+                    4534
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="wrap-post">
+              <img src="https://via.placeholder.com/150" alt="Post" />
+              <div class="post-cover">
+                <div class="like-cmt">
+                  <div>
+                    <i class="fa-solid fa-heart"></i>
+                    4534
+                  </div>
+                  <div>
+                    <i class="fa-solid fa-comment"></i>
+                    4534
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endcomment %}
+      </div>
+    </div>
+    <div class="more-profile-cover">
+      <div class="more-profile">
+        <div class="more-profile-block">Block</div>
+        <div class="more-profile-cancel">Cancel</div>
+      </div>
+    </div>
+    <div class="follower-profile-cover">
+      <div class="follower-profile">
+        <div class="follower-profile-header">
+          <div class="text">Followers</div>
+          <i id="follower-cancel" class="fa-sharp fa-solid fa-xmark"></i>
+        </div>
+        <div class="follower-wrap">
+          <div class="follower-item">
+            <img src="https://via.placeholder.com/150" alt="Post" />
+            <a class="follower-info">
+              <div>Username</div>
+              <div>Name</div>
+            </a>
+            <div class="profile-following-yet" id="following">Follow</div>
+          </div>
+          <div class="follower-item">
+            <img src="https://via.placeholder.com/150" alt="Post" />
+            <a class="follower-info">
+              <div>Username</div>
+              <div>Name</div>
+            </a>
+            <div class="profile-following-yet" id="following">Follow</div>
+          </div>
+          <div class="follower-item">
+            <img src="https://via.placeholder.com/150" alt="Post" />
+            <a class="follower-info">
+              <div>Username</div>
+              <div>Name</div>
+            </a>
+            <div class="profile-following-yet" id="following">Follow</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="following-profile-cover">
+      <div class="following-profile">
+        <div class="following-profile-header">
+          <div class="text">Followings</div>
+          <i id="following-cancel" class="fa-sharp fa-solid fa-xmark"></i>
+        </div>
+        <div class="following-wrap">
+          <div class="following-item">
+            <img src="https://via.placeholder.com/150" alt="Post" />
+            <a class="following-info">
+              <div>Username</div>
+              <div>Name</div>
+            </a>
+            <div class="profile-following-yet" id="following">Follow</div>
+          </div>
+          <div class="following-item">
+            <img src="https://via.placeholder.com/150" alt="Post" />
+            <a class="following-info">
+              <div>Username</div>
+              <div>Name</div>
+            </a>
+            <div class="profile-following-yet" id="following">Follow</div>
+          </div>
+          <div class="following-item">
+            <img src="https://via.placeholder.com/150" alt="Post" />
+            <a class="following-info">
+              <div>Username</div>
+              <div>Name</div>
+            </a>
+            <div class="profile-following-yet" id="following">Follow</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="post-detail-cover">
+      <i id="post-detail-cancel" class="fa-sharp fa-solid fa-xmark"></i>
+      <i class="prevPost fa-regular fa-arrow-left"></i>
+      <i class="nextPost fa-regular fa-arrow-right"></i>
+      <div class="post-detail">
+        <div class="post-img">
+          <img src="https://via.placeholder.com/150" alt="Post" />
+        </div>
+        <div class="post-active">
+          <div class="post-active-header">
+            <img src="https://via.placeholder.com/150" alt="Post" />
+            <h5 class="cmt-username">Username</h5>
+            <div class="post-caption">Cap tion ở đây</div>
+          </div>
+          <div class="post-cmt-wrap">
+            <div class="cmt-item">
+              <img src="https://via.placeholder.com/150" alt="avt" />
+              <div class="cmt-text">
+                <div class="cmt-content">
+                  <h5 class="cmt-username">Username</h5>
+                  <div>
+                    Hi Rốt ơi, Vui muốn có cơ hội hợp tác với bạn, nhờ bạn kiểm
+                    tra inbox giúp Vui nhé. Chúc Rốt ngày mới tuyệt vời ạ☺️🌸🌸
+                  </div>
+                </div>
+                <div class="cmt-time">3 tuần</div>
+              </div>
+            </div>
+          </div>
+          <div class="post-react">
+            <div class="react">
+              <i class="fa-solid fa-heart" style="color: #e60000"></i>
+              <i class="fa-regular fa-comment"></i>
+              <i class="fa-regular fa-share-from-square"></i>
+              <i class="fa-sharp fa-regular fa-bookmark" id="save"></i>
+            </div>
+            <div class="post-like">100 likes</div>
+            <div class="post-create">2/9/2020</div>
+          </div>
+          <div class="create-cmt">
+            <input class="input-comment" placeholder="Add a comment" />
+            <i class="fa-solid fa-paper-plane"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="setting-profile-cover">
+      <div class="more-profile">
+        <div class="setting-username setting-input">
+          <div class="setting-tag">Username:</div>
+          <input
+            placeholder="username"
+            type="text"
+            name=""
+            id="input-username"
+            disabled
+          />
+        </div>
+        <div class="setting-name setting-input">
+          <div class="setting-tag">Name:</div>
+          <input placeholder="name" type="text" name="" id="input-name" />
+        </div>
+        <div class="setting-newpassword setting-input">
+          <div class="setting-tag">New Password:</div>
+          <input
+            placeholder="New password"
+            type="password"
+            name=""
+            id="input-newPassword"
+          />
+        </div>
+        <div class="setting-password setting-input">
+          <div class="setting-tag">Password:</div>
+          <input
+            placeholder="Old password"
+            type="password"
+            name=""
+            id="input-password"
+          />
+        </div>
+        <div class="setting-ok">Ok</div>
+        <div class="setting-logout">Logout</div>
+        <div class="setting-cancel">Cancel</div>
+      </div>
+    </div>
+    <div class="share-cover">
+      <div class="share-wrap">
+        <div class="share-header">
+          <div class="text">Share</div>
+          <i id="share-cancel" class="fa-sharp fa-solid fa-xmark"></i>
+        </div>
+        <div class="share-search">
+          <h5>To</h5>
+          <input
+            type="text"
+            name=""
+            id="input-search-share"
+            placeholder="Find"
+          />
+        </div>
+        <div class="sugestion-wrap">
+          <div class="user-item">
+            <img src="https://via.placeholder.com/150" alt="Post" />
+            <a class="user-info">
+              <div>Username</div>
+              <div>Name</div>
+            </a>
+            <input class="share-checkbox" type="checkbox" name="" id="" />
+          </div>
+        </div>
+        <div class="share-leger">
+          <button class="btn-send-share">Send</button>
+        </div>
+      </div>
+    </div>
+    <input type="file" id="real-file-input" style="display: none" />
+    <script>
+      var postType = "UserPost";
+      var user_logined, user_view, post, current_post, posts;
+      var userForShare = [];
+      var selectedUsers = new Set();
+      var commentsCode = "";
+      function update_data() {
+        $.ajax({
+          url: "/get_profile/{{username}}",
+          type: "GET",
+          data: { postType: postType },
+          dataType: "json",
+          success: function (data) {
+            update_form_center(data);
+          },
+          //complete: function() {setTimeout(update_data, 1000);}
+        });
+      }
+      function update_form_center(data) {
+        console.log(data);
+        user_view = data.user_view;
+        user_logined = data.user_logined;
+        posts = data.posts;
+        const { follower, following, status_follow } = data;
+        var profileCode = "";
+        profileCode += `
 			<div class="container">
 				<div class="profile-info">
 						<div class="profile-picture" style="cursor: pointer">
@@ -348,25 +382,35 @@
 						<div class="profile-decription">
 							<div class="stats">
 								<h1 class="username">${user_view.username}</h1>
-								${user_view.username === user_logined.username ?
-					'<div class="svg-menu" id="icon-setting" onclick="showFormSettingProfile()">' +
-					'<i class="fa fa-cog"></i>' +
-					'</div>' :
-					`<div class="profile-following">
-										<div onclick="handleClickFollow('${user_view.username}')" class="profile-following-${status_follow === 1 ? "already" : "yet"}" id="following">
-											${status_follow === 1 ? "Following" :
-						status_follow === 0 ? "Follow" : "Follow Back"}</div>
+								${
+                  user_view.username === user_logined.username
+                    ? '<div class="svg-menu" id="icon-setting" onclick="showFormSettingProfile()">' +
+                      '<i class="fa fa-cog"></i>' +
+                      "</div>"
+                    : `<div class="profile-following">
+										<div onclick="handleClickFollow('${
+                      user_view.username
+                    }')" class="profile-following-${
+                        status_follow === 1 ? "already" : "yet"
+                      }" id="following">
+											${
+                        status_follow === 1
+                          ? "Following"
+                          : status_follow === 0
+                          ? "Follow"
+                          : "Follow Back"
+                      }</div>
 										<div id="chat">Chat</div>
 										<div class="svg-menu" id="icon-more" onclick="showMoreProfile()">
 											<i class="fas fa-ellipsis-h"></i>
 										</div>
 									</div>`
-				}
+                }
 							</div>
 							<div class="stats">
 								<div class="posts">
 									<p class="num-posts">${posts ? posts.length : 0}</p>
-									<p class="text">Posts</p>
+									<p class="text">${postType == "UserPost" ? "Posts" : "Saved Posts"}</p>
 								</div>
 								<div class="followers" onclick="showFollower()">
 									<p class="num-followers">${follower}</p>
@@ -379,13 +423,28 @@
 							</div>
 							<h1 class="name">${user_view.name}</h1>
 						</div>
-
 					</div>
+					
+
+					${
+            user_view.username === user_logined.username
+              ? postType === "UserPost"
+                ? "<div id = 'postType'>" +
+                  "<div id = 'my-post-but-active' onclick = 'MyPostType()'> My Post</div>" +
+                  "<div id = 'saved-post-but' onclick = 'SavedPostType()'> Saved Post</div>" +
+                  "</div>"
+                : "<div id = 'postType'>" +
+                  "<div id = 'my-post-but' onclick = 'MyPostType()'> My Post</div>" +
+                  "<div id = 'saved-post-but-active' onclick = 'SavedPostType()'> Saved Post</div>" +
+                  "</div>"
+              : ""
+          }
 					<p class="description">${user_view.bio}</p>
 					
 					<div class="post-gallery">
-						${posts.map((post, i) => (
-					`
+						${posts.map(
+              (post, i) =>
+                `
 							<div class="wrap-post" onclick="showPostDetail('${post.id}',${i})">
 								<img src="${post.image}" alt="Post">
 								<div class="post-cover">
@@ -402,181 +461,212 @@
 								</div>
 							</div>
 							`
-				))}
+            )}
 					</div>
 				</div>
 			`;
-			$("#input-username").attr('placeholder', user_logined.username);
-			$("#input-name").attr('placeholder', user_logined.name);
-			$(".content-center").html(profileCode);
-			$("#chat").click(function(){
-				window.location.href = 'message/{{username}}';
-			})
-			$(".profile-picture").click(function(){
-				const realInput = document.getElementById("real-file-input");
-				realInput.click();
-				realInput.addEventListener("change",(event) => {
-					const selectedFile = event.target.files[0];
-					var formData = new FormData();
-					formData.append('fileImage', selectedFile);
-					$.ajax({
-						url: '/updateAvatar',
-						type: 'POST',
-						data: formData,
-						contentType: false,
-						processData: false,
-						success: function (response) {
-							update_data()
-						},
-						error: function (error) {
-							console.log(error);
-						}
-					});
-				});
-			})
+        $("#input-username").attr("placeholder", user_logined.username);
+        $("#input-name").attr("placeholder", user_logined.name);
+        $(".content-center").html(profileCode);
+        $("#chat").click(function () {
+          window.location.href = "message/{{username}}";
+        });
+        $(".profile-picture").click(function () {
+          const realInput = document.getElementById("real-file-input");
+          realInput.click();
+          realInput.addEventListener("change", (event) => {
+            const selectedFile = event.target.files[0];
+            var formData = new FormData();
+            formData.append("fileImage", selectedFile);
+            $.ajax({
+              url: "/updateAvatar",
+              type: "POST",
+              data: formData,
+              contentType: false,
+              processData: false,
+              success: function (response) {
+                update_data();
+              },
+              error: function (error) {
+                console.log(error);
+              },
+            });
+          });
+        });
 
-			$(".title").html(user_view.username)
-		}
-		$(document).ready(function () {
-			update_data(); // Bắt đầu cập nhật dữ liệu
-		});
-		const showMoreProfile = () => {
-			$(".more-profile-cover").css("display", "flex")
-		}
-		const showFollower = () => {
-			$(".follower-profile-cover").css("display", "flex")
-			updateDataFollower()
-		}
-		const showFollowing = () => {
-			$(".following-profile-cover").css("display", "flex")
-			updateDataFollowing()
-		}
-		$(".more-profile-cancel").click(() => {
-			$(".more-profile-cover").css("display", "none")
-		})
-		$(".more-profile-block").click(() => {
-			console.log("Chưa có code block")
-		})
-		$("#follower-cancel").click(() => {
-			$(".follower-profile-cover").css("display", "none")
-		})
-		$("#following-cancel").click(() => {
-			$(".following-profile-cover").css("display", "none")
-		})
-		const handleClickFollow = (username) => {
-			$.ajax({
-				url: '/follow',
-				type: 'POST',
-				data: { "user": username },
-				dataType: 'json',
-				success: function (response) {
-					update_data()
-				},
-				//complete: function() {setTimeout(update_data, 1000);}
-			});
-		}
-		const handleClickFollower = (username) => {
-			$.ajax({
-				url: '/follow',
-				type: 'POST',
-				data: { "user": username },
-				dataType: 'json',
-				success: function (response) {
-					updateDataFollower()
-				},
-				//complete: function() {setTimeout(update_data, 1000);}
-			});
-		}
-		const handleClickFollowing = (username) => {
-			$.ajax({
-				url: '/follow',
-				type: 'POST',
-				data: { "user": username },
-				dataType: 'json',
-				success: function (response) {
-					updateDataFollowing()
-				},
-				//complete: function() {setTimeout(update_data, 1000);}
-			});
-		}
-		const updateDataFollower = () => {
-			$.ajax({
-				url: '/getFollowers/{{username}}',
-				type: 'GET',
-				dataType: 'json',
-				success: function (data) {
-					console.log(data)
-					var followersCode = `
+        $(".title").html(user_view.username);
+      }
+      $(document).ready(function () {
+        update_data(); // Bắt đầu cập nhật dữ liệu
+      });
+      const showMoreProfile = () => {
+        $(".more-profile-cover").css("display", "flex");
+      };
+      const showFollower = () => {
+        $(".follower-profile-cover").css("display", "flex");
+        updateDataFollower();
+      };
+      const MyPostType = () => {
+        postType = "UserPost";
+        update_data();
+      };
+
+      const SavedPostType = () => {
+        postType = "SavedPost";
+        update_data();
+      };
+      const showFollowing = () => {
+        $(".following-profile-cover").css("display", "flex");
+        updateDataFollowing();
+      };
+      $(".more-profile-cancel").click(() => {
+        $(".more-profile-cover").css("display", "none");
+      });
+      $(".more-profile-block").click(() => {
+        console.log("Chưa có code block");
+      });
+      $("#follower-cancel").click(() => {
+        $(".follower-profile-cover").css("display", "none");
+      });
+      $("#following-cancel").click(() => {
+        $(".following-profile-cover").css("display", "none");
+      });
+      const handleClickFollow = (username) => {
+        $.ajax({
+          url: "/follow",
+          type: "POST",
+          data: { user: username },
+          dataType: "json",
+          success: function (response) {
+            update_data();
+          },
+          //complete: function() {setTimeout(update_data, 1000);}
+        });
+      };
+      const handleClickFollower = (username) => {
+        $.ajax({
+          url: "/follow",
+          type: "POST",
+          data: { user: username },
+          dataType: "json",
+          success: function (response) {
+            updateDataFollower();
+          },
+          //complete: function() {setTimeout(update_data, 1000);}
+        });
+      };
+      const handleClickFollowing = (username) => {
+        $.ajax({
+          url: "/follow",
+          type: "POST",
+          data: { user: username },
+          dataType: "json",
+          success: function (response) {
+            updateDataFollowing();
+          },
+          //complete: function() {setTimeout(update_data, 1000);}
+        });
+      };
+      const updateDataFollower = () => {
+        $.ajax({
+          url: "/getFollowers/{{username}}",
+          type: "GET",
+          dataType: "json",
+          success: function (data) {
+            console.log(data);
+            var followersCode = `
 					${data.followers.map(
-						user => (
-							`<div class="follower-item">
+            (user) =>
+              `<div class="follower-item">
 								<img src="${user.imageurl}" alt="${user.username}">
 								<a href="${user.username}" class="follower-info">
 									<div>${user.username}</div>
 									<div>${user.name}</div>
 								</a>
-								<div class="profile-following-${user.status === true ? "me" : user.status === 1 ? "already" : "yet"}" 
+								<div class="profile-following-${
+                  user.status === true
+                    ? "me"
+                    : user.status === 1
+                    ? "already"
+                    : "yet"
+                }" 
 								id="following" onclick="handleClickFollower('${user.username}')">
-									${user.status === true ? "" :
-								user.status === 1 ? "Following" :
-									user.status === 0 ? "Follow" : "Follow Back"}</div>
+									${
+                    user.status === true
+                      ? ""
+                      : user.status === 1
+                      ? "Following"
+                      : user.status === 0
+                      ? "Follow"
+                      : "Follow Back"
+                  }</div>
 							</div>`
-						)
-					)}`
-					$(".follower-wrap").html(followersCode)
-				},
-				//complete: function() {setTimeout(update_data, 1000);}
-			});
-
-		}
-		const updateDataFollowing = () => {
-			$.ajax({
-				url: '/getFollowings/{{username}}',
-				type: 'GET',
-				dataType: 'json',
-				success: function (data) {
-					console.log(data)
-					var followingsCode = `
+          )}`;
+            $(".follower-wrap").html(followersCode);
+          },
+          //complete: function() {setTimeout(update_data, 1000);}
+        });
+      };
+      const updateDataFollowing = () => {
+        $.ajax({
+          url: "/getFollowings/{{username}}",
+          type: "GET",
+          dataType: "json",
+          success: function (data) {
+            console.log(data);
+            var followingsCode = `
 					${data.followings.map(
-						user => (
-							`<div class="following-item">
+            (user) =>
+              `<div class="following-item">
 								<img src="${user.imageurl}" alt="${user.username}">
 								<a href="${user.username}" class="following-info">
 									<div>${user.username}</div>
 									<div>${user.name}</div>
 								</a>
-								<div class="profile-following-${user.status === true ? "me" : user.status === 1 ? "already" : "yet"}" 
+								<div class="profile-following-${
+                  user.status === true
+                    ? "me"
+                    : user.status === 1
+                    ? "already"
+                    : "yet"
+                }" 
 								id="following" onclick="handleClickFollowing('${user.username}')">
-									${user.status === true ? "" :
-								user.status === 1 ? "Following" :
-									user.status === 0 ? "Follow" : "Follow Back"}</div>
+									${
+                    user.status === true
+                      ? ""
+                      : user.status === 1
+                      ? "Following"
+                      : user.status === 0
+                      ? "Follow"
+                      : "Follow Back"
+                  }</div>
 							</div>`
-						)
-					)}`
-					$(".following-wrap").html(followingsCode)
-				},
-				//complete: function() {setTimeout(update_data, 1000);}
-			});
-		}
-		const showPostDetail = (id, index) => {
-			$(".post-detail-cover").css("display", "flex")
-			updatePostbyId(id)
-			current_post = index
-			updateCommentofPost(id)
-		}
-		$("#post-detail-cancel").click(() => {
-			$(".post-detail-cover").css("display", "none")
-		})
-		const updatePostbyId = (id) => {
-			$.ajax({
-				url: `/getPost/${id}`,
-				type: 'GET',
-				dataType: 'json',
-				success: function (data) {
-					post = data.post
-					created_date = new Date(post.created_at)
-					console.log(post)
-					var postCode = `
+          )}`;
+            $(".following-wrap").html(followingsCode);
+          },
+          //complete: function() {setTimeout(update_data, 1000);}
+        });
+      };
+
+      const showPostDetail = (id, index) => {
+        $(".post-detail-cover").css("display", "flex");
+        updatePostbyId(id);
+        current_post = index;
+        updateCommentofPost(id);
+      };
+      $("#post-detail-cancel").click(() => {
+        $(".post-detail-cover").css("display", "none");
+      });
+      const updatePostbyId = (id) => {
+        $.ajax({
+          url: `/getPost/${id}`,
+          type: "GET",
+          dataType: "json",
+          success: function (data) {
+            post = data.post;
+            created_date = new Date(post.created_at);
+            console.log(post);
+            var postCode = `
 					<div class="post-img">
 						<img src="${post.image}" alt="Post">
 					</div>
@@ -591,17 +681,24 @@
 						</div>
 						<div class="post-react">
 							<div class="react">
-								${post.status_like?
-								'<i onclick="handleLikePost()" class="fa-solid fa-heart" style="color: #e60000;"></i>':
-							'<i onclick="handleLikePost()" class="fa-regular fa-heart"></i>'}
+								${
+                  post.status_like
+                    ? '<i onclick="handleLikePost()" class="fa-solid fa-heart" style="color: #e60000;"></i>'
+                    : '<i onclick="handleLikePost()" class="fa-regular fa-heart"></i>'
+                }
 								<i class="fa-regular fa-comment"></i>
 								<i class="fa-regular fa-share-from-square" onClick="showShareForm('${id}')"></i>
-								<i class="fa-sharp fa-regular fa-bookmark" id="save"></i>
+								${
+                  post.status_save
+                    ? '<i onclick="handleSavePost()" class="fa-sharp fa-solid fa-bookmark" style="color:#e6e600;"></i>'
+                    : '<i onclick="handleSavePost()" class="fa-sharp fa-regular fa-bookmark"></i>'
+                }
+				
 							</div>
 							<div class="post-like">${post.no_of_likes} likes</div>
 							<div class="post-create">
-								${created_date.getDate()+" "} -
-								${created_date.getMonth()+1},
+								${created_date.getDate() + " "} -
+								${created_date.getMonth() + 1},
 								${created_date.getFullYear()}
 							</div>
 						</div>
@@ -610,101 +707,146 @@
 							<i class="fa-solid fa-paper-plane"></i>
 						</div>
 					</div>
-					`
-					$(".post-detail").html(postCode)
-					$('.input-comment').keydown(function (event) {
-						if (event.keyCode == 13) { // 13 là mã phím của Enter
-							var text = $('.input-comment').val();
-							$.ajax({
-								url: '{% url "comment" %}',
-								type: 'POST',
-								data: { "post_id": post.id, "text-comment": text },
-								success: function (response) {
-									// update_data();
-									$('.input-comment').val("");
-									updateCommentofPost(post.id)
-								},
-								error: function (error) {
-									console.log(error);
-								}
-							});
-						}
-					});
-					$(".fa-paper-plane").click(function () {
-						var text = $(".input-comment").val();
-						$.ajax({
-							url: '{% url "comment" %}',
-							type: 'POST',
-							data: { "post_id": post.id, "text-comment": text },
-							success: function (response) {
-								$('.input-comment').val("");
-								updateCommentofPost(post.id)
-							},
-							error: function (error) {
-								console.log(error);
-							}
-						});
-					})
-				},
-				//complete: function() {setTimeout(update_data, 1000);}
-			});
-		}
+					`;
+            $(".post-detail").html(postCode);
+            $(".input-comment").keydown(function (event) {
+              if (event.keyCode == 13) {
+                // 13 là mã phím của Enter
+                var text = $(".input-comment").val();
+                $.ajax({
+                  url: '{% url "comment" %}',
+                  type: "POST",
+                  data: { post_id: post.id, "text-comment": text },
+                  success: function (response) {
+                    // update_data();
+                    $(".input-comment").val("");
+                    updateCommentofPost(post.id);
+                  },
+                  error: function (error) {
+                    console.log(error);
+                  },
+                });
+              }
+            });
+            $(".fa-paper-plane").click(function () {
+              var text = $(".input-comment").val();
+              $.ajax({
+                url: '{% url "comment" %}',
+                type: "POST",
+                data: { post_id: post.id, "text-comment": text },
+                success: function (response) {
+                  $(".input-comment").val("");
+                  updateCommentofPost(post.id);
+                },
+                error: function (error) {
+                  console.log(error);
+                },
+              });
+            });
+          },
+          //complete: function() {setTimeout(update_data, 1000);}
+        });
+      };
 
-		$(".prevPost").click(() => {
-			if (current_post !== 0) {
-				current_post--
-				updatePostbyId(posts[current_post].id)
-				updateCommentofPost(posts[current_post].id)
-			}
-		})
-		$(".nextPost").click(() => {
-			if (current_post !== posts.length - 1) {
-				current_post++
-				updatePostbyId(posts[current_post].id)
-				updateCommentofPost(posts[current_post].id)
-			}
-		})
-		const handleLikePost=()=>{
-			$.ajax({
-				url: '/like_post',
-				type: 'POST',
-				data: { "post_id": post.id },
-				dataType: 'json',
-				success: function (response) {
-					$.ajax({
-						url: `/getNumLikesCmts/${post.id}`,
-						type: 'GET',
-						dataType: 'json',
-						success: function (data) {
-							console.log(data)
-							$(".react").html(
-							`${data.status_like?
-								'<i onclick="handleLikePost()" class="fa-solid fa-heart" style="color: #e60000;"></i>':
-									'<i onclick="handleLikePost()" class="fa-regular fa-heart"></i>'}
+      $(".prevPost").click(() => {
+        if (current_post !== 0) {
+          current_post--;
+          updatePostbyId(posts[current_post].id);
+          updateCommentofPost(posts[current_post].id);
+        }
+      });
+      $(".nextPost").click(() => {
+        if (current_post !== posts.length - 1) {
+          current_post++;
+          updatePostbyId(posts[current_post].id);
+          updateCommentofPost(posts[current_post].id);
+        }
+      });
+      const handleLikePost = () => {
+        $.ajax({
+          url: "/like_post",
+          type: "POST",
+          data: { post_id: post.id },
+          dataType: "json",
+          success: function (response) {
+            $.ajax({
+              url: `/getNumLikesCmts/${post.id}`,
+              type: "GET",
+              dataType: "json",
+              success: function (data) {
+                console.log(data);
+                $(".react").html(
+                  `${
+                    data.status_like
+                      ? '<i onclick="handleLikePost()" class="fa-solid fa-heart" style="color: #e60000;"></i>'
+                      : '<i onclick="handleLikePost()" class="fa-regular fa-heart"></i>'
+                  }
 								<i class="fa-regular fa-comment"></i>
-								<i class="fa-regular fa-share-from-square" onclick="showShareForm('${post.id}')"></i>
-								<i class="fa-sharp fa-regular fa-bookmark" id="save"></i>`
-							)
-							$(".post-like").html(`${data.numOfLikes} likes`)
-						}
-					})
-				},
-				//complete: function() {setTimeout(update_data, 1000);}
-			});
-		}
+								<i class="fa-regular fa-share-from-square" onclick="showShareForm('${
+                  post.id
+                }')"></i>
+				${
+          data.status_save
+            ? '<i onclick="handleSavePost()" class="fa-sharp fa-solid fa-bookmark" style="color:#e6e600;"></i>'
+            : '<i onclick="handleSavePost()" class="fa-sharp fa-regular fa-bookmark"></i>'
+        }`
+                );
+                $(".post-like").html(`${data.numOfLikes} likes`);
+              },
+            });
+          },
+          //complete: function() {setTimeout(update_data, 1000);}
+        });
+      };
 
-		const updateCommentofPost=(id)=>{
-			$.ajax({
-				url: `/getCommentsPost/${id}`,
-				type: 'GET',
-				dataType: 'json',
-				success: function (data) {
-					console.log(data)
-					commentsCode=`
-					${
-						data.commentsOfPost.map((comment)=>{
-						created_date = new Date(comment.created_at)
-						return `<div class="cmt-item">
+      const handleSavePost = () => {
+        $.ajax({
+          url: "/save_post",
+          type: "POST",
+          data: { post_id: post.id },
+          dataType: "json",
+          success: function (response) {
+            $.ajax({
+              url: `/getNumLikesCmts/${post.id}`,
+              type: "GET",
+              dataType: "json",
+              success: function (data) {
+                console.log(data);
+                $(".react").html(
+                  `${
+                    data.status_like
+                      ? '<i onclick="handleLikePost()" class="fa-solid fa-heart" style="color: #e60000;"></i>'
+                      : '<i onclick="handleLikePost()" class="fa-regular fa-heart"></i>'
+                  }
+								<i class="fa-regular fa-comment"></i>
+								<i class="fa-regular fa-share-from-square" onclick="showShareForm('${
+                  post.id
+                }')"></i>
+				${
+          data.status_save
+            ? '<i onclick="handleSavePost()" class="fa-sharp fa-solid fa-bookmark" style="color:#e6e600;"></i>'
+            : '<i onclick="handleSavePost()" class="fa-sharp fa-regular fa-bookmark"></i>'
+        }`
+                );
+                $(".post-like").html(`${data.numOfLikes} likes`);
+              },
+            });
+          },
+          //complete: function() {setTimeout(update_data, 1000);}
+        });
+      };
+
+      const updateCommentofPost = (id) => {
+        $.ajax({
+          url: `/getCommentsPost/${id}`,
+          type: "GET",
+          dataType: "json",
+          success: function (data) {
+            console.log(data);
+            commentsCode = `
+					${data.commentsOfPost.map((comment) => {
+            created_date = new Date(comment.created_at);
+            return `<div class="cmt-item">
 								<img src="${comment.imgUserUrl}" alt="avt">
 								<div class="cmt-text">
 									<div class="cmt-content">
@@ -712,108 +854,108 @@
 										<div>${comment.text}</div>
 									</div>
 									<div class="cmt-time">
-										${created_date.getDate()+" "} -
-										${created_date.getMonth()+1},
+										${created_date.getDate() + " "} -
+										${created_date.getMonth() + 1},
 										${created_date.getFullYear()}
 									</div>
 								</div>
-							</div>`
-					})
-						}`
-					$(".post-cmt-wrap").html(commentsCode)
-				}
-			})
-		}
-		const showFormSettingProfile=()=>{
-			$(".setting-profile-cover").css("display","flex")
-		}
-		$("#input-password").on("input",(()=>{
-			if($("#input-password").val().trim()!==""){
-				$('.setting-ok').addClass('active');
-			}else{
-				$('.setting-ok').removeClass('active');
-			}
-		}))
-		$(".setting-cancel").click(()=>{
-			$(".setting-profile-cover").css("display","none")
-		})
-		$(".setting-logout").click(()=>{
-			$(".setting-profile-cover").css("display","none")
-			window.location.href = 'logout';
-		})
-		$(".setting-ok").click(()=>{
-			$(".setting-profile-cover").css("display","none")
-			if($("#input-password").val().trim()==="")
-				return
+							</div>`;
+          })}`;
+            $(".post-cmt-wrap").html(commentsCode);
+          },
+        });
+      };
+      const showFormSettingProfile = () => {
+        $(".setting-profile-cover").css("display", "flex");
+      };
+      $("#input-password").on("input", () => {
+        if ($("#input-password").val().trim() !== "") {
+          $(".setting-ok").addClass("active");
+        } else {
+          $(".setting-ok").removeClass("active");
+        }
+      });
+      $(".setting-cancel").click(() => {
+        alert("POG");
+        $(".setting-profile-cover").css("display", "none");
+      });
+      $(".setting-logout").click(() => {
+        $(".setting-profile-cover").css("display", "none");
+        window.location.href = "logout";
+      });
+      $(".setting-ok").click(() => {
+        $(".setting-profile-cover").css("display", "none");
+        if ($("#input-password").val().trim() === "") return;
 
-			$.ajax({
-				url: '/updateProfile',
-				type: 'POST',
-				data: {
-					"newUserName": $("#input-username").val()?.trim(),
-					"newName": $("#input-name").val()?.trim(),
-					"newPassword": $("#input-newPassword").val()?.trim(),
-					"password": $("#input-password").val()?.trim(),
-				},
-				dataType: 'json',
-				success: function (response) {
-					console.log(response);
-					if (!response['password']){
-						alert("The password is incorrect");
-					}
-					else{
-						alert("Update Successful");
-					}
-					update_data()
-				},
-				//complete: function() {setTimeout(update_data, 1000);}
-			});
-		})
-		$.ajax({
-			url: `/getUsersForShare`,
-			type: 'GET',
-			dataType: 'json',
-			success: function (data) {
-				console.log(data)
-				userForShare = data.allUsers
-			}
-		})
-		/////share
-		const showShareForm = (postId) => {
-			$(".share-cover").css('display', 'flex')
-			$(`#input-search-share`).trigger('input')
-			$('.share-checkbox').click((event) => {
-				event.target.checked = !event.target.checked
-			});
-			$('.share-checkbox').change((event) => {
-				const id = event.target.id
-				if (event.target.checked) {
-					$(`#wrap-${id}`).addClass('selected')
-					selectedUsers.add(id)
-				}
-				else {
-					$(`#wrap-${id}`).removeClass('selected')
-					selectedUsers.delete(id)
-				}
-			});
-		}
-		$("#share-cancel").click(() => {
-			$(".share-cover").css('display', 'none')
-		})
-		const clickSendItem = (id) => {
-			$(`#${id}`).prop("checked", !$(`#${id}`).prop("checked"))
-			$(`#${id}`).change()
-		}
+        $.ajax({
+          url: "/updateProfile",
+          type: "POST",
+          data: {
+            newUserName: $("#input-username").val()?.trim(),
+            newName: $("#input-name").val()?.trim(),
+            newPassword: $("#input-newPassword").val()?.trim(),
+            password: $("#input-password").val()?.trim(),
+          },
+          dataType: "json",
+          success: function (response) {
+            console.log(response);
+            if (!response["password"]) {
+              alert("The password is incorrect");
+            } else {
+              alert("Update Successful");
+            }
+            update_data();
+          },
+          //complete: function() {setTimeout(update_data, 1000);}
+        });
+      });
+      $.ajax({
+        url: `/getUsersForShare`,
+        type: "GET",
+        dataType: "json",
+        success: function (data) {
+          console.log(data);
+          userForShare = data.allUsers;
+        },
+      });
+      /////share
+      const showShareForm = (postId) => {
+        $(".share-cover").css("display", "flex");
+        $(`#input-search-share`).trigger("input");
+        $(".share-checkbox").click((event) => {
+          event.target.checked = !event.target.checked;
+        });
+        $(".share-checkbox").change((event) => {
+          const id = event.target.id;
+          if (event.target.checked) {
+            $(`#wrap-${id}`).addClass("selected");
+            selectedUsers.add(id);
+          } else {
+            $(`#wrap-${id}`).removeClass("selected");
+            selectedUsers.delete(id);
+          }
+        });
+      };
+      $("#share-cancel").click(() => {
+        $(".share-cover").css("display", "none");
+      });
+      const clickSendItem = (id) => {
+        $(`#${id}`).prop("checked", !$(`#${id}`).prop("checked"));
+        $(`#${id}`).change();
+      };
 
-		$(`#input-search-share`).on('input', (event) => {
-			$(".sugestion-wrap").html(
-				`
+      $(`#input-search-share`).on("input", (event) => {
+        $(".sugestion-wrap").html(
+          `
             ${userForShare
-					.filter(user => {
-						return (`${user.name}${user.username}`.toUpperCase().includes(event.target.value.toUpperCase()))
-					})
-					.map(user => (
-						`<div class="user-item" id="wrap-${user.username}" onClick="clickSendItem('${user.username}')">
+              .filter((user) => {
+                return `${user.name}${user.username}`
+                  .toUpperCase()
+                  .includes(event.target.value.toUpperCase());
+              })
+              .map(
+                (user) =>
+                  `<div class="user-item" id="wrap-${user.username}" onClick="clickSendItem('${user.username}')">
 					<img src="${user.imageurl}" alt="avt">
 					<a class="user-info">
 						<div>${user.username}</div>
@@ -821,30 +963,29 @@
 					</a>
                     <input class="share-checkbox" type="checkbox" name="" id="${user.username}">
 				</div>`
-					))}
+              )}
             `
-			)
-		})
-		$(".btn-send-share").click(() => {
-			
-			selectedUsers.forEach(username => {
-				$.ajax({
-					url: '{% url "send_message" %}',
-					type: 'POST',
-					data: { "nickname": username, "message": JSON.stringify({ share: { post: post.id } }) },
-					success: function (response) {
-					},
-					error: function (error) {
-						console.log(error);
-					}
-				});
-			});
-			$(".share-cover").css('display', 'none')
-			$(`#input-search-share`).val("")
-			selectedUsers.clear()
-		})
-	</script>
-
-</body>
-
+        );
+      });
+      $(".btn-send-share").click(() => {
+        selectedUsers.forEach((username) => {
+          $.ajax({
+            url: '{% url "send_message" %}',
+            type: "POST",
+            data: {
+              nickname: username,
+              message: JSON.stringify({ share: { post: post.id } }),
+            },
+            success: function (response) {},
+            error: function (error) {
+              console.log(error);
+            },
+          });
+        });
+        $(".share-cover").css("display", "none");
+        $(`#input-search-share`).val("");
+        selectedUsers.clear();
+      });
+    </script>
+  </body>
 </html>

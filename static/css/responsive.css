@@ -1,117 +1,116 @@
 @media only screen and (max-width: 1208px) {
-    .content-left {
-        position: fixed;
-        min-width: 100px;
-        width: 100px;
-    }
-    .img-logo {
-        width: 50px;
-        height: 30px;
-        background-image: url("../images/logo2.png");
-        margin: 10px;
-    }
-    .btn{
-        justify-content: center;
-    }
-    .svg-menu{
-        margin-left: 0;
-    }
-    .text-menu{
-        display: none;
-    }
-    .content-left:hover{
-        width: 240px;
-        background: black;
-    }
-    .content-left:hover .img-logo {
-        width: 150px;
-        height: 20px;
-        background-image: url("../images/logo.png");
-        margin: 20px;
-    }
-    .content-left:hover .btn{
-        justify-content: left;
-    }
-    .content-left:hover .svg-menu{
-        margin-left: 35px;
-    }
-    .content-left:hover .text-menu{
-        display: block;
-    }
-    .content-center {
-        margin-left: 0;
-        width: calc(80%);
-        margin-left: 100px;
-    }
-    .content-left:hover + .content-center{
-        margin-left: 100px;
-    }
+  .content-left {
+    position: fixed;
+    min-width: 100px;
+    width: 100px;
   }
-  @media only screen and (max-width:1008px) {
-    .content-right{
-        width: 100px;
-    }
-    .text-suggestion,.user-suggestion{
-        display: none;
-    }
-    .my-frofile{
-        flex-direction: column;
-        justify-content: center;
-        width: 100%;
-        height: 100px;
-        margin-top: 10px;
-    }
-    .avatar-right{
-        width: 50px;
-        height: 50px;
-    }
-    .log-out{
-        margin-left: 0;
-    }
-    .my-info{
-        display: none;
-    }
-    .content-center{
-        width: calc(100%-100px);
-    }
+  .img-logo {
+    width: 50px;
+    height: 30px;
+    background-image: url("../images/logo2.png");
+    margin: 10px;
   }
-  @media only screen and (max-width: 780px) {
-    .content-left {
-      width: 5%;
-      height: 50px;
-      border-right: 0px;
-    }
-    .content-left:hover .btn{
-        display: flex;
-    }
-    .content-left:hover{
-        height: 100%;
-        width: 240px;
-        background: black;
-    }
-    .content-left:hover + .content-center{
-        margin-left: 50px;
-    }
-    .content-right{
-        width: 50px;
-        height: 50px;
-        left: 20px;
-        bottom: 80px;
-    }
-    .content-center {
-      width: 100%;
-      margin-left: 50px;
-    }
-    
-    .post {
-      width: 80%;
-    }
-    .btn{
-        display: none;
-    }
-    .avatar-right{
-        height: 50px;
-    }
+  .btn {
+    justify-content: center;
   }
-  
+  .svg-menu {
+    margin-left: 0;
+  }
+  .text-menu {
+    display: none;
+  }
+  .content-left:hover {
+    width: 240px;
+    background: black;
+  }
+  .content-left:hover .img-logo {
+    width: 150px;
+    height: 20px;
+    background-image: url("../images/logo.png");
+    margin: 20px;
+  }
+  .content-left:hover .btn {
+    justify-content: left;
+  }
+  .content-left:hover .svg-menu {
+    margin-left: 35px;
+  }
+  .content-left:hover .text-menu {
+    display: block;
+  }
+  .content-center {
+    margin-left: 0;
+    width: calc(80%);
+    margin-left: 100px;
+  }
+  .content-left:hover + .content-center {
+    margin-left: 100px;
+  }
+}
+@media only screen and (max-width: 1008px) {
+  .content-right {
+    width: 100px;
+  }
+  .text-suggestion,
+  .user-suggestion {
+    display: none;
+  }
+  .my-frofile {
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    height: 100px;
+    margin-top: 10px;
+  }
+  .avatar-right {
+    width: 50px;
+    height: 50px;
+  }
+  .log-out {
+    margin-left: 0;
+  }
+  .my-info {
+    display: none;
+  }
+  .content-center {
+    width: calc(100%-100px);
+  }
+}
+@media only screen and (max-width: 780px) {
+  .content-left {
+    width: 5%;
+    height: 50px;
+    border-right: 0px;
+  }
+  .content-left:hover .btn {
+    display: flex;
+  }
+  .content-left:hover {
+    height: 100%;
+    width: 240px;
+    background: black;
+  }
+  .content-left:hover + .content-center {
+    margin-left: 50px;
+  }
+  .content-right {
+    width: 50px;
+    height: 50px;
+    left: 20px;
+    bottom: 80px;
+  }
+  .content-center {
+    width: 100%;
+    margin-left: 50px;
+  }
 
+  .post {
+    width: 80%;
+  }
+  .btn {
+    display: none;
+  }
+  .avatar-right {
+    height: 50px;
+  }
+}
