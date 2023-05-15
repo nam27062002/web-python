@@ -1,0 +1,86 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'css/layout.css' %}"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'css/search.css' %}"
+    />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/home.css' %}" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'css/responsive.css' %}"
+    />
+    <script
+      src="https://kit.fontawesome.com/912383539c.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+
+    <title>Home</title>
+  </head>
+
+  <body>
+    <div class="content">
+      {% include 'sidebar.html' %}
+      <div class="content-center">
+        <form action="search" method="POST">
+          {% csrf_token %}
+
+          <input
+            type="text"
+            name="username"
+            placeholder="Search for username.."
+            id="name-input"
+          />&nbsp; &nbsp;
+        </form>
+        <div>
+          {% for users in username_profile_list %}
+          <a href="{{users.user}}">
+            <div class="search-result-item">
+              <div class="image-div">
+                <p class="image-link">
+                  <img class="image" src="{{users.profileimg.url}}" />
+                </p>
+              </div>
+              <div class="search-result-item-body">
+                <div class="row">
+                  <h4 class="search-result-item-heading">
+                    <p><b>@{{users.user}}</b></p>
+                    <p>{{users.full_name}}</p>
+                  </h4>
+                </div>
+              </div>
+            </div>
+          </a>
+          {% endfor %}
+        </div>
+      </div>
+      <div class="content-right">
+        <div class="my-frofile">
+          <a class="info-user" href="/{{user_profile.user}}">
+            <div class="avatar-right">
+              <img src="{{user_profile.profileimg.url}}" />
+            </div>
+            <div class="my-info">
+              <div class="my-nickname">{{user_profile.user}}</div>
+              <div class="my-fullname">{{user_profile.full_name}}</div>
+            </div>
+          </a>
+          <div class="log-out" id="log-out">Log out</div>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script></script>
+</html>

@@ -1,0 +1,35 @@
+#name-input {
+  padding: 10px 20px;
+  background-color: white;
+  padding: 20px;
+  padding-right: 300px;
+  margin-top: 20px;
+  border-radius: 10px;
+  font-size: 16px;
+}
+
+.search-result-item {
+  display: flex;
+  background-color: #a8b3ac;
+  margin: 20px;
+  width: 500px;
+  border-radius: 10px;
+  align-items: center;
+  gap: 100px;
+  padding-left: 10px;
+  padding: 10px;
+}
+
+.image {
+  width: 50px;
+  height: 50px;
+  border-radius: 10px;
+}
+
+.search-result-item-heading {
+  color: black;
+}
+
+.search-result-item-heading a:visited {
+  color: black;
+}
