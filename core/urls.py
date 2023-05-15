@@ -15,6 +15,7 @@ urlpatterns = [
     path('save_post', views.save_post, name='save_post'),
     path('post_list_post', views.post_list_post, name='post_list_post'),
     path('follow', views.follow, name='follow'),
+    path('search', views.search, name='search'),
     path('post_list_suggestions', views.post_list_suggestions,
          name='post_list_suggestions'),
     path('comment', views.comment, name='comment'),
@@ -32,5 +33,6 @@ urlpatterns = [
     path('updateAvatar', views.updateAvatar, name='updateAvatar'),
     path('<str:username>', views.profile, name='profile'),
     path('forget-password/', views.ForgetPassword, name="forget_password"),
-    path('change-password/<token>/', views.ChangePassword, name="change_password")
+    path('change-password/<token>/', views.ChangePassword, name="change_password"),
+
 ]
