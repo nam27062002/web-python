@@ -305,6 +305,7 @@
   </script>
 
   <script>
+    var DATA = '';
     function update_data() {
       $.ajax({
         url: "/post_list_post",
@@ -315,6 +316,46 @@
         },
         //complete: function() {setTimeout(update_data, 1000);}
       });
+    }
+    function get_list_comment() {
+      $.ajax({
+        url: "/post_list_post",
+        type: "GET",
+        dataType: "json",
+        success: function (data) {
+          DATA = data;
+          update_list_comment(DATA);
+        },
+        complete: function() {setTimeout(get_list_comment, 1000);}
+      });
+    }
+    function update_list_comment(data){
+      var htmlComment = "";
+      for (let i = 0; i < data["list_image_avatar"].length; i++) {
+        for (let j = 0; j < data["comments"][i].length; j++) {
+          htmlComment +=
+            '<div class="comment">' +
+            `<a href="${data.comments[i][j][1]}" class="avatar-comment">` +
+            '<img src="' +
+            data["comments"][i][j][0] +
+            '">' +
+            "</a>" +
+            '<div class="comment-content">' +
+            `<a href="${data.comments[i][j][1]}" class="nickname-comment">` +
+            data["comments"][i][j][1] +
+            "</a>" +
+            '<div class="text-comment">' +
+            data["comments"][i][j][2] +
+            "</div>" +
+            "</div>" +
+            "</div>";
+        }
+        let idComment = '#comment_' + data['list_post_id'][i]
+        $(idComment).html(htmlComment);
+      }
+      
+      
+      
     }
     function update_form_center(data) {
       var postCode = "";
@@ -380,25 +421,25 @@
           '<div class="caption">' +
           data["list_caption"][i] +
           "</div>" +
-          '<div class="list-comment">';
-        for (let j = 0; j < data["comments"][i].length; j++) {
-          postCode +=
-            '<div class="comment">' +
-            `<a href="${data.comments[i][j][1]}" class="avatar-comment">` +
-            '<img src="' +
-            data["comments"][i][j][0] +
-            '">' +
-            "</a>" +
-            '<div class="comment-content">' +
-            `<a href="${data.comments[i][j][1]}" class="nickname-comment">` +
-            data["comments"][i][j][1] +
-            "</a>" +
-            '<div class="text-comment">' +
-            data["comments"][i][j][2] +
-            "</div>" +
-            "</div>" +
-            "</div>";
-        }
+          '<div class="list-comment" id=comment_'+data['list_post_id'][i]+'>';
+          for (let j = 0; j < data["comments"][i].length; j++) {
+            postCode +=
+              '<div class="comment">' +
+              `<a href="${data.comments[i][j][1]}" class="avatar-comment">` +
+              '<img src="' +
+              data["comments"][i][j][0] +
+              '">' +
+              "</a>" +
+              '<div class="comment-content">' +
+              `<a href="${data.comments[i][j][1]}" class="nickname-comment">` +
+              data["comments"][i][j][1] +
+              "</a>" +
+              '<div class="text-comment">' +
+              data["comments"][i][j][2] +
+              "</div>" +
+              "</div>" +
+              "</div>";
+          }
         postCode +=
           "</div>" +
           '<input class="input-comment" placeholder="Add a comment" id="text-cmt-' +
@@ -426,7 +467,6 @@
           },
         });
       });
-
       //click save
       $("i.fa-bookmark").click(function () {
         var id = $(this).attr("id");
@@ -492,6 +532,7 @@
     }
     $(document).ready(function () {
       update_data(); // Bắt đầu cập nhật dữ liệu
+      get_list_comment(); 
     });
   </script>
 
