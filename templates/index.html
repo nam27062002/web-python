@@ -450,26 +450,7 @@
         var id = id.replace("post-cmt-", "");
         let id_text = "#text-cmt-" + id;
         var text = $(id_text).val();
-        $.ajax({
-          url: '{% url "comment" %}',
-          type: "POST",
-          data: { post_id: id, "text-comment": text },
-          success: function (response) {
-            update_data();
-          },
-          error: function (error) {
-            console.log(error);
-          },
-        });
-      });
-      // enter input
-      $(".input-comment").keydown(function (event) {
-        if (event.keyCode == 13) {
-          // 13 là mã phím của Enter
-          var id = $(this).attr("id");
-          var id = id.replace("text-cmt-", "");
-          let id_text = "#text-cmt-" + id;
-          var text = $(id_text).val();
+        if (text != ""){
           $.ajax({
             url: '{% url "comment" %}',
             type: "POST",
@@ -481,6 +462,31 @@
               console.log(error);
             },
           });
+        }
+        
+      });
+      // enter input
+      $(".input-comment").keydown(function (event) {
+        if (event.keyCode == 13) {
+          // 13 là mã phím của Enter
+          var id = $(this).attr("id");
+          var id = id.replace("text-cmt-", "");
+          let id_text = "#text-cmt-" + id;
+          var text = $(id_text).val();
+          if (text != ""){
+            $.ajax({
+              url: '{% url "comment" %}',
+              type: "POST",
+              data: { post_id: id, "text-comment": text },
+              success: function (response) {
+                update_data();
+              },
+              error: function (error) {
+                console.log(error);
+              },
+            });
+          }
+          
         }
       });
     }
@@ -514,10 +520,10 @@
             '">\n' +
             "    </div>\n" +
             '    <div class="my-info">\n' +
-            '        <div class="my-nickname">' +
+            '        <div class="my-nickname" id="my-nickname'+data["list_user"][i]+'">' +
             data["list_user"][i] +
             "</div>\n" +
-            '        <div class="my-fullname">' +
+            '        <div class="my-fullname" id="my-fullname'+data["list_user"][i]+'">' +
             data["list_fullname"][i] +
             "</div>\n" +
             "    </div>\n" +
@@ -527,6 +533,19 @@
             "</div>";
         }
         $(".user-suggestion").html(html);
+        // click user=right
+        $(".my-nickname").click(function(){
+          var id = $(this).attr("id");
+          id = id.replace("my-nickname", "");
+          let url = "/" + id;
+          window.location.href = url;
+        })
+        $(".my-fullname").click(function(){
+          var id = $(this).attr("id");
+          id = id.replace("my-fullname", "");
+          let url = "/" + id;
+          window.location.href = url;
+        })
         // click follow
         $(".follow-right").click(function () {
           console.log("OKE");

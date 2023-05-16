@@ -169,6 +169,7 @@
         data: { "username2": "{{username2}}"},
         success: function (response) {
             data = response;
+            console.log(response);
             updateUI(response);
         },
         error: function (error) {
