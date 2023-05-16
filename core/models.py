@@ -25,7 +25,7 @@ class Post(models.Model):
     user = models.CharField(max_length=100)
     image = models.ImageField(upload_to='post_images')
     caption = models.TextField()
-    created_at = models.DateTimeField(default=datetime.now)
+    created_at = models.DateTimeField(auto_now=True)
     no_of_likes = models.IntegerField(default=0)
     no_of_cmts = models.IntegerField(default=0)
 

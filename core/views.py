@@ -77,7 +77,7 @@ def get_list_message(request):
                 list_nickname.append(i.user.username)
                 list_avt.append(i.profileimg.url)
                 date_str = str(i.lastlogin)
-                time_ago_str = time_ago1(date_str)
+                time_ago_str = time_ago(date_str)
                 list_active.append(time_ago_str)
                 list_chat = []
                 chat_history = Chat.objects.filter(Q(sender=user, receiver=i.user) | Q(
@@ -94,7 +94,7 @@ def get_list_message(request):
                 user = User.objects.get(username=username2)
                 list_id.insert(0, Profile.objects.get(user=user).id_user)
                 list_nickname.insert(0, username2)
-                list_active.insert(0,time_ago1(str(Profile.objects.get(user=user).lastlogin)))
+                list_active.insert(0,time_ago(str(Profile.objects.get(user=user).lastlogin)))
                 list_avt.insert(0, Profile.objects.get(
                     user=user).profileimg.url)
                 list_chats.insert(0, [])
@@ -482,8 +482,6 @@ def getSuggestionShare(username):
 
 def time_ago(date):
     now = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc)
-    seven_hours = datetime.timedelta(hours=7)
-    now = now + seven_hours
     date = datetime.datetime.strptime(date, '%Y-%m-%d %H:%M:%S.%f%z')
     delta = now - date
     if delta.days > 6:
@@ -500,24 +498,6 @@ def time_ago(date):
     else:
         return f"{delta.seconds} second{'s' if delta.seconds > 1 else ''} ago"
 
-
-def time_ago1(date):
-    now = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc)
-    date = datetime.datetime.strptime(date, '%Y-%m-%d %H:%M:%S.%f%z')
-    delta = now - date
-    if delta.days > 6:
-        weeks = delta.days // 7
-        return f"Active {weeks}w{'s' if weeks > 1 else ''} ago"
-    elif delta.days > 0:
-        return f"Active {delta.days}d{'s' if delta.days > 1 else ''} ago"
-    elif delta.seconds >= 3600:
-        hours = delta.seconds // 3600
-        return f"Active {hours}h{'s' if hours > 1 else ''} ago"
-    elif delta.seconds >= 60:
-        minutes = delta.seconds // 60
-        return f"Active {minutes}m{'s' if minutes > 1 else ''} ago"
-    else:
-        return f"Active now"
 
 
 @login_required(login_url='signin')
