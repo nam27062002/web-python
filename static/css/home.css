@@ -501,3 +501,110 @@ input[type="file"] {
 .user-item.selected {
   background: #218bed;
 }
+/*Giao diện nổi share*/
+.share-cover{
+	display: none;
+	justify-content: center;
+	align-items: center;
+	position: absolute;
+	top: 0;
+	background: #000000bb;
+	width: 100%;
+	height: 100vh;
+	z-index: 11;
+}
+.share-wrap{
+	display: flex;
+	width: 500px;
+	flex-direction: column;
+	background: #ffffff;
+	font-size: 14px;
+	color: #575757;
+	border-radius: 10px;
+}
+.share-header{
+	display: flex;
+	align-items: center;
+	justify-content: right;
+	padding: 10px;
+	color: #000000;
+	font-size: 16px;
+	border-bottom: #9c9c9c 1px solid;
+}
+
+.share-header .text{
+	width: 90%;
+	text-align: center;
+}
+.share-header i{
+	font-size: 24px;
+	cursor: pointer;
+}
+.sugestion-wrap{
+	height: 350px;
+	overflow-y: scroll;
+}
+.user-item{
+	display: flex;
+	align-items: center;
+	padding: 5px 10px;
+}
+.user-item:hover{
+    background: #d6d6d636;
+}
+.user-item img{
+	width: 50px;
+	border-radius: 50%;
+}
+.user-info{
+	padding: 0 5px;
+	min-width: 80%;
+	color: #575757;
+}
+.user-info div:first-child{
+	color: #000000;
+	font-weight: 600;	
+}
+.share-checkbox{
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+}
+.share-leger{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 10px;
+	color: white;
+	font-size: 16px;
+	border-top: #9c9c9c 1px solid;
+}
+.share-leger button{
+    width: 100%;
+    height: 100%;
+    background-color: #007bff;
+    color: white;
+    padding: 10px 10px;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+}
+.share-search{
+	border-bottom: #9c9c9c 1px solid;
+    display: flex;
+	align-items: center;
+	padding: 10px;
+	color: black;
+	font-size: 20px;
+	padding: 10px;
+}
+.share-search input{
+    border: none;
+    outline: none;
+    margin-left:10px;
+    flex-grow:1;
+    background: transparent;
+}
+.user-item.selected{
+    background: #218bed;
+}
