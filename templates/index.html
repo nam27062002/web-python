@@ -164,6 +164,7 @@
       });
       // create POST
       $("#btn-create").click(function () {
+        click_return_image();
         $(".content-2").css("display", "flex");
       });
 
@@ -305,6 +306,7 @@
   </script>
 
   <script>
+    var DATA = '';
     function update_data() {
       $.ajax({
         url: "/post_list_post",
@@ -316,7 +318,49 @@
         //complete: function() {setTimeout(update_data, 1000);}
       });
     }
+    function get_list_comment() {
+      $.ajax({
+        url: "/post_list_post",
+        type: "GET",
+        dataType: "json",
+        success: function (data) {
+          DATA = data;
+          update_list_comment(DATA);
+        },
+        complete: function() {setTimeout(get_list_comment, 1000);}
+      });
+    }
+    function update_list_comment(data){
+      
+      for (let i = 0; i < data["list_image_avatar"].length; i++) {
+        var htmlComment = "";
+        for (let j = 0; j < data["comments"][i].length; j++) {
+          htmlComment +=
+            '<div class="comment">' +
+            `<a href="${data.comments[i][j][1]}" class="avatar-comment">` +
+            '<img src="' +
+            data["comments"][i][j][0] +
+            '">' +
+            "</a>" +
+            '<div class="comment-content">' +
+            `<a href="${data.comments[i][j][1]}" class="nickname-comment">` +
+            data["comments"][i][j][1] +
+            "</a>" +
+            '<div class="text-comment">' +
+            data["comments"][i][j][2] +
+            "</div>" +
+            "</div>" +
+            "</div>";
+        }
+        let idComment = '#comment_' + data['list_post_id'][i]
+        $(idComment).html(htmlComment);
+      }
+      
+      
+      
+    }
     function update_form_center(data) {
+      console.log(data);
       var postCode = "";
       for (let i = 0; i < data["list_image_avatar"].length; i++) {
         postCode +=
@@ -380,25 +424,25 @@
           '<div class="caption">' +
           data["list_caption"][i] +
           "</div>" +
-          '<div class="list-comment">';
-        for (let j = 0; j < data["comments"][i].length; j++) {
-          postCode +=
-            '<div class="comment">' +
-            `<a href="${data.comments[i][j][1]}" class="avatar-comment">` +
-            '<img src="' +
-            data["comments"][i][j][0] +
-            '">' +
-            "</a>" +
-            '<div class="comment-content">' +
-            `<a href="${data.comments[i][j][1]}" class="nickname-comment">` +
-            data["comments"][i][j][1] +
-            "</a>" +
-            '<div class="text-comment">' +
-            data["comments"][i][j][2] +
-            "</div>" +
-            "</div>" +
-            "</div>";
-        }
+          '<div class="list-comment" id=comment_'+data['list_post_id'][i]+'>';
+          for (let j = 0; j < data["comments"][i].length; j++) {
+            postCode +=
+              '<div class="comment">' +
+              `<a href="${data.comments[i][j][1]}" class="avatar-comment">` +
+              '<img src="' +
+              data["comments"][i][j][0] +
+              '">' +
+              "</a>" +
+              '<div class="comment-content">' +
+              `<a href="${data.comments[i][j][1]}" class="nickname-comment">` +
+              data["comments"][i][j][1] +
+              "</a>" +
+              '<div class="text-comment">' +
+              data["comments"][i][j][2] +
+              "</div>" +
+              "</div>" +
+              "</div>";
+          }
         postCode +=
           "</div>" +
           '<input class="input-comment" placeholder="Add a comment" id="text-cmt-' +
@@ -426,7 +470,6 @@
           },
         });
       });
-
       //click save
       $("i.fa-bookmark").click(function () {
         var id = $(this).attr("id");
@@ -450,26 +493,7 @@
         var id = id.replace("post-cmt-", "");
         let id_text = "#text-cmt-" + id;
         var text = $(id_text).val();
-        $.ajax({
-          url: '{% url "comment" %}',
-          type: "POST",
-          data: { post_id: id, "text-comment": text },
-          success: function (response) {
-            update_data();
-          },
-          error: function (error) {
-            console.log(error);
-          },
-        });
-      });
-      // enter input
-      $(".input-comment").keydown(function (event) {
-        if (event.keyCode == 13) {
-          // 13 là mã phím của Enter
-          var id = $(this).attr("id");
-          var id = id.replace("text-cmt-", "");
-          let id_text = "#text-cmt-" + id;
-          var text = $(id_text).val();
+        if (text != ""){
           $.ajax({
             url: '{% url "comment" %}',
             type: "POST",
@@ -482,10 +506,36 @@
             },
           });
         }
+        
+      });
+      // enter input
+      $(".input-comment").keydown(function (event) {
+        if (event.keyCode == 13) {
+          // 13 là mã phím của Enter
+          var id = $(this).attr("id");
+          var id = id.replace("text-cmt-", "");
+          let id_text = "#text-cmt-" + id;
+          var text = $(id_text).val();
+          if (text != ""){
+            $.ajax({
+              url: '{% url "comment" %}',
+              type: "POST",
+              data: { post_id: id, "text-comment": text },
+              success: function (response) {
+                update_data();
+              },
+              error: function (error) {
+                console.log(error);
+              },
+            });
+          }
+          
+        }
       });
     }
     $(document).ready(function () {
       update_data(); // Bắt đầu cập nhật dữ liệu
+      get_list_comment(); 
     });
   </script>
 
@@ -514,10 +564,10 @@
             '">\n' +
             "    </div>\n" +
             '    <div class="my-info">\n' +
-            '        <div class="my-nickname">' +
+            '        <div class="my-nickname" id="my-nickname'+data["list_user"][i]+'">' +
             data["list_user"][i] +
             "</div>\n" +
-            '        <div class="my-fullname">' +
+            '        <div class="my-fullname" id="my-fullname'+data["list_user"][i]+'">' +
             data["list_fullname"][i] +
             "</div>\n" +
             "    </div>\n" +
@@ -527,6 +577,19 @@
             "</div>";
         }
         $(".user-suggestion").html(html);
+        // click user=right
+        $(".my-nickname").click(function(){
+          var id = $(this).attr("id");
+          id = id.replace("my-nickname", "");
+          let url = "/" + id;
+          window.location.href = url;
+        })
+        $(".my-fullname").click(function(){
+          var id = $(this).attr("id");
+          id = id.replace("my-fullname", "");
+          let url = "/" + id;
+          window.location.href = url;
+        })
         // click follow
         $(".follow-right").click(function () {
           console.log("OKE");

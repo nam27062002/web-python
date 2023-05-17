@@ -52,18 +52,27 @@ def send_message(request):
 def get_list_message(request):
     if request.method == 'POST':
         username2 = request.POST.get('username2')
-        if username2 != "Default":
-            user = request.user
-            chats = Chat.objects.filter(Q(sender=user) | Q(receiver=user))
-            profiles = Profile.objects.filter(Q(user__in=[
-                                              chat.sender_id if chat.receiver == user else chat.receiver_id for chat in chats]))
-            unique_profiles = profiles.distinct().order_by('-id')
-            list_id = []
-            list_nickname = []
-            list_avt = []
-            list_chats = []
-            list_active = []
-            for i in unique_profiles:
+        user = request.user
+        chats = Chat.objects.filter(
+        Q(sender=request.user) | Q(receiver=request.user)
+        ).order_by('-created_at')
+
+        # Danh sách người dùng
+        profiles = []
+        for chat in chats:
+            if chat.sender != request.user:
+                profiles.append(Profile.objects.get(user=chat.sender))
+            else:
+                profiles.append(Profile.objects.get(user=chat.receiver))
+
+        # Xóa các người dùng trùng lặp và sắp xếp theo thời gian gần nhất đến xa nhất
+        unique_profiles = sorted(set(profiles), key=lambda x: profiles.index(x), reverse=False)
+        list_id = []
+        list_nickname = []
+        list_avt = []
+        list_chats = []
+        list_active = []
+        for i in unique_profiles:
                 list_id.append(i.id_user)
                 list_nickname.append(i.user.username)
                 list_avt.append(i.profileimg.url)
@@ -80,10 +89,12 @@ def get_list_message(request):
                         list_chat.append([i.message, False])
                 list_chat.reverse()
                 list_chats.append(list_chat)
+        if username2 != "Default": 
             if username2 not in list_nickname:
                 user = User.objects.get(username=username2)
                 list_id.insert(0, Profile.objects.get(user=user).id_user)
                 list_nickname.insert(0, username2)
+                list_active.insert(0,time_ago1(str(Profile.objects.get(user=user).lastlogin)))
                 list_avt.insert(0, Profile.objects.get(
                     user=user).profileimg.url)
                 list_chats.insert(0, [])
@@ -95,46 +106,15 @@ def get_list_message(request):
                     list_nickname[:index] + list_nickname[index+1:]
                 list_avt = [list_avt[index]] + \
                     list_avt[:index] + list_avt[index+1:]
-                list_chat = [list_chat[index]] + \
-                    list_chat[:index] + list_chat[index+1:]
-            return JsonResponse({'list_id': list_id,
-                                'list_nickname': list_nickname,
-                                 'list_avt': list_avt,
-                                 'list_chats': list_chats,
-                                 'list_active': list_active})
-        else:
-            user = request.user
-            chats = Chat.objects.filter(Q(sender=user) | Q(receiver=user))
-            profiles = Profile.objects.filter(Q(user__in=[
-                                              chat.sender_id if chat.receiver == user else chat.receiver_id for chat in chats]))
-            unique_profiles = profiles.distinct().order_by('-id')
-            list_id = []
-            list_nickname = []
-            list_avt = []
-            list_chats = []
-            list_active = []
-            for i in unique_profiles:
-                list_id.append(i.id_user)
-                list_nickname.append(i.user.username)
-                list_avt.append(i.profileimg.url)
-                list_chat = []
-                date_str = str(i.lastlogin)
-                time_ago_str = time_ago1(date_str)
-                list_active.append(time_ago_str)
-                chat_history = Chat.objects.filter(Q(sender=user, receiver=i.user) | Q(
-                    sender=i.user, receiver=user)).order_by('created_at')
-                for i in chat_history:
-                    if i.sender == user:
-                        list_chat.append([i.message, True])
-                    else:
-                        list_chat.append([i.message, False])
-                list_chat.reverse()
-                list_chats.append(list_chat)
-            return JsonResponse({'list_id': list_id,
-                                'list_nickname': list_nickname,
-                                 'list_avt': list_avt,
-                                 'list_chats': list_chats,
-                                 'list_active': list_active})
+                list_chats = [list_chats[index]] + \
+                    list_chats[:index] + list_chats[index+1:]
+                list_active = [list_active[index]] + \
+                    list_active[:index] + list_active[index+1:] 
+        return JsonResponse({'list_id': list_id,
+                            'list_nickname': list_nickname,
+                                'list_avt': list_avt,
+                                'list_chats': list_chats,
+                                'list_active': list_active})
     else:
         return JsonResponse({})
 
@@ -502,8 +482,6 @@ def getSuggestionShare(username):
 
 def time_ago(date):
     now = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc)
-    seven_hours = datetime.timedelta(hours=7)
-    now = now + seven_hours
     date = datetime.datetime.strptime(date, '%Y-%m-%d %H:%M:%S.%f%z')
     delta = now - date
     if delta.days > 6:
