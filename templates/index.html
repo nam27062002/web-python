@@ -330,8 +330,9 @@
       });
     }
     function update_list_comment(data){
-      var htmlComment = "";
+      
       for (let i = 0; i < data["list_image_avatar"].length; i++) {
+        var htmlComment = "";
         for (let j = 0; j < data["comments"][i].length; j++) {
           htmlComment +=
             '<div class="comment">' +
@@ -358,6 +359,7 @@
       
     }
     function update_form_center(data) {
+      console.log(data);
       var postCode = "";
       for (let i = 0; i < data["list_image_avatar"].length; i++) {
         postCode +=
