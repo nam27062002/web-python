@@ -2,6 +2,8 @@ from django.contrib import admin
 from django.urls import path
 from . import views
 urlpatterns = [
+    path('deletePost', views.deletePost, name="deletePost"),
+    path('updatePost', views.updatePost, name="updatePost"),
     path('signin', views.signin, name='signin'),
     path('signup', views.signup, name='signup'),
     path('message/<str:username>', views.message, name='message'),
@@ -34,5 +36,4 @@ urlpatterns = [
     path('<str:username>', views.profile, name='profile'),
     path('forget-password/', views.ForgetPassword, name="forget_password"),
     path('change-password/<token>/', views.ChangePassword, name="change_password"),
-
 ]

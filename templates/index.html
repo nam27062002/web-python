@@ -10,7 +10,7 @@
       type="text/css"
       href="{% static 'css/layout.css' %}"
     />
-    <link rel="stylesheet" type="text/css" href="{% static 'css/home.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/homee.css' %}" />
     <link
       rel="stylesheet"
       type="text/css"
@@ -558,7 +558,7 @@
         for (let i = 0; i < data["list_fullname"].length; i++) {
           html +=
             '<div class="frofiles" id="profile-0">\n' +
-            '    <div class="avatar-right-other">\n' +
+            '    <div class="avatar-right-other" id="my-avatar'+data["list_user"][i]+'">\n' +
             '        <img src="' +
             data["list_profileimg"][i] +
             '">\n' +
@@ -587,6 +587,12 @@
         $(".my-fullname").click(function(){
           var id = $(this).attr("id");
           id = id.replace("my-fullname", "");
+          let url = "/" + id;
+          window.location.href = url;
+        })
+        $(".avatar-right-other").click(function(){
+          var id = $(this).attr("id");
+          id = id.replace("my-avatar", "");
           let url = "/" + id;
           window.location.href = url;
         })
