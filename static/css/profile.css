@@ -389,6 +389,7 @@
   border-bottom: 1px solid #e6e6e6;
   display: flex;
   align-items: center;
+  position: relative;
 }
 .post-active-header > img {
   width: 40px;
@@ -398,6 +399,11 @@
 }
 .post-active-header > h5 {
   margin-left: 10px;
+}
+.post-active-header .three_dot{
+  top: 20px;
+  position: absolute !important;
+  right: 15px !important ;
 }
 .post-caption {
   margin-left: 10px;
@@ -622,4 +628,142 @@ a {
 }
 .user-item.selected {
   background: #218bed;
+}
+
+
+.post-active-header .options {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: #fff;
+  border: 1px solid #e6e6e6;
+  padding: 10px;
+  display: none;
+}
+
+.post-active-header .options ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.post-active-header .options ul li {
+  margin-bottom: 5px;
+}
+
+.post-active-header .options ul li a {
+  color: #333;
+  text-decoration: none;
+}
+
+.post-active-header .options ul li a:hover {
+  text-decoration: underline;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+
+.confirmation-box {
+  background-color: #fff;
+  padding: 20px;
+  text-align: center;
+  border-radius: 5px;
+}
+
+.confirmation-box h3 {
+  margin-top: 0;
+}
+
+.confirmation-box p {
+  margin-bottom: 20px;
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+}
+
+.btn-accept,
+.btn-cancel {
+  padding: 10px 20px;
+  margin: 0 10px;
+}
+
+
+
+.edit-post-form {
+  width: 600px;
+  height: 250px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  z-index: 9999;
+  padding: 0px;
+  display: none;
+}
+
+.form-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 15%;
+  margin-bottom: 0px;
+}
+
+.cancel-btn {
+  background-color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  color: #555;
+  margin-left: 5px;
+}
+
+.done-btn {
+  background-color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  color: #451bb8;
+  margin-right: 5px;
+}
+
+.form-content {
+  display: flex;
+  height: 85%;
+}
+
+.image-section {
+  flex: 1;
+  text-align: center;
+}
+
+.caption-section {
+  flex: 1;
+}
+
+.caption-textarea {
+  width: 100%;
+  height: 100%;
+  padding: 2px;
+  border: 1px solid #ddd;
+  border-bottom-right-radius: 8px;
+}
+
+.post-image-update{
+  width: 100%;
+  height: 100%;
+  border-bottom-left-radius: 8px;
 }

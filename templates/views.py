@@ -540,3 +540,13 @@ def ChangePassword(request,token):
     except Exception as e:
         print(e)
     return render(request , 'change-password.html' , context)
+
+@login_required(login_url='signin')
+def deletePost(request):
+    print('den day roi')
+    if request.method == 'POST':
+        idPost = request.POST.get('post_id')
+        print(idPost)
+        Post.objects.filter(id=idPost).delete()
+        return JsonResponse({})
+    return JsonResponse({})

@@ -839,3 +839,30 @@ def search(request):
         return render(request, 'search.html', {'user_profile': user_profile, 'username_profile_list': username_profile_list})
     else :
         return render(request, 'search.html', {'user_profile': user_profile, 'username_profile_list': []})
+    
+@login_required(login_url='signin')
+@csrf_exempt
+def deletePost(request):
+    if request.method == 'POST':
+        idPost = request.POST.get('post_id')
+        print(idPost)
+        Post.objects.filter(id=idPost).delete()
+        return JsonResponse({})
+    return JsonResponse({})
+
+@login_required(login_url='signin')
+@csrf_exempt
+def updatePost(request):
+    if request.method == 'POST':
+        idPost = request.POST.get('post_id')
+        caption = request.POST.get('caption')
+        try:
+            post = Post.objects.get(id=idPost)
+            post.caption = caption
+            post.save()
+            return JsonResponse({})
+        except Post.DoesNotExist:
+            return JsonResponse({'error': 'Post not found'}, status=404)
+
+    return JsonResponse({}, status=400)
+

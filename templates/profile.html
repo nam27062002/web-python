@@ -675,7 +675,42 @@
 							<img src="${user_view.imageurl}" alt="Post">
 							<h5 class="cmt-username">${user_view.username}</h5>
 							<div class="post-caption">${post.caption}</div>
+              <img src= "../static/images/3_dot.jpg" class="three_dot" onclick="toggleOptions(event)">
+              <div class="options">
+                <ul>
+                  <li><a href="#" onclick="showConfirmation()">Xoá</a></li>
+                  <li><a href="#" onclick="showUpdateForm()">Cập nhật</a></li>
+                </ul>
+              </div>
+              <div class="overlay" id="overlay">
+                <div class="confirmation-box">
+                  <h3>Xác nhận xoá bài viết</h3>
+                  <p>Có chắc chắn muốn xoá hay không?</p>
+                  <div class="buttons">
+                    <button class="btn-accept" onclick="deletePost('${post.id}')">Đồng ý</button>
+                    <button class="btn-cancel" onclick="hideConfirmation()">Huỷ</button>
+                  </div>
+                </div>
+              </div>
+              <div class="edit-post-form">
+                <div class="form-header">
+                  <div class="cancel-btn" onclick = "cancelUpdate()">Cancel</div>
+                  <h4>Edit caption post</h4>
+                  <div class="done-btn" onclick = "updatePost()">Done</div>
+                </div>
+                <div class="form-content">
+                  <div class="image-section">
+                    <img src="${post.image}" alt="Post Image" class="post-image-update">
+                  </div>
+                  <div class="caption-section">
+                      <textarea class="caption-textarea" placeholder="Write a caption...">${post.caption}</textarea>
+                  </div>
+                </div>
+              </div>
 						</div>
+
+            
+
 						<div class="post-cmt-wrap">
 							${commentsCode}
 						</div>
@@ -800,12 +835,14 @@
       };
 
       const handleSavePost = () => {
+        console.log(post.id)
         $.ajax({
           url: "/save_post",
           type: "POST",
           data: { post_id: post.id },
           dataType: "json",
           success: function (response) {
+            console.log('thanh cong')
             $.ajax({
               url: `/getNumLikesCmts/${post.id}`,
               type: "GET",
@@ -986,6 +1023,75 @@
         $(`#input-search-share`).val("");
         selectedUsers.clear();
       });
+
+      const toggleOptions = (event) => {
+        var options = event.target.nextElementSibling;
+        options.style.display = (options.style.display === 'block') ? 'none' : 'block';
+      }
+
+      const deletePost = () => {
+        console.log(post.id)
+        $.ajax({
+          url: "/deletePost",
+          type: "POST",
+          data: { "post_id": post.id },
+          dataType: "json",
+          success: function (response) {
+            console.log('thanh cong')
+            location.reload();
+          },
+          error: function (xhr, status,error) {
+            // Xử lý lỗi nếu cần
+            console.log('Có lỗi khi xoá bài')
+            console.log('loi')
+            console.log(error)
+            console.log(xhr)
+          }
+          //complete: function() {setTimeout(update_data, 1000);}
+        });
+      }
+
+      const showConfirmation = () => {
+        console.log('test');
+        var overlay = document.getElementById("overlay");
+        overlay.style.display = "flex";
+        // window.postIdToDelete = postId;
+      }
+      const showUpdateForm =() => {
+        console.log('den day');
+        const editForm = document.getElementsByClassName('edit-post-form')[0];
+        editForm.style.display = 'block';
+      }
+
+      const hideConfirmation = () => {
+        var overlay = document.getElementById("overlay");
+        overlay.style.display = "none";
+      }
+      function cancelUpdate() {
+        const editForm = document.getElementsByClassName('edit-post-form')[0];
+        editForm.style.display = 'none';
+      }
+      const updatePost = () => {
+        const captionTextarea = document.querySelector('.caption-textarea').value
+        console.log(captionTextarea);
+        $.ajax({
+          url: "/updatePost",
+          type: "POST",
+          data: { "post_id": post.id, "caption": captionTextarea },
+          dataType: "json",
+          success: function (response) {
+            console.log('thanh cong')
+            location.reload();
+          },
+          error: function (xhr, status,error) {
+            // Xử lý lỗi nếu cần
+            console.log('loi')
+            alert('Có lỗi khi cập nhật')
+          }
+          //complete: function() {setTimeout(update_data, 1000);}
+        });
+      }
+      
     </script>
   </body>
 </html>
