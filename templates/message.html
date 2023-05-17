@@ -157,7 +157,7 @@
     }
     function update_content_message(response){
         try{
-            if (response['list_chats'][index].length != data['list_chats'][index].length){
+            if ((response['list_chats'][index].length != data['list_chats'][index].length) && !response['list_chats'][index][0][1]){
                 data = response;
                 if ($("#nickname_0").text() == response['list_nickname'][index]){
                     var html = "";
@@ -212,10 +212,15 @@
             console.log(error);
         } 
     }
-    function sendMessage(message){
+    function sendMessage(message,check = true){
         const messageContainer = document.querySelector('.content-message');
         var newMessage = document.createElement('div');
-        newMessage.className = 'my-message';
+        if (check){
+            newMessage.className = 'my-message';
+        }
+        else{
+            newMessage.className = 'their-message';
+        }
         newMessage.textContent = message;
         messageContainer.insertBefore(newMessage, messageContainer.firstChild);
     }
