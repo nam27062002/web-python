@@ -155,55 +155,62 @@
             }
         });
     }
-    function update_content_message(){
-        if ($("#nickname_0").text() == data['list_nickname'][index]){
-            var html = "";
-            for (let i = 0; i < data['list_chats'][index].length; i++) {
-                try {
-                    const postId = JSON.parse(data['list_chats'][index][i][0]).share.post
-                    if (data['list_chats'][index][i][1]) {
-                        html += `<div class="my-message ${postId}">
-                            </div>`
+    function update_content_message(response){
+        try{
+            if (response['list_chats'][index].length != data['list_chats'][index].length){
+                data = response;
+                if ($("#nickname_0").text() == response['list_nickname'][index]){
+                    var html = "";
+                    for (let i = 0; i < response['list_chats'][index].length; i++) {
+                        try {
+                            const postId = JSON.parse(response['list_chats'][index][i][0]).share.post
+                            if (response['list_chats'][index][i][1]) {
+                                html += `<div class="my-message ${postId}">
+                                    </div>`
+                            }
+                            else {
+                                html += `<div class="their-message ${postId}"></div>`
+                            }
+                            $.ajax({
+                            url: `/getPost/${postId}`,
+                            type: 'GET',
+                            dataType: 'json',
+                            success: function (data) {
+                                const post=data.post
+                                $(`.${postId}`).html(
+                                `<div class="post-wrap">
+                                    <a href="/${post.user}" class="post-header">
+                                        <div class="post-avt-user">
+                                            <img src="${post.userAvt}" alt="avt">
+                                        </div>
+                                        <div>${post.user}</div>
+                                    </a>
+                                    <div class="post-img">
+                                        <img src="${post.image}" alt="">
+                                    </div>
+                                    <div class="post-caption">
+                                        <span class="caption-username">${post.user}</span>
+                                        ${post.caption} 
+                                    </div>
+                                </div>`
+                                )
+                            }
+                        })
+                        } catch (error) {
+                            if (response['list_chats'][index][i][1]) {
+                                html += '<div class="my-message">' + response['list_chats'][index][i][0] + '</div>'
+                            }
+                            else {
+                                html += '<div class="their-message">' + response['list_chats'][index][i][0] + '</div>'
+                            }
+                        }
                     }
-                    else {
-                        html += `<div class="their-message ${postId}"></div>`
-                    }
-                    $.ajax({
-                    url: `/getPost/${postId}`,
-                    type: 'GET',
-                    dataType: 'json',
-                    success: function (data) {
-                        const post=data.post
-                        $(`.${postId}`).html(
-                        `<div class="post-wrap">
-                            <a href="/${post.user}" class="post-header">
-                                <div class="post-avt-user">
-                                    <img src="${post.userAvt}" alt="avt">
-                                </div>
-                                <div>${post.user}</div>
-                            </a>
-                            <div class="post-img">
-                                <img src="${post.image}" alt="">
-                            </div>
-                            <div class="post-caption">
-                                <span class="caption-username">${post.user}</span>
-                                ${post.caption} 
-                            </div>
-                        </div>`
-                        )
-                    }
-                })
-                } catch (error) {
-                    if (data['list_chats'][index][i][1]) {
-                        html += '<div class="my-message">' + data['list_chats'][index][i][0] + '</div>'
-                    }
-                    else {
-                        html += '<div class="their-message">' + data['list_chats'][index][i][0] + '</div>'
-                    }
-                }
-            }
-            $(".content-message").html(html);
-        }       
+                    $(".content-message").html(html);
+                }       
+            }  
+        } catch(error){
+            console.log(error);
+        } 
     }
     function sendMessage(message){
         const messageContainer = document.querySelector('.content-message');
@@ -219,7 +226,6 @@
         data: { "username2": "{{username2}}"},
         success: function (response) {
             data = response;
-            console.log(response);
             updateUI(response);
         },
         error: function (error) {
@@ -232,9 +238,7 @@
             type: 'POST',
             data: { "username2": "{{username2}}"},
             success: function (response) {
-                data = response;
-                console.log(data['list_chats'][0]);
-                update_content_message();
+                update_content_message(response);
             },
             error: function (error) {
                 console.log(error);
